@@ -260,4 +260,19 @@ fabric.properties
 # See https://youtrack.jetbrains.com/issue/JBR-2257
 .idea/$CACHE_FILE$
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,webstorm,visualstudiocode,node,react
+### yarn ###
+# https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
+
+# .yarn/unplugged and .yarn/build-state.yml should likely always be ignored since
+# they typically hold machine-specific build artifacts. Ignoring them might however
+# prevent Zero-Installs from working (to prevent this, set enableScripts to false).
+.yarn/unplugged
+.yarn/build-state.yml
+
+# .yarn/cache and .pnp.* may be safely ignored, but you'll need to run yarn install
+# to regenerate them between each branch switch.
+# Uncomment the following lines if you're not using Zero-Installs:
+# .yarn/cache
+# .pnp.*
+
+# End of https://www.toptal.com/developers/gitignore/api/macos,webstorm,visualstudiocode,node,react,yarn
