@@ -1,0 +1,26 @@
+@import "../../Styles/Constant";
+
+#contact-list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 19.5px;
+
+  .contact-list-item:nth-child(1) {
+    margin-left: 0 !important;
+  }
+
+  .contact-list-item {
+    margin-left: 19.5px;
+    width: 19.5px;
+    height: auto;
+    font-size: 18px;
+    transition: $transition;
+    cursor: pointer;
+    user-select: none;
+    color: $label-link-normal-color;
+
+    &:hover {
+      color: $label-link-high-color;
+    }
+  }
+}
