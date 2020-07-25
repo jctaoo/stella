@@ -23,7 +23,7 @@
     &:hover {
       background-color: $blue-tint-color;
       .links-list-item-label {
-        color: white !important;
+        color: $dark-style-tint-color-foreground !important;
       }
     }
 
