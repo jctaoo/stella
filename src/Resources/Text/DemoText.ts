@@ -8,9 +8,6 @@ export default
 </div>
 
 <p align="center">
-    <a href="https://github.com/2pown/enlace/actions">
-      <img src="https://github.com/2pown/enlace/workflows/run%20lib%20test/badge.svg" alt="GitHub Actions">
-    </a>
     <a href="https://www.typescriptlang.org/">
       <img src="https://img.shields.io/badge/TypeScript-%F0%9F%92%AA-blue" alt="Typescript">
     </a>
@@ -27,9 +24,6 @@ export default
 </p>
 ` +
 `
-> 说实话，作为果粉，我虽然时不时也会吐槽，但还是挺喜欢库克的作风。他的魄力可能不如乔布斯，但是每一步都稳扎稳打，没犯过什么大错。
->> 说实话，作为果粉，我虽然时不时也会吐槽，但还是挺喜欢库克的作风。他的魄力可能不如乔布斯，但是每一步都稳扎稳打，没犯过什么大错。
-
 # TODO:
 - [ ] 完成 CLI
 - [ ] 完善 Http 与 WebSocket 的装饰器
