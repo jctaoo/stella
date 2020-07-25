@@ -1,13 +1,15 @@
 export default
 `
 <div align="center">
-  <img src="https://ww3.sinaimg.cn/bmiddle/5486087cly1fgvcs15r55j20j60srq6d.jpg" width=200px height=200px/>
    <h1 align="center">Enlace</h1>
    <h2 align="center">基于Deno和Typescript处理连接的服务端框架</h2>
    <h5 align="center">⚠️Enlace正在开发中</h5>
 </div>
 
 <p align="center">
+    <a href="https://github.com/2pown/enlace/actions">
+      <img src="https://github.com/2pown/enlace/workflows/run%20lib%20test/badge.svg" alt="GitHub Actions">
+    </a>
     <a href="https://www.typescriptlang.org/">
       <img src="https://img.shields.io/badge/TypeScript-%F0%9F%92%AA-blue" alt="Typescript">
     </a>
