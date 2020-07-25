@@ -1,5 +1,5 @@
 import React from "react";
-import "./PassageListPage.scoped.scss"
+import "./PassageListPage.scss"
 import PassageItemView from "../../Views/PassageItemView/PassageItemView";
 import {
   demoPassage1,
@@ -10,13 +10,14 @@ import {
   demoPassage6
 } from "../../Models/PassageItem";
 import QueueAnim from 'rc-queue-anim';
+import BasePage from "../BasePage";
 
 function PassageListPage() {
   return (
-    <div id="passage-list-page">
+    <BasePage id="passage-list-page">
       <QueueAnim delay={150} duration={300} animConfig={[
-          { opacity: [1, 0], translateY: [0, 150] },
-          { opacity: [1, 0], translateY: [0, -50] }
+          { translateY: [0, 150] },
+          { translateY: [0, -50] }
         ]}>
         <div id="passage-list" key="passage-list">
           <PassageItemView passage={demoPassage1}/>
@@ -27,7 +28,7 @@ function PassageListPage() {
           <PassageItemView passage={demoPassage6}/>
         </div>
       </QueueAnim>
-    </div>
+    </BasePage>
   )
 }
 

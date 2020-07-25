@@ -1,4 +1,9 @@
 @font-face {
+  font-family: 'code';
+  src: url("../Resources/Fonts/FiraCode-Regular.ttf");
+}
+
+@font-face {
   font-family: 'icomoon';
   src:  url('../Resources/Fonts/icomoon.eot?hjmdat');
   src:  url('../Resources/Fonts/icomoon.eot?hjmdat#iefix') format('embedded-opentype'),

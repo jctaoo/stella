@@ -1,9 +1,9 @@
 import React from "react"
-import "./MediaInformation.scoped.scss"
+import "./MediaInformationView.scoped.scss"
 import Popover from 'antd/lib/popover'
 import WechatQRCode from "../../Resources/Images/wechat-qr.png"
 
-function MediaInformation() {
+function MediaInformationView({className = ""}: {className?: String}) {
   const items: { name: String, link: String }[] = [
     {name: "bilibili", link: "https://space.bilibili.com/155950817"},
     {name: "github", link: "https://github.com/jctaoo"},
@@ -13,7 +13,7 @@ function MediaInformation() {
   ]
 
   return (
-    <ul id="contact-list">
+    <ul className={`contact-list ${className}`}>
       {
         items.map(({name, link}, index) =>
           <a href={`${link}`} className="contact-list-item " key={index}>
@@ -33,4 +33,4 @@ function MediaInformation() {
   )
 }
 
-export default MediaInformation
+export default MediaInformationView

@@ -1,0 +1,85 @@
+@import "../../Styles/Constant";
+
+$horizontal-padding: 237.5px;
+$horizontal-shrink-padding: 52.5px;
+$horizontal-mobile-padding: 35px;
+
+@media (max-width: $small) {
+
+  #links-list {
+    //margin-top: 5.25px;
+    //margin-bottom: 0;
+    //display: flex;
+    flex-direction: column !important;
+    justify-content: start;
+    align-items: start;
+  }
+
+}
+
+#navigation-bar.navigation-bar-shrink {
+  #navigation-bar-content {
+    padding-left: ($horizontal-shrink-padding) !important;
+    padding-right: 0 !important;
+  }
+  @media (max-width: $small) {
+    display: none;
+  }
+}
+
+#navigation-bar {
+  @media (max-width: $small) {
+    justify-content: start;
+  }
+
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+
+  #navigation-bar-content {
+    @media (max-width: $small) {
+      margin-top: 160px;
+      padding-left: ($horizontal-mobile-padding) !important;
+      .navigation-bar-media-info {
+        bottom: 50px;
+        position: absolute;
+        margin: 0 auto;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-left: ($horizontal-padding);
+    padding-right: ($horizontal-padding);
+    transition: $transition;
+    // Todo 往上移动一点点
+
+    #blog-name-label {
+      color: $label-color;
+      font-size: 75px;
+      letter-spacing: 0;
+      text-align: center;
+      user-select: none;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    #links-list {
+      margin-top: 5.25px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .navigation-bar-media-info {
+      margin-top: 19.5px;
+    }
+
+  }
+
+}
+

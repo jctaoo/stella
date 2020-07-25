@@ -1,9 +1,9 @@
 import React from 'react'
-import './NavigationBar.scoped.scss'
+import './NavigationBar.scss'
 import NavigationLink from "./NavigationLink";
-import MediaInformation from "./MediaInformation";
+import MediaInformationView from "../MediaInformationView/MediaInformationView";
 import { useHistory, useLocation } from "react-router";
-import { notFoundLink, rootLink, routeLinks } from "../../Routes";
+import { getRouteItemOfPath, notFoundLink, rootLink, routeLinks } from "../../Routes";
 
 function NavigationBar() {
   const history = useHistory()
@@ -12,11 +12,12 @@ function NavigationBar() {
     history.push(rootLink)
   }
 
-  const isSpecial = routeLinks.filter((item) => item.link === location.pathname)[0]?.special ?? false
-  const showSpecial = location.pathname === rootLink || location.pathname == notFoundLink || isSpecial
+  const isSpecial = getRouteItemOfPath(location.pathname)?.special ?? false
+  const showSpecial = location.pathname === rootLink || location.pathname === notFoundLink || isSpecial
+  const isHome = location.pathname === rootLink
 
   return (
-    <div id="navigation-bar">
+    <div id="navigation-bar" className={!isHome ? "navigation-bar-shrink" : ""}>
       <div id="navigation-bar-content">
         <h1 id="blog-name-label" onClick={goToHome}>Jctaoo.</h1>
         <ul id="links-list">
@@ -34,7 +35,7 @@ function NavigationBar() {
             ))
           }
         </ul>
-        <MediaInformation/>
+        <MediaInformationView className="navigation-bar-media-info"/>
       </div>
     </div>
   );

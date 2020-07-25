@@ -3,6 +3,7 @@
 #links-list {
   .links-list-item:nth-child(1) {
     margin-left: 0 !important;
+    margin-top: 0 !important;
   }
 
   .special-links-list-item {
@@ -39,6 +40,11 @@
   }
 
   .links-list-item {
+    @media (max-width: $small) {
+      margin-left: 0;
+      margin-top: 26px;
+    }
+
     margin-left: 21px;
     display: flex;
     flex-direction: column;
@@ -63,6 +69,9 @@
     }
 
     .links-list-item-indicator-container {
+      @media (max-width: $small) {
+        height: 3px;
+      }
       height: 5.25px;
 
       .links-list-item-indicator {

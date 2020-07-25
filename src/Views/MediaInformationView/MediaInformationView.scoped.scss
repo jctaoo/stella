@@ -1,15 +1,20 @@
 @import "../../Styles/Constant";
 
-#contact-list {
+.contact-list {
   display: flex;
   flex-direction: row;
-  margin-top: 19.5px;
+  margin-top: 0;
+  margin-bottom: 0;
 
   .contact-list-item:nth-child(1) {
     margin-left: 0 !important;
   }
 
   .contact-list-item {
+    @media (max-width: $small) {
+      margin-left: 26px;
+    }
+
     margin-left: 19.5px;
     width: 19.5px;
     height: auto;

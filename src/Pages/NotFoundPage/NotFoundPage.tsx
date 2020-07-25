@@ -1,11 +1,12 @@
 import React from "react"
-import "./NotFoundPage.scoped.scss"
+import "./NotFoundPage.scss"
+import BasePage from "../BasePage";
 
 function NotFoundPage() {
   return (
-    <div id="not-found-page">
-
-    </div>
+    <BasePage id="not-found-page">
+      FUCK
+    </BasePage>
   );
 }
 
