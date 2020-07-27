@@ -1,4 +1,5 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 .passage-item {
   max-width: 466px;
@@ -11,13 +12,13 @@
     .passage-item-abbreviation-text {
       font-family: $font;
       font-size: 17px;
-      color: $label-secondary-color;
       line-height: 22px;
       font-weight: normal;
       margin-bottom: 0;
       max-height: 154px;
       text-overflow: ellipsis;
       overflow: hidden;
+      @include label-secondary-color;
       // TODO 显示省略号
     }
   }

@@ -1,28 +1,14 @@
-$background: white;
 $mobile-navigation-bar-height: 101px;
 
 $middle: 1024px;
 $small: 774px;
 
 $font:PingFangSC-Regular;
+$code-font: code;
 $transparent-text-color: rgba(97, 97, 97, 0.04);
 
 $blue-tint-color: #007AFF;
 $dark-style-tint-color-foreground: white;
 
-$label-link-normal-color: #5e5e67;
-$label-link-high-color: black;
-$label-color: black;
-$label-secondary-color: rgba(60, 60, 67, 0.6);
-$label-tertiary-color: rgba(60, 60, 67, 0.3);
-$link-color: rgb(3, 102, 214);
-
-$lighten-high-background: rgb(219, 217, 217);
-$lighten-high-text-background: rgb(236, 233, 233);
-$lighten-high-row-background: rgb(248, 245, 245);
-$indicator-normal-color: #ADA0A0;
-$indicator-high-color: #FFD54F;
-
 $transition: 0.15s cubic-bezier(0.63, 0, 0.25, 1);
 
-$code-font: code;

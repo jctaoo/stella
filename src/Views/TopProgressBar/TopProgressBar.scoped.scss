@@ -1,12 +1,13 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 #top-progress-bar {
-  background-color: $indicator-high-color;
   height: 8px;
   z-index: 999;
   position: fixed;
   width: 100vw;
   transition: $transition;
+  @include indicator-high-color;
 }
 
 .top-progress-bar-hide {

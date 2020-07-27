@@ -1,4 +1,5 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 // TODO 协调滚动
 
@@ -17,8 +18,8 @@
   align-items: center;
   padding-top: 10px;
   z-index: 999;
-  background-color: $background;
   height: $mobile-navigation-bar-height;
+  @include background;
 
   @media (max-width: $small) {
     top: 0;
@@ -43,8 +44,8 @@
           font-family: $font;
           font-weight: normal;
           line-height: 34px;
-          color: $label-color;
           margin-bottom: 0;
+          @include label-color;
         }
       }
       .mobile-navigation-bar-title-route-label {
@@ -55,10 +56,10 @@
         display: block;
         width: 2px;
         height: 24px;
-        background-color: $label-color;
         transform: rotateZ(30deg);
         margin-left: 8px;
         margin-right: 12px;
+        @include label-color-background;
       }
     }
   }
@@ -70,8 +71,8 @@
   }
 
   .mobile-navigation-bar-bottom-divider {
-    background-color: $lighten-high-background;
     height: 1px;
     width: 100%;
+    @include lighten-high-background;
   }
 }

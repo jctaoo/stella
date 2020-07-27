@@ -1,4 +1,5 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 .contact-list {
   display: flex;
@@ -22,10 +23,10 @@
     transition: $transition;
     cursor: pointer;
     user-select: none;
-    color: $label-link-normal-color;
+    @include label-link-normal-color;
 
     &:hover {
-      color: $label-link-high-color;
+      @include label-link-high-color;
     }
   }
 }

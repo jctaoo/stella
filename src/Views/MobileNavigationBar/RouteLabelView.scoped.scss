@@ -1,4 +1,5 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 .route-label-title {
   display: inline-flex;
@@ -13,8 +14,8 @@
     font-family: $font;
     font-weight: normal;
     line-height: 34px;
-    color: $label-color;
     margin-bottom: 0;
+    @include label-color;
   }
 
   .route-label-title-indicator-container {
@@ -26,8 +27,8 @@
       display: inline-block;
       width: 100%;
       height: 100%;
-      background-color: $indicator-high-color;
       transition: $transition;
+      @include indicator-high-color;
     }
   }
 }

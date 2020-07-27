@@ -1,4 +1,5 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 $horizontal-padding: 237.5px;
 $horizontal-shrink-padding: 52.5px;
@@ -59,13 +60,13 @@ $horizontal-mobile-padding: 35px;
     // Todo 往上移动一点点
 
     #blog-name-label {
-      color: $label-color;
       font-size: 75px;
       letter-spacing: 0;
       text-align: center;
       user-select: none;
       margin-bottom: 0;
       cursor: pointer;
+      @include label-color;
     }
 
     #links-list {

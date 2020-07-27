@@ -1,4 +1,5 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 .passage-about {
   margin-top: 16px;
@@ -20,17 +21,17 @@
       margin-left: 18px;
 
       .passage-information-icon {
-        color: $label-secondary-color;
+        @include label-secondary-color;
       }
       .passage-information-value {
         margin-left: 5px;
-        color: $label-secondary-color;
         font-family: $font;
         font-weight: bold;
         font-size: 17px;
         line-height: 22px;
         margin-bottom: 0;
         cursor: pointer;
+        @include label-secondary-color;
       }
     }
   }
@@ -45,14 +46,14 @@
         margin-left: 0 !important;
       }
       cursor: pointer;
-      color: $label-secondary-color;
       font-family: $font;
       font-weight: bold;
       font-size: 17px;
       line-height: 22px;
       margin-bottom: 0;
       margin-left: 18px;
-      text-decoration: underline $label-secondary-color solid;
+      @include label-secondary-color-underline;
+      @include label-secondary-color;
     }
   }
 }

@@ -1,8 +1,9 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 #home-page {
   display: flex;
   flex-direction: row;
   width: 100%;
-  background-color: $background;
+  @include background;
 }

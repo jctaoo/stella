@@ -1,4 +1,5 @@
 @import "../../Styles/Constant";
+@import "../../Styles/Theme";
 
 #links-list {
   .links-list-item:nth-child(1) {
@@ -52,7 +53,8 @@
 
     &:hover {
       .links-list-item-label {
-        color: $label-color;
+        @include label-color;
+        z-index: 10;
       }
       .links-list-item-indicator-container .links-list-item-indicator {
         height: 19.5px;
@@ -62,10 +64,10 @@
 
     .links-list-item-label {
       font-size: 22.5px;
-      color: $label-link-normal-color;
       font-weight: bold;
       user-select: none;
       transition: $transition;
+      @include label-link-normal-color;
     }
 
     .links-list-item-indicator-container {
@@ -78,21 +80,21 @@
         display: block;
         width: 100%;
         height: 100%;
-        background-color: $label-secondary-color;
         transition: $transition;
+        @include indicator-normal-color;
       }
     }
   }
 
   .links-list-item-selected:not(.special-links-list-item) {
     .links-list-item-label {
-      color: $label-link-high-color;
+      @include label-link-high-color;
       z-index: 10;
     }
     .links-list-item-indicator-container .links-list-item-indicator {
       height: 19.5px;
       transform: translateY(-14px);
-      background-color: $indicator-high-color;
+      @include indicator-high-color;
     }
   }
 

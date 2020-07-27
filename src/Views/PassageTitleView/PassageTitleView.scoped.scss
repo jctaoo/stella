@@ -1,4 +1,5 @@
 @import "../../Styles/Constant.scss";
+@import "../../Styles/Theme";
 
 .passage-item-title {
   display: inline-flex;
@@ -7,7 +8,7 @@
 
   &:hover {
     .passage-item-title-label {
-      color: $label-color;
+      @include label-color;
     }
 
     // TODO 跳动
@@ -25,8 +26,8 @@
     font-family: $font;
     font-size: 25.5px;
     line-height: 30.75px;
-    color: $label-color;
     z-index: 10;
+    @include label-color;
   }
 
   .passage-item-title-indicator-container {
@@ -37,8 +38,8 @@
       display: inline-block;
       width: 100%;
       height: 100%;
-      background-color: $indicator-high-color;
       transition: $transition;
+      @include indicator-high-color;
     }
   }
 }
