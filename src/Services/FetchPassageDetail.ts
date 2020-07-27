@@ -23,10 +23,14 @@ function createUpdateCurrentPassageDetailStateAction(
 export function createFetchPassageDetailAction(id: string) {
   return async (dispatch: Dispatch) => {
     dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.loading));
-    const result = await fetchPassageDetail(id);
-    if (result) {
-      dispatch(createUpdateCurrentPassageDetailStateAction(result));
-    } else {
+    try {
+      const result = await fetchPassageDetail(id);
+      if (result) {
+        dispatch(createUpdateCurrentPassageDetailStateAction(result));
+      } else {
+        dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.notfound));
+      }
+    } catch (e) {
       dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.fail));
     }
   }

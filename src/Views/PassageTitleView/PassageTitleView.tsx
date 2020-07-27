@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router";
 import "./PassageTitleView.scoped.scss"
 
 function PassageTitleView({title, onClick = () => {}}: {title: string, onClick?: VoidFunction}) {

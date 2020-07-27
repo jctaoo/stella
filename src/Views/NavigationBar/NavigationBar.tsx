@@ -6,7 +6,6 @@ import { useHistory, useLocation } from "react-router";
 import { getRouteItemOfPath, notFoundLink, rootLink, routeLinks } from "../../Routes";
 
 function NavigationBar({title}: {title: string}) {
-  console.log("render")
   const history = useHistory()
   const location = useLocation()
   const goToHome = () => {

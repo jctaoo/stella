@@ -9,7 +9,6 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { AnimatePresence } from "framer-motion";
 import MobileNavigationBar from "../../Views/MobileNavigationBar/MobileNavigationBar";
 import { useSelector } from "react-redux";
-import AppState from "../../Models/AppState";
 import { largeTitleSelector } from "../../Services/LargeTitle";
 import { isLoadingSelector } from "../../Services/Loading";
 import TopProgressBar from "../../Views/TopProgressBar/TopProgressBar";
