@@ -26,6 +26,8 @@ export default
 </p>
 ` +
 `
+$$f(x)=\\frac{P(x)}{Q(x)}$$ 
+
 # TODO:
 - [ ] 完成 CLI
 - [ ] 完善 Http 与 WebSocket 的装饰器

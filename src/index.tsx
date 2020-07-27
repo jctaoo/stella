@@ -11,6 +11,8 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./Store";
 import Highlight from "highlight.js";
+import Katex from "katex";
+import 'katex/dist/katex.min.css';
 
 marked.setOptions({
   breaks: true,
@@ -25,6 +27,15 @@ marked.use({
         return `<li class="task-list-item">${text}</li>\n`;
       }
       // use original renderer
+      return false;
+    },
+    paragraph(text: string) {
+      if (text.trim().startsWith("$$") && text.trim().endsWith("$$")) {
+        let raw = text.trim();
+        raw = raw.slice(2, raw.length - 2);
+        const result = Katex.renderToString(raw, {throwOnError: false});
+        return `<span class="latex">${result}</span>`;
+      }
       return false;
     },
     code(code, language) {
