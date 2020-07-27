@@ -1,0 +1,39 @@
+import { Action, Dispatch } from "redux";
+import fetchPassageDetail from "../Apis/FetchPassageDetail";
+import PassageDetailState from "../Models/PassageDetailState";
+import PassageDetail from "../Models/PassageDetail";
+import { UPDATE_PASSAGE_DETAIL_STATE } from "./Constant";
+import { createSelector } from "reselect";
+import AppState from "../Models/AppState";
+
+export interface UpdateCurrentPassageDetailAction extends Action<symbol> {
+  type: symbol
+  state: PassageDetail | PassageDetailState
+}
+
+function createUpdateCurrentPassageDetailStateAction(
+  state: PassageDetail | PassageDetailState
+): UpdateCurrentPassageDetailAction {
+  return {
+    type: UPDATE_PASSAGE_DETAIL_STATE,
+    state: state
+  };
+}
+
+export function createFetchPassageDetailAction(id: string) {
+  return async (dispatch: Dispatch) => {
+    dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.loading));
+    const result = await fetchPassageDetail(id);
+    if (result) {
+      dispatch(createUpdateCurrentPassageDetailStateAction(result));
+    } else {
+      dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.fail));
+    }
+  }
+}
+
+type CurrentPassage = PassageDetail | PassageDetailState | undefined;
+export const currentPassageSelector = createSelector<AppState, {}, CurrentPassage, CurrentPassage>(
+  state => state.currentPassage,
+  current => current
+)

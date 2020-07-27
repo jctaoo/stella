@@ -6,7 +6,7 @@ import { getRouteItemOfPath, rootLink } from "../../Routes";
 import RouteLabelView from "./RouteLabelView";
 
 // TODO 修复 Scoped
-function MobileNavigationBar() {
+function MobileNavigationBar({title}: {title: string}) {
   const history = useHistory()
   const location = useLocation();
   const goToHome = () => {
@@ -14,20 +14,20 @@ function MobileNavigationBar() {
   }
 
   const isHome = location.pathname === rootLink;
-  const title = getRouteItemOfPath(location.pathname)?.title
+  const routeTitle = getRouteItemOfPath(location.pathname)?.title
 
   return (
     <div id="mobile-navigation-bar" className={isHome ? "hide" : ""}>
       <div id="mobile-navigation-bar-header">
         <span id="mobile-navigation-bar-title">
           <span id="mobile-navigation-bar-title-home-label" onClick={goToHome}>
-            <h1>Jctaoo.</h1>
+            <h1>{title}</h1>
           </span>
           {
-            title ?
+            routeTitle ?
               <>
                 <span className="mobile-navigation-bar-title-divider"/>
-                <RouteLabelView className="mobile-navigation-bar-title-route-label" title={title} />
+                <RouteLabelView className="mobile-navigation-bar-title-route-label" title={routeTitle} />
               </>
             : null
           }

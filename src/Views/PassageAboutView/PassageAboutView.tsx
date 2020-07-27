@@ -1,7 +1,7 @@
 import React from "react"
 import "./PassageAboutView.scoped.scss"
 import moment from "moment"
-import { PassageAbout } from "../../Models/PassageItem";
+import { PassageAbout } from "../../Models/PassageAbout";
 
 function PassageAboutView(about: PassageAbout) {
   const lastUpdateTime = about.updateTimes[about.updateTimes.length - 1]

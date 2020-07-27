@@ -1,0 +1,14 @@
+@import "../../Styles/Constant";
+
+#top-progress-bar {
+  background-color: $indicator-high-color;
+  height: 8px;
+  z-index: 999;
+  position: fixed;
+  width: 100vw;
+  transition: $transition;
+}
+
+.top-progress-bar-hide {
+  display: none;
+}

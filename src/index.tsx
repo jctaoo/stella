@@ -5,10 +5,12 @@ import './Styles/Font.css';
 import * as serviceWorker from './serviceWorker';
 import HomePage from "./Pages/HomePage/HomePage";
 import 'antd/dist/antd.css'
-import marked, { Renderer } from "marked";
-import Highlight from "highlight.js";
+import marked from "marked";
 import "highlight.js/styles/atom-one-dark.css"
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./Store";
+import Highlight from "highlight.js";
 
 marked.setOptions({
   breaks: true,
@@ -24,6 +26,17 @@ marked.use({
       }
       // use original renderer
       return false;
+    },
+    code(code, language) {
+      const preEle = document.createElement('pre');
+      const codeEle = document.createElement('code');
+      if (language) {
+        codeEle.className = "language-" + language
+      }
+      preEle.appendChild(codeEle);
+      codeEle.innerHTML = code;
+      Highlight.highlightBlock(preEle);
+      return preEle.outerHTML;
     },
     table(header: string, body: string) {
       const bodyRows = body.split("<tr>").filter((t) => t !== "")
@@ -45,9 +58,11 @@ marked.use({
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <HomePage />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <HomePage />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

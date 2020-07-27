@@ -1,8 +1,6 @@
-import React, { HTMLAttributes, HTMLProps } from "react";
+import React, { HTMLAttributes } from "react";
 import { motion } from "framer-motion";
 
-
-// TODO
 function BasePage({children, id}: {children: any} & HTMLAttributes<HTMLDivElement>) {
   return (
     <motion.div
