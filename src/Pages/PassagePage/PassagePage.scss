@@ -152,6 +152,54 @@ $base-text-size: 16px;
       border-radius: 4px;
       font-size: $base-text-size;
       font-family: $code-font;
+      position: relative;
+
+      .colored-block {
+        padding: 18px 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+
+        .colored-block-item {
+          flex: 1;
+        }
+
+        .colored-block-item.colored-block-item-colored-add {
+          background-color: rgba(117, 238, 65, 0.16);
+        }
+
+        .colored-block-item.colored-block-item-colored-delete {
+          background-color: rgba(255, 74, 74, 0.2);
+        }
+      }
+
+      .code-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+
+        .code-lines-block {
+          display: inline-flex;
+          flex-direction: column;
+          width: 40px;
+
+          .code-lines-block-item {
+            font-size: $base-text-size;
+            font-family: $code-font;
+            font-style: normal;
+          }
+        }
+
+        & > code {
+          flex: 1;
+          z-index: 10;
+        }
+      }
+
     }
 
     & > *:not(pre) > code {
@@ -262,9 +310,5 @@ $base-text-size: 16px;
 
   .passage-comment-container {
     margin-top: 70px;
-
-    & .textarea-wrapper {
-      background-color: red !important;
-    }
   }
 }

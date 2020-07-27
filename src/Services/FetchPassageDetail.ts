@@ -2,7 +2,7 @@ import { Action, Dispatch } from "redux";
 import fetchPassageDetail from "../Apis/FetchPassageDetail";
 import PassageDetailState from "../Models/PassageDetailState";
 import PassageDetail from "../Models/PassageDetail";
-import { UPDATE_PASSAGE_DETAIL_STATE } from "./Constant";
+import { UPDATE_PASSAGE_DETAIL_STATE } from "./ActionTypes";
 import { createSelector } from "reselect";
 import AppState from "../Models/AppState";
 

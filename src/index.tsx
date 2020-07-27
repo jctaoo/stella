@@ -9,7 +9,6 @@ import doSiteConfig from "./SiteConfig";
 import './Styles/index.scss';
 import './Styles/Font.css';
 import 'antd/dist/antd.css'
-import "highlight.js/styles/atom-one-dark.css"
 import 'katex/dist/katex.min.css';
 
 doSiteConfig();

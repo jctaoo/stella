@@ -1,7 +1,7 @@
 import { createStore, Action, applyMiddleware } from "redux";
 import AppState from "./Models/AppState";
 import thunk from "redux-thunk";
-import { UPDATE_PASSAGE_DETAIL_STATE } from "./Services/Constant";
+import { UPDATE_PASSAGE_DETAIL_STATE } from "./Services/ActionTypes";
 import { UpdateCurrentPassageDetailAction } from "./Services/FetchPassageDetail";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { demoPassageAbbrs } from "./Models/PassageAbbr";
@@ -24,6 +24,9 @@ const initialState: AppState = {
     homeLargeTitle: "Jctaoo.",
     discus: {
       shortName: "jctaoo",
+    },
+    code: {
+      highlightThemeName: "atom-one-dark"
     }
   },
   passages: demoPassageAbbrs,
