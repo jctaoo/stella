@@ -14,6 +14,7 @@ $themes: (
     lighten-high-row-background: rgb(248, 245, 245),
     indicator-normal-color: #ADA0A0,
     indicator-high-color: #FFD54F,
+    transparent-text-color: rgba(97, 97, 97, 0.04),
   ),
   dark: (
     background: #1C1C1C,
@@ -28,6 +29,7 @@ $themes: (
     lighten-high-row-background: rgba(142, 142, 147, 0.28),
     indicator-normal-color: #646464,
     indicator-high-color: #3F51B5,
+    transparent-text-color: rgba(97, 97, 97, 0.24),
   ),
   deep-dark: (
     background: black,
@@ -42,6 +44,7 @@ $themes: (
     lighten-high-row-background: rgba(142, 142, 147, 0.28),
     indicator-normal-color: #646464,
     indicator-high-color: #3F51B5,
+    transparent-text-color: rgba(97, 97, 97, 0.24),
   )
 );
 
@@ -169,5 +172,11 @@ $auto-theme: true;
 @mixin indicator-high-color {
   @include themefy {
     background-color: themed("indicator-high-color");
+  }
+}
+@mixin transparent-text-color {
+  transition: color $transition;
+  @include themefy {
+    color: themed("transparent-text-color");
   }
 }

@@ -50,7 +50,8 @@
       margin: 0;
       font-family: $font;
       font-weight: bold;
-      color: $transparent-text-color;
+      @include transparent-text-color;
     }
   }
+
 }
