@@ -9,6 +9,9 @@
   @media (max-width: $small) {
     padding-top: $mobile-navigation-bar-height;
   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   #not-found-page-content {
     height: 100%;

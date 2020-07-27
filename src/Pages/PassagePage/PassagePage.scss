@@ -153,6 +153,7 @@ $base-text-size: 16px;
       font-size: $base-text-size;
       font-family: $code-font;
       position: relative;
+      overflow: hidden;
 
       .colored-block {
         padding: 18px 0;
@@ -191,12 +192,18 @@ $base-text-size: 16px;
             font-size: $base-text-size;
             font-family: $code-font;
             font-style: normal;
+            user-select: none;
           }
         }
 
         & > code {
           flex: 1;
           z-index: 10;
+          overflow: scroll;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
         }
       }
 
@@ -205,7 +212,7 @@ $base-text-size: 16px;
     & > *:not(pre) > code {
       padding: 4px 8px;
       font-family: $code-font;
-      line-height: 20px;
+      line-height: 20px; // TODO 在手机title下过矮
       border-radius: 6px;
       @include lighten-high-text-background;
     }
