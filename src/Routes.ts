@@ -13,8 +13,8 @@ export const tagBaseLink = "/passage/tag/"
 export const routeLinks: RouteItem[] = [
   {title:"blog", link:"/passage", special: false},
   {title:"about", link:"/about", special: false},
-  {title:"tags", link:"/tags", special: false},
-  {title:"categories", link:"/categories", special: false},
+  {title:"reusem", link:"/reusem", special: false},
+  {title:"project", link:"/project", special: false},
 ];
 export function getRouteItemOfPath(path: string): RouteItem | undefined {
   return routeLinks.filter((e) => e.link === path)[0]

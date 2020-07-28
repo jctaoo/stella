@@ -1,9 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './NavigationBar.scss'
 import NavigationLink from "./NavigationLink";
 import MediaInformationView from "../MediaInformationView/MediaInformationView";
 import { useHistory, useLocation } from "react-router";
-import { categoryBaseLink, getRouteItemOfPath, notFoundLink, rootLink, routeLinks, tagBaseLink } from "../../Routes";
+import {
+  categoryBaseLink,
+  getRouteItemOfPath,
+  notFoundLink,
+  passageLink,
+  rootLink,
+  routeLinks,
+  tagBaseLink
+} from "../../Routes";
 import Popover from "antd/lib/popover";
 import List from "antd/lib/list";
 import { PassageTag } from "../../Models/PassageTag";
@@ -25,6 +33,22 @@ function NavigationBar({title}: {title: string}) {
     history.push(tagBaseLink + tag.title);
   }
 
+  const [links, setLinks] = useState(routeLinks);
+  const isPassage = location.pathname.startsWith(passageLink);
+  useEffect(() => {
+    if (isPassage) {
+      setLinks(
+        [
+          ...routeLinks,
+          {title:"tags", link:tagBaseLink, special: false},
+          {title:"categories", link:categoryBaseLink, special: false}
+        ]
+      );
+    } else {
+      setLinks(routeLinks);
+    }
+  }, [location])
+
   const isSpecial = getRouteItemOfPath(location.pathname)?.special ?? false
   const showSpecial = location.pathname === rootLink || location.pathname === notFoundLink || isSpecial
   const isHome = location.pathname === rootLink
@@ -45,7 +69,7 @@ function NavigationBar({title}: {title: string}) {
         <h1 id="blog-name-label" onClick={goToHome}>{title}</h1>
         <ul id="links-list">
           {
-            routeLinks.filter((item) => {
+            links.filter((item) => {
               return showSpecial ? true : !item.special
             }).map((item, index) => (
               item.title === "tags" ?

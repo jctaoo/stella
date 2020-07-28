@@ -1,6 +1,8 @@
 @import "../../Styles/Constant";
 @import "../../Styles/Theme";
 
+$link-item-margin-left: 21px;
+
 // TODO 影响到其他地方了， 或将迁移写法
 // TODO popover 顶部小三角颜色
 .ant-popover-inner {
@@ -46,7 +48,6 @@
 
 #links-list {
   .links-list-item:nth-child(1) {
-    margin-left: 0 !important;
     margin-top: 0 !important;
   }
 
@@ -85,7 +86,6 @@
 
   .links-list-item {
     @media (max-width: $small) {
-      margin-left: 0;
       margin-top: 26px;
     }
 

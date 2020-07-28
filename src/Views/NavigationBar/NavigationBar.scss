@@ -1,5 +1,6 @@
 @import "../../Styles/Constant";
 @import "../../Styles/Theme";
+@import "./NavigationLink";
 
 $horizontal-padding: 237.5px;
 $horizontal-shrink-padding: 52.5px;
@@ -19,6 +20,7 @@ $horizontal-mobile-padding: 35px;
 }
 
 #navigation-bar.navigation-bar-shrink {
+  max-width: 400px;
   #navigation-bar-content {
     padding-left: ($horizontal-shrink-padding) !important;
     padding-right: 0 !important;
@@ -33,6 +35,7 @@ $horizontal-mobile-padding: 35px;
     justify-content: flex-start;
   }
 
+  max-width: 800px;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
@@ -70,14 +73,18 @@ $horizontal-mobile-padding: 35px;
     }
 
     #links-list {
+      margin-left: -$link-item-margin-left;
       margin-top: 5.25px;
       margin-bottom: 0;
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: start;
     }
 
     .navigation-bar-media-info {
       margin-top: 19.5px;
+
     }
 
   }
