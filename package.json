@@ -21,7 +21,7 @@
     "@types/redux-devtools-extension": "^2.13.2",
     "@types/redux-thunk": "^2.1.0",
     "@types/reselect": "^2.2.0",
-    "antd": "^4.4.2",
+    "antd": "^4.5.0",
     "craco-plugin-scoped-css": "^1.1.0",
     "disqus-react": "^1.0.8",
     "framer-motion": "^2.1.2",

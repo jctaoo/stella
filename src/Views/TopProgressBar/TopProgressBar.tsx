@@ -1,5 +1,5 @@
 import React from "react";
-import "./TopProgressBar.scoped.scss";
+import "./TopProgressBar.scss";
 
 // TODO
 function TopProgressBar({show}: {show: boolean}) {

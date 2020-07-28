@@ -1,6 +1,6 @@
 import React from "react"
 import PassageAboutView from "../PassageAboutView/PassageAboutView";
-import "./PassageItemView.scoped.scss"
+import "./PassageItemView.scss"
 import PassageAbbr from "../../Models/PassageAbbr";
 import PassageTitleView from "../PassageTitleView/PassageTitleView";
 import { useHistory } from "react-router";

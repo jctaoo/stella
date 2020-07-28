@@ -1,5 +1,5 @@
 import React from "react";
-import "./RouteLabelView.scoped.scss";
+import "./RouteLabelView.scss";
 
 function RouteLabelView({className = "", title}: {className?: string, title: string}) {
   return (

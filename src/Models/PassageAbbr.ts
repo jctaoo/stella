@@ -14,7 +14,8 @@ export const demoAboutAbbr: PassageAbbr = {
   about: {
     updateTimes: [new Date()],
     tags: [],
-    readTime: 1000 * 10 * 60
+    readTime: 1000 * 10 * 60,
+    category: "about"
   }
 }
 export const demoPassageAbbrs = [
@@ -28,7 +29,8 @@ export const demoPassageAbbrs = [
         {id:"1", title:"Math"},
         {id:"12", title:"Python"}
       ],
-      readTime: 1000 * 10 * 60
+      readTime: 1000 * 10 * 60,
+      category: "test2"
     }
   },
   {
@@ -41,7 +43,8 @@ export const demoPassageAbbrs = [
         {id:"1", title:"Math"},
         {id:"12", title:"Python"}
       ],
-      readTime: 1000 * 10 * 60
+      readTime: 1000 * 10 * 60,
+      category: "test2"
     }
   },
   {
@@ -54,7 +57,8 @@ export const demoPassageAbbrs = [
         {id:"1", title:"Math"},
         {id:"12", title:"Python"}
       ],
-      readTime: 1000 * 10 * 60
+      readTime: 1000 * 10 * 60,
+      category: "test1"
     }
   },
   {
@@ -67,7 +71,8 @@ export const demoPassageAbbrs = [
         {id:"1", title:"Math"},
         {id:"12", title:"Python"}
       ],
-      readTime: 1000 * 10 * 60
+      readTime: 1000 * 10 * 60,
+      category: "test1"
     }
   },
   {
@@ -80,7 +85,8 @@ export const demoPassageAbbrs = [
         {id:"1", title:"Math"},
         {id:"12", title:"Python"}
       ],
-      readTime: 1000 * 10 * 60
+      readTime: 1000 * 10 * 60,
+      category: "test3"
     }
   },
   {
@@ -93,7 +99,8 @@ export const demoPassageAbbrs = [
         {id:"1", title:"Math"},
         {id:"12", title:"Python"}
       ],
-      readTime: 1000 * 10 * 60
+      readTime: 1000 * 10 * 60,
+      category: "test3"
     }
   },
 ]

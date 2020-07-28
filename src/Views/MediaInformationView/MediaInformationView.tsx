@@ -1,5 +1,5 @@
 import React from "react"
-import "./MediaInformationView.scoped.scss"
+import "./MediaInformationView.scss"
 import Popover from 'antd/lib/popover'
 import WechatQRCode from "../../Resources/Images/wechat-qr.png"
 

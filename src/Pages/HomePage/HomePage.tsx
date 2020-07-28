@@ -9,8 +9,8 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { AnimatePresence } from "framer-motion";
 import MobileNavigationBar from "../../Views/MobileNavigationBar/MobileNavigationBar";
 import { useSelector } from "react-redux";
-import { largeTitleSelector } from "../../Services/LargeTitle";
-import { isLoadingSelector } from "../../Services/Loading";
+import { largeTitleSelector } from "../../Services/SelectLargeTitle";
+import { isLoadingSelector } from "../../Services/SelectLoading";
 import TopProgressBar from "../../Views/TopProgressBar/TopProgressBar";
 import AboutPage from "../AboutPage/AboutPage";
 
@@ -34,6 +34,8 @@ function HomePage() {
           <Switch>
             <Route path="/" exact component={() => <></>}/>
             <Route path="/passage" component={PassageListPage} exact />
+            <Route path="/passage/tag/:tag" component={PassageListPage} exact />
+            <Route path="/passage/category/:category" component={PassageListPage} exact />
             <Route path="/passage/:id" component={PassagePage} exact />
             <Route path="/about" component={AboutPage} exact />
             <Route path={notFoundLink} component={NotFoundPage} exact />

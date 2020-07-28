@@ -4,8 +4,8 @@ import BasePage from "../BasePage";
 import { useDispatch, useSelector } from "react-redux";
 import { currentPassageSelector } from "../../Services/FetchPassageDetail";
 import Config from "../../Models/Config";
-import { configSelector } from "../../Services/Config";
-import PassageDetailState, { isPassageDetailState } from "../../Models/PassageDetailState";
+import { configSelector } from "../../Services/SelectConfig";
+import { isPassageDetailState } from "../../Models/PassageDetailState";
 import PassageDetail from "../../Models/PassageDetail";
 import { createFetchAboutAction } from "../../Services/FetchAbout";
 import PassageDetailView from "../../Views/PassageDetailView/PassageDetailView";
@@ -17,7 +17,6 @@ function AboutPage() {
   const currentPassage = useSelector(currentPassageSelector);
   // @ts-ignore
   const config: Config = useSelector(configSelector);
-  const isNotFound = currentPassage === PassageDetailState.notfound
   const isLoading = isPassageDetailState(currentPassage) || !currentPassage;
 
   // 获取数据

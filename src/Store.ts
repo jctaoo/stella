@@ -11,7 +11,7 @@ function appReducer(state: AppState | undefined = initialState, action: Action<s
     const updateAction = action as UpdateCurrentPassageDetailAction;
     return {
       ...state,
-      currentPassage: updateAction.state
+      currentPassage: updateAction.state,
     };
   }
   return state;
@@ -27,7 +27,7 @@ const initialState: AppState = {
     },
     code: {
       highlightThemeName: "atom-one-dark"
-    }
+    },
   },
   passages: demoPassageAbbrs,
 };

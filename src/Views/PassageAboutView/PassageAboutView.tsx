@@ -1,5 +1,5 @@
 import React from "react"
-import "./PassageAboutView.scoped.scss"
+import "./PassageAboutView.scss"
 import moment from "moment"
 import { PassageAbout } from "../../Models/PassageAbout";
 

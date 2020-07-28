@@ -15,9 +15,54 @@
     padding-top: $mobile-navigation-bar-height + 10px;
   }
 
-  #passage-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(0, 466px));
-    justify-content: center;
+  .passage-list-container {
+    .passage-list-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      user-select: none;
+      margin-bottom: 30px;
+      margin-left: 50px;
+      transition: margin-left $transition;
+
+      @media (max-width: $middle) {
+        margin-left: 0;
+      }
+      @media (max-width: $small) {
+        margin-top: 10px;
+        margin-bottom: 0;
+        margin-left: 20px;
+      }
+
+      h1 {
+        @include label-secondary-color;
+        font-family: $font;
+        font-weight: bold;
+        font-size: 20px;
+        cursor: pointer;
+        margin-bottom: 0;
+      }
+
+      .passage-list-title-content {
+        @include lighten-high-text-background;
+        border-radius: 7px;
+        padding: 3.5px 14px;
+        margin-right: 9px;
+      }
+
+      .passage-list-title-description {
+        margin-right: 9px;
+      }
+
+      .passage-list-title-cancel {
+        @include link-color;
+      }
+    }
+
+    .passage-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(0, 466px));
+      justify-content: center;
+    }
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import "./PassageTitleView.scoped.scss"
+import "./PassageTitleView.scss"
 
 function PassageTitleView({title, onClick = () => {}}: {title: string, onClick?: VoidFunction}) {
   return (

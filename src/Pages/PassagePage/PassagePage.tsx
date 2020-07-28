@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createFetchPassageDetailAction, currentPassageSelector } from "../../Services/FetchPassageDetail";
 import PassageDetailState, { isPassageDetailState } from "../../Models/PassageDetailState";
 import PassageDetail from "../../Models/PassageDetail";
-import { configSelector } from "../../Services/Config";
+import { configSelector } from "../../Services/SelectConfig";
 import Config from "../../Models/Config";
 import { notFoundLink } from "../../Routes";
 import PassageDetailView from "../../Views/PassageDetailView/PassageDetailView";
