@@ -2,14 +2,13 @@
 @import "../../Styles/Theme";
 
 #top-progress-bar {
-  height: 8px;
   z-index: 999;
   position: fixed;
   width: 100vw;
   transition: $transition;
-  @include indicator-high-color;
+  top: -10px;
 }
 
 .top-progress-bar-hide {
-  display: none;
+  opacity: 0;
 }

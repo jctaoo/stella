@@ -1,0 +1,9 @@
+@import "../../Styles/Constant";
+@import "../../Styles/Theme";
+
+#gallery-page {
+  flex: 1;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
