@@ -33,21 +33,7 @@ function NavigationBar({title}: {title: string}) {
     history.push(tagBaseLink + tag.title);
   }
 
-  const [links, setLinks] = useState(routeLinks);
   const isPassage = location.pathname.startsWith(passageLink);
-  useEffect(() => {
-    if (isPassage) {
-      setLinks(
-        [
-          ...routeLinks,
-          {title:"tags", link:tagBaseLink, special: false},
-          {title:"categories", link:categoryBaseLink, special: false}
-        ]
-      );
-    } else {
-      setLinks(routeLinks);
-    }
-  }, [location])
 
   const isSpecial = getRouteItemOfPath(location.pathname)?.special ?? false
   const showSpecial = location.pathname === rootLink || location.pathname === notFoundLink || isSpecial
@@ -69,112 +55,102 @@ function NavigationBar({title}: {title: string}) {
         <h1 id="blog-name-label" onClick={goToHome}>{title}</h1>
         <ul id="links-list">
           {
-            links.filter((item) => {
+            routeLinks.filter((item) => {
               return showSpecial ? true : !item.special
             }).map((item, index) => (
-              item.title === "tags" ?
-                (
-                  <Popover
-                    onVisibleChange={(value) => {
-                      setShowTagPopover(value);
-                    }}
-                    placement={"bottom"}
-                    key={index}
-                    visible={showTagPopover}
-                    content={
-                      <div className="navigation-link-popover">
-                        <List
-                          itemLayout="horizontal"
-                          dataSource={tags}
-                          renderItem={(item: PassageTag) => (
-                            <List.Item
-                              onClick={() => {
-                                goToTag(item);
-                              }}
-                              className={
-                                `navigation-link-popover-item 
-                                ${item.title === currentTagFilter ? 
-                                  "navigation-link-popover-item-selected" : ""}`
-                              }
-                            >
-                              <List.Item.Meta
-                                title={
-                                  <span className="navigation-link-popover-selected">{item.title}</span>
-                                }
-                              />
-                            </List.Item>
-                          )}
-                        />
-                      </div>
-                    }
-                  >
-                    <NavigationLink
-                      title={item.title}
-                      special={item.special}
-                      selected={location.pathname.startsWith(tagBaseLink) ? true : showTagPopover}
-                      onCLick={() => {
-                        setShowTagPopover(!showTagPopover);
-                      }}
-                    />
-                  </Popover>
-                ) :
-                item.title === "categories" ?
-                (
-                  <Popover
-                    onVisibleChange={(value) => {
-                      setShowCatePopover(value);
-                    }}
-                    placement={"bottom"}
-                    key={index}
-                    visible={showCatePopover}
-                    content={
-                      <div className="navigation-link-popover">
-                        <List
-                          itemLayout="horizontal"
-                          dataSource={categories}
-                          renderItem={(item: string) => (
-                            <List.Item
-                              onClick={() => {
-                                goToCategory(item);
-                              }}
-                              className={
-                                `navigation-link-popover-item 
-                                ${item === currentCategoryFilter ? 
-                                  "navigation-link-popover-item-selected" : ""}`
-                              }
-                            >
-                              <List.Item.Meta
-                                title={
-                                  <span className="navigation-link-popover-selected">{item}</span>
-                                }
-                              />
-                            </List.Item>
-                          )}
-                        />
-                      </div>
-                    }
-                  >
-                    <NavigationLink
-                      title={item.title}
-                      special={item.special}
-                      selected={location.pathname.startsWith(categoryBaseLink) ? true : showCatePopover}
-                      onCLick={() => {
-                        setShowCatePopover(!showCatePopover);
-                      }}
-                    />
-                  </Popover>
-                ):
-                (
-                  <NavigationLink
-                    title={item.title}
-                    to={item.link}
-                    special={item.special}
-                    selected={location.pathname.startsWith(item.link)}
-                    key={index}
-                  />
-                )
+              <NavigationLink
+                title={item.title}
+                to={item.link}
+                special={item.special}
+                selected={location.pathname.startsWith(item.link)}
+                key={index}
+              />
             ))
           }
+        </ul>
+        <ul id="links-list-passage-list" className={!isPassage ? "links-list-passage-list-hide" : ""}>
+          <Popover
+            onVisibleChange={(value) => {
+              setShowTagPopover(value);
+            }}
+            placement={"bottom"}
+            visible={showTagPopover}
+            content={
+              <div className="navigation-link-popover">
+                <List
+                  itemLayout="horizontal"
+                  dataSource={tags}
+                  renderItem={(item: PassageTag) => (
+                    <List.Item
+                      onClick={() => {
+                        goToTag(item);
+                      }}
+                      className={
+                        `navigation-link-popover-item 
+                                ${item.title === currentTagFilter ?
+                          "navigation-link-popover-item-selected" : ""}`
+                      }
+                    >
+                      <List.Item.Meta
+                        title={
+                          <span className="navigation-link-popover-selected">{item.title}</span>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                />
+              </div>
+            }
+          >
+            <NavigationLink
+              title={"tag"}
+              selected={location.pathname.startsWith(tagBaseLink)}
+              onCLick={() => {
+                setShowTagPopover(!showTagPopover);
+              }}
+            />
+          </Popover>
+          <Popover
+            onVisibleChange={(value) => {
+              setShowCatePopover(value);
+            }}
+            placement={"bottom"}
+            visible={showCatePopover}
+            content={
+              <div className="navigation-link-popover">
+                <List
+                  itemLayout="horizontal"
+                  dataSource={categories}
+                  renderItem={(item: string) => (
+                    <List.Item
+                      onClick={() => {
+                        goToCategory(item);
+                      }}
+                      className={
+                        `navigation-link-popover-item 
+                                ${item === currentCategoryFilter ?
+                          "navigation-link-popover-item-selected" : ""}`
+                      }
+                    >
+                      <List.Item.Meta
+                        title={
+                          <span className="navigation-link-popover-selected">{item}</span>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                />
+              </div>
+            }
+          >
+            <NavigationLink
+              title={"category"}
+              selected={location.pathname.startsWith(categoryBaseLink)}
+              onCLick={() => {
+                setShowCatePopover(!showCatePopover);
+              }}
+            />
+          </Popover>
         </ul>
         <MediaInformationView className="navigation-bar-media-info"/>
       </div>
