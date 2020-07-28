@@ -17,6 +17,8 @@ interface PassageListPageCategoryRouteParams {
   category: string
 }
 
+// TODO 改善写法
+let previous = "";
 function PassageListPage() {
   const history = useHistory();
   const routeParams = useRouteMatch().params;
@@ -40,8 +42,10 @@ function PassageListPage() {
   // @ts-ignore
   if (tagFilter) {
     passages = passages.filter(e => e.about.tags.map(t => t.title.toLowerCase()).includes(tagFilter!));
+    previous = '#' + tagFilter;
   } else if (categoryFilter) {
     passages = passages.filter(e => e.about.category?.toLowerCase() === categoryFilter);
+    previous = categoryFilter;
   }
 
   return (
@@ -54,7 +58,11 @@ function PassageListPage() {
       >
         <span className={`passage-list-title ${(tagFilter || categoryFilter) ? "" : "passage-list-title-hide"}`}>
           <h1 className="passage-list-title-content">
-            {!!tagFilter ? '#' + tagFilter : categoryFilter}
+            {
+              (!!tagFilter || !!categoryFilter) ?
+                (!!tagFilter ? '#' + tagFilter : categoryFilter) :
+                previous
+            }
           </h1>
           <h1 className="passage-list-title-description">的内容</h1>
           <a className="passage-list-title-cancel" onClick={cancelFilter}>

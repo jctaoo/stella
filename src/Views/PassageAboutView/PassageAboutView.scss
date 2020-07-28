@@ -5,6 +5,12 @@
   margin-top: 16px;
   display: flex;
   flex-direction: row;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .passage-about-information {
     display: flex;
