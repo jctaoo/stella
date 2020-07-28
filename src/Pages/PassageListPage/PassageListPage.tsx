@@ -44,8 +44,6 @@ function PassageListPage() {
     passages = passages.filter(e => e.about.category?.toLowerCase() === categoryFilter);
   }
 
-  console.log("render")
-
   return (
     <BasePage id="passage-list-page">
       <motion.div
@@ -54,19 +52,15 @@ function PassageListPage() {
         exit={{translateY:500}}
         className="passage-list-container"
       >
-        {
-          tagFilter || categoryFilter ?
-            <span className="passage-list-title">
-              <h1 className="passage-list-title-content">
-                {!!tagFilter ? '#' + tagFilter : categoryFilter}
-              </h1>
-              <h1 className="passage-list-title-description">的内容</h1>
-              <a className="passage-list-title-cancel" onClick={cancelFilter}>
-                取消
-              </a>
-            </span> :
-            <></>
-        }
+        <span className={`passage-list-title ${(tagFilter || categoryFilter) ? "" : "passage-list-title-hide"}`}>
+          <h1 className="passage-list-title-content">
+            {!!tagFilter ? '#' + tagFilter : categoryFilter}
+          </h1>
+          <h1 className="passage-list-title-description">的内容</h1>
+          <a className="passage-list-title-cancel" onClick={cancelFilter}>
+            取消
+          </a>
+        </span>
         <div className="passage-list" key="passage-list">
           {
             passages.map(item => (

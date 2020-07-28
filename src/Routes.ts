@@ -1,4 +1,4 @@
-interface RouteItem {
+export interface RouteItem {
   title: string,
   link: string,
   special: boolean
@@ -11,10 +11,10 @@ export const categoryBaseLink = "/passage/category/"
 export const tagBaseLink = "/passage/tag/"
 
 export const routeLinks: RouteItem[] = [
-  {title:"blog", link:"/passage", special: false},
-  {title:"about", link:"/about", special: false},
-  {title:"gallery", link: "/gallery", special: false},
+  {title: "blog", link: "/passage", special: false},
+  {title: "about", link: "/about", special: false},
 ];
+
 export function getRouteItemOfPath(path: string): RouteItem | undefined {
   return routeLinks.filter((e) => e.link === path)[0]
 }

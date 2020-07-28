@@ -72,13 +72,12 @@ $horizontal-mobile-padding: 35px;
       }
     }
 
-    #links-list-passage-list.links-list-passage-list-hide {
+    #links-list-passage-list/*.links-list-passage-list-hide*/ {
       display: none;
     }
 
     .navigation-bar-media-info {
       margin-top: 19.5px;
-
     }
 
   }

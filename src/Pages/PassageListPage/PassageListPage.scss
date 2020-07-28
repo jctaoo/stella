@@ -16,14 +16,16 @@
   }
 
   .passage-list-container {
+
     .passage-list-title {
       display: flex;
+      opacity: 1;
       flex-direction: row;
       align-items: center;
       user-select: none;
       margin-bottom: 30px;
       margin-left: 50px;
-      transition: margin-left $transition;
+      transition: $transition;
 
       @media (max-width: $middle) {
         margin-left: 0;
@@ -57,6 +59,12 @@
       .passage-list-title-cancel {
         @include link-color;
       }
+    }
+
+    .passage-list-title.passage-list-title-hide {
+      opacity: 0;
+      height: 0;
+      margin-bottom: 0;
     }
 
     .passage-list {

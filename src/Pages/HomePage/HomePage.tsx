@@ -13,7 +13,6 @@ import { largeTitleSelector } from "../../Services/SelectLargeTitle";
 import { isLoadingSelector } from "../../Services/SelectLoading";
 import TopProgressBar from "../../Views/TopProgressBar/TopProgressBar";
 import AboutPage from "../AboutPage/AboutPage";
-import GalleryPage from "../GalleryPage/GalleryPage";
 
 function HomePage() {
   // const location = useLocation()
@@ -39,7 +38,6 @@ function HomePage() {
             <Route path="/passage/category/:category" component={PassageListPage} exact />
             <Route path="/passage/:id" component={PassagePage} exact />
             <Route path="/about" component={AboutPage} exact />
-            <Route path="/gallery" component={GalleryPage} exact />
             <Route path={notFoundLink} component={NotFoundPage} exact />
             <Redirect from={"*"} to={notFoundLink} />
           </Switch>
