@@ -7,6 +7,16 @@ export default interface PassageAbbr {
   about: PassageAbout
 }
 
+export const demoAboutAbbr: PassageAbbr = {
+  identifier: "About",
+  title: "About",
+  abbr: "",
+  about: {
+    updateTimes: [new Date()],
+    tags: [],
+    readTime: 1000 * 10 * 60
+  }
+}
 export const demoPassageAbbrs = [
   {
     identifier: "0",

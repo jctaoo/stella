@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { largeTitleSelector } from "../../Services/LargeTitle";
 import { isLoadingSelector } from "../../Services/Loading";
 import TopProgressBar from "../../Views/TopProgressBar/TopProgressBar";
+import AboutPage from "../AboutPage/AboutPage";
 
 function HomePage() {
   // const location = useLocation()
@@ -34,6 +35,7 @@ function HomePage() {
             <Route path="/" exact component={() => <></>}/>
             <Route path="/passage" component={PassageListPage} exact />
             <Route path="/passage/:id" component={PassagePage} exact />
+            <Route path="/about" component={AboutPage} exact />
             <Route path={notFoundLink} component={NotFoundPage} exact />
             <Redirect from={"*"} to={notFoundLink} />
           </Switch>

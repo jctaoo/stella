@@ -11,7 +11,7 @@ export interface UpdateCurrentPassageDetailAction extends Action<symbol> {
   state: PassageDetail | PassageDetailState
 }
 
-function createUpdateCurrentPassageDetailStateAction(
+export function createUpdateCurrentPassageDetailStateAction(
   state: PassageDetail | PassageDetailState
 ): UpdateCurrentPassageDetailAction {
   return {
