@@ -93,11 +93,6 @@ export default function doSiteConfig() {
         newPreEle.appendChild(coloredBlock);
         newPreEle.appendChild(container);
 
-        // TODO
-        // const copyButton = document.createElement('button');
-        // copyButton.innerText = "Copy";
-        //
-
         return newPreEle.outerHTML;
       },
       table(header: string, body: string) {
@@ -114,7 +109,6 @@ export default function doSiteConfig() {
         }).join()
         return `<table>${header + newBody}</table>`;
       }
-      // TODO code diff
     }
   });
   // service work

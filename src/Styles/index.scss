@@ -1,6 +1,10 @@
 @import "./Constant";
 @import "./Theme";
 
+body {
+  position: absolute;
+}
+
 #root {
   margin: 0;
   font-family: $font;

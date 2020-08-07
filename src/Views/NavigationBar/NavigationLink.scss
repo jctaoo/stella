@@ -3,44 +3,51 @@
 
 $link-item-margin-left: 21px;
 
-// TODO 影响到其他地方了， 或将迁移写法
+// TODO 影响到其他地方了， 或将迁移写法 (detail: wechat 的二维码 popover)
 // TODO popover 顶部小三角颜色
-.ant-popover-inner {
-  border-radius: 6px !important;
-  .ant-popover-inner-content {
-    @include popover-background;
+// TODO border-radius 未生效
+.ant-popover-content {
+  .ant-popover-arrow {
+    display: none;
+  }
 
-    padding: 5px !important;
-    .navigation-link-popover {
-      width: 200px;
-      height: 200px;
-      overflow-y: scroll;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      .navigation-link-popover-item {
-        user-select: none;
-        border-bottom: none;
-        transition: $transition;
-        padding: 12px 16px;
-        border-radius: 6px;
-        margin-bottom: 3px;
-        &:hover {
-          @include lighten-high-background;
+  .ant-popover-inner {
+    border-radius: 6px !important;
+    .ant-popover-inner-content {
+      @include popover-background;
+
+      padding: 5px !important;
+      .navigation-link-popover {
+        width: 200px;
+        height: 200px;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+          display: none;
         }
-        h4, span {
-          margin-bottom: 0;
-          font-family: $font;
-          font-weight: normal;
-          font-size: 17px;
-          @include label-color;
+        .navigation-link-popover-item {
+          user-select: none;
+          border-bottom: none;
+          transition: $transition;
+          padding: 12px 16px;
+          border-radius: 6px;
+          margin-bottom: 3px;
+          &:hover {
+            @include lighten-high-background;
+          }
+          h4, span {
+            margin-bottom: 0;
+            font-family: $font;
+            font-weight: normal;
+            font-size: 17px;
+            @include label-color;
+          }
         }
-      }
-      .navigation-link-popover-item.navigation-link-popover-item-selected {
-        @include popover-selected;
-      }
-      .navigation-link-popover-item:last-child {
-        margin-bottom: 0 !important;
+        .navigation-link-popover-item.navigation-link-popover-item-selected {
+          @include popover-selected;
+        }
+        .navigation-link-popover-item:last-child {
+          margin-bottom: 0 !important;
+        }
       }
     }
   }

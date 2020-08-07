@@ -6,4 +6,5 @@
   flex-direction: row;
   width: 100%;
   @include background;
+  overflow: hidden;
 }
