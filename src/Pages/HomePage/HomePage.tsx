@@ -34,8 +34,6 @@ function HomePage() {
           <Switch>
             <Route path="/" exact component={() => <></>}/>
             <Route path="/passage" component={PassageListPage} exact />
-            <Route path="/passage/tag/:tag" component={PassageListPage} exact />
-            <Route path="/passage/category/:category" component={PassageListPage} exact />
             <Route path="/passage/:id" component={PassagePage} exact />
             <Route path="/about" component={AboutPage} exact />
             <Route path={notFoundLink} component={NotFoundPage} exact />

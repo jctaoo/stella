@@ -1,20 +1,20 @@
 import { useLocation } from "react-router";
-import { categoryBaseLink, tagBaseLink } from "../Routes";
+import QueryString from 'query-string';
 
 export const useFilter = (): [string | undefined, string | undefined] => {
   const location = useLocation();
+
+  let params = QueryString.parse(location.search);
+
   let tagFilter: string | undefined;
   let categoryFilter: string | undefined;
 
-  const splits = location.pathname.split('/');
-  const lastComponent = splits[splits.length - 1];
-
-  if (location.pathname.startsWith(tagBaseLink)) {
-    tagFilter = lastComponent === '' ? undefined : lastComponent;
+  if (typeof params['tag'] === "string") {
+    tagFilter = params['tag'];
   }
 
-  if (location.pathname.startsWith(categoryBaseLink)) {
-    categoryFilter = lastComponent === '' ? undefined : lastComponent;
+  if (typeof params['category'] === "string") {
+    categoryFilter = params['category'];
   }
 
   return [tagFilter, categoryFilter];

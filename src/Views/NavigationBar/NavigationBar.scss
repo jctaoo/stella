@@ -57,7 +57,7 @@ $horizontal-mobile-padding: 35px;
       @include label-color;
     }
 
-    #links-list, #links-list-passage-list {
+    #links-list {
       margin-left: -$link-item-margin-left;
       margin-top: 5.25px;
       margin-bottom: 0;
@@ -70,10 +70,6 @@ $horizontal-mobile-padding: 35px;
         justify-content: flex-start;
         align-items: flex-start;
       }
-    }
-
-    #links-list-passage-list/*.links-list-passage-list-hide*/ {
-      display: none;
     }
 
     .navigation-bar-media-info {

@@ -13,13 +13,14 @@ import 'katex/dist/katex.min.css';
 
 doSiteConfig();
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <HomePage />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
+  /* 等 antd 修复了 findDOMNode 加上 React.StrictMode */
+  // <React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <HomePage />
+    </BrowserRouter>
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

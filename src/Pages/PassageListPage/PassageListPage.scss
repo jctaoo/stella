@@ -18,6 +18,8 @@
   .passage-list-container {
 
     .passage-list-title {
+      overflow: hidden;
+
       display: flex;
       opacity: 1;
       flex-direction: row;
@@ -28,36 +30,34 @@
       transition: $transition;
 
       @media (max-width: $middle) {
+        align-items: start;
         margin-left: 0;
+        flex-direction: column;
+        & > * {
+          margin-right: 0;
+          margin-bottom: 16px;
+        }
+        & > *:last-child {
+          margin-bottom: 0;
+        }
       }
       @media (max-width: $small) {
         margin-top: 10px;
         margin-bottom: 0;
-        margin-left: 20px;
+        margin-left: 0;
+        align-items: start;
+        flex-direction: column;
+        & > * {
+          margin-right: 0;
+          margin-bottom: 16px;
+        }
+        & > *:last-child {
+          margin-bottom: 0;
+        }
       }
 
-      h1 {
-        @include label-secondary-color;
-        font-family: $font;
-        font-weight: bold;
-        font-size: 20px;
-        cursor: pointer;
-        margin-bottom: 0;
-      }
-
-      .passage-list-title-content {
-        @include lighten-high-text-background;
-        border-radius: 7px;
-        padding: 3.5px 14px;
-        margin-right: 9px;
-      }
-
-      .passage-list-title-description {
-        margin-right: 9px;
-      }
-
-      .passage-list-title-cancel {
-        @include link-color;
+      & > * {
+        margin-right: 32px;
       }
     }
 
