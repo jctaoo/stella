@@ -9,6 +9,7 @@ import { isPassageDetailState } from "../../Models/PassageDetailState";
 import PassageDetail from "../../Models/PassageDetail";
 import { createFetchAboutAction } from "../../Services/FetchAbout";
 import PassageDetailView from "../../Views/PassageDetailView/PassageDetailView";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 function AboutPage() {
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ function AboutPage() {
   }, []);
 
   return (
-    isLoading ? (<h1>LOADING</h1>) :
+    isLoading ? (<LoadingPage/>) :
       (() => {
         const passage = currentPassage as PassageDetail;
         return (

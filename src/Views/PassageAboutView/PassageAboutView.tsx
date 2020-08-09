@@ -3,6 +3,7 @@ import "./PassageAboutView.scss"
 import moment from "moment"
 import { PassageAbout } from "../../Models/PassageAbout";
 import { useHistory } from "react-router";
+import { routeToPassageListWithFilter } from "../../Routes";
 
 function PassageAboutView(about: PassageAbout) {
   const lastUpdateTime = about.updateTimes[about.updateTimes.length - 1]
@@ -31,13 +32,13 @@ function PassageAboutView(about: PassageAbout) {
         {
           [
             <span className="passage-tag" key={about.category} onClick={() => {
-
+              routeToPassageListWithFilter(history, { category: about.category })
             }}>
               {about.category}
             </span>,
             ...about.tags.map((item) => (
               <span className="passage-tag" key={item.id} onClick={() => {
-
+                routeToPassageListWithFilter(history, { tag: item.title })
               }}>
                 #{item.title}
               </span>

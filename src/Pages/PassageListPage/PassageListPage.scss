@@ -2,17 +2,12 @@
 @import "../../Styles/Theme";
 
 #passage-list-page {
-  flex: 1;
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
   padding-left: 65px;
   padding-right: 65px;
   padding-top: 102px;
   @media (max-width: $small) {
     padding-left: 13px;
     padding-right: 13px;
-    padding-top: $mobile-navigation-bar-height + 10px;
   }
 
   .passage-list-container {

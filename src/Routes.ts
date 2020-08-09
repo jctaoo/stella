@@ -8,12 +8,15 @@ export interface RouteItem {
 }
 
 export const rootLink = "/"
-export const notFoundLink = "/notfound"
+export const notFoundLink = "/not-found"
 export const passageLink = "/passage"
+export const aboutLink = "/about"
+export const codeSnippetLink = "/code-snippet"
 
 export const routeLinks: RouteItem[] = [
-  {title: "blog", link: "/passage", special: false},
-  {title: "about", link: "/about", special: false},
+  {title: "blog", link: passageLink, special: false},
+  {title: "snippet", link: codeSnippetLink, special: false},
+  {title: "about", link: aboutLink, special: false},
 ];
 
 export function getRouteItemOfPath(path: string): RouteItem | undefined {

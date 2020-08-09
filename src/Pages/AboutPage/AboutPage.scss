@@ -1,26 +1,7 @@
 @import "../../Styles/Constant";
 @import "../../Styles/Theme";
+@import "../../Styles/PassageLiked";
 
-// TODO duplicate with HomePage/AboutPage.scss
 #about-page {
-  flex: 1;
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  padding-left: 88px;
-  padding-right: 88px;
-  padding-top: 81px;
-  @media (max-width: $small) {
-    padding-left: 13px;
-    padding-right: 13px;
-    padding-top: $mobile-navigation-bar-height + 30px;
-  }
-  @media (max-width: $middle) {
-    padding-left: 26px;
-    padding-right: 26px;
-  }
+  @include passage-liked-page;
 }

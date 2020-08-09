@@ -16,7 +16,7 @@ function PassageItemView({passage}: { passage: PassageAbbr }) {
       <PassageTitleView title={passage.title} onClick={() => { goToPassage(passage.identifier) }}/>
       <span className="passage-item-abbreviation">
         <p className="passage-item-abbreviation-text">
-          {passage.abbr}
+          {passage.abbr}...
         </p>
       </span>
       <PassageAboutView {...passage.about}/>

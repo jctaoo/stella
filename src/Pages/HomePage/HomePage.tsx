@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import NavigationBar from "../../Views/NavigationBar/NavigationBar";
 import PassageListPage from "../PassageListPage/PassageListPage";
 import PassagePage from "../PassagePage/PassagePage";
-import { notFoundLink } from "../../Routes";
+import { aboutLink, codeSnippetLink, notFoundLink, passageLink, rootLink } from "../../Routes";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { AnimatePresence } from "framer-motion";
 import MobileNavigationBar from "../../Views/MobileNavigationBar/MobileNavigationBar";
@@ -13,12 +13,9 @@ import { largeTitleSelector } from "../../Services/SelectLargeTitle";
 import { isLoadingSelector } from "../../Services/SelectLoading";
 import TopProgressBar from "../../Views/TopProgressBar/TopProgressBar";
 import AboutPage from "../AboutPage/AboutPage";
+import SnippetPage from "../SnippetPage/SnippetPage";
 
 function HomePage() {
-  // const location = useLocation()
-  // TODO exit before enter
-  // https://www.youtube.com/watch?v=qJt-FtzJ5fo
-
   // @ts-ignore
   const title = useSelector(largeTitleSelector);
   // @ts-ignore
@@ -32,10 +29,11 @@ function HomePage() {
         <NavigationBar title={title}/>
         <AnimatePresence>
           <Switch>
-            <Route path="/" exact component={() => <></>}/>
-            <Route path="/passage" component={PassageListPage} exact />
+            <Route path={rootLink} exact component={() => <></>}/>
+            <Route path={passageLink} component={PassageListPage} exact />
             <Route path="/passage/:id" component={PassagePage} exact />
-            <Route path="/about" component={AboutPage} exact />
+            <Route path={codeSnippetLink} component={SnippetPage} exact />
+            <Route path={aboutLink} component={AboutPage} exact />
             <Route path={notFoundLink} component={NotFoundPage} exact />
             <Redirect from={"*"} to={notFoundLink} />
           </Switch>

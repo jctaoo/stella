@@ -217,7 +217,7 @@ $base-text-size: 16px;
     & > *:not(pre) > code {
       padding: 4px 8px;
       font-family: $code-font;
-      line-height: 20px; // TODO 在手机title下过矮
+      line-height: 20px;
       border-radius: 6px;
       @include lighten-high-text-background;
     }

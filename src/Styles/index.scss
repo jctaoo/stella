@@ -1,17 +1,13 @@
 @import "./Constant";
 @import "./Theme";
 
-body {
-  position: absolute;
-}
-
 #root {
   margin: 0;
   font-family: $font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 
-  // TODO 滚动条不够完美
   @media (prefers-color-scheme: dark) {
     ::-webkit-scrollbar {
       background-color: rgba(142, 142, 147, 0.28);
@@ -22,3 +18,4 @@ body {
     }
   }
 }
+

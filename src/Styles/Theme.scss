@@ -54,8 +54,6 @@ $themes: (
   )
 );
 
-// TODO Theme Transition
-
 $theme-map: null;
 $auto-theme: true;
 
@@ -103,79 +101,66 @@ $auto-theme: true;
 }
 @mixin label-link-normal-color {
   @include themefy {
-    transition: color $transition;
     color: themed("label-link-normal-color") ;
   }
 }
 @mixin label-link-high-color {
   @include themefy {
-    transition: color $transition;
     color: themed("label-link-high-color") ;
   }
 }
 @mixin label-color {
   @include themefy {
-    transition: color $transition;
     color: themed("label-color") ;
   }
 }
 @mixin label-color-border($border-key, $width, $style) {
   @include themefy {
-    transition: $border-key $transition;
     #{$border-key}: $width themed("label-color") $style ;
   }
 }
 @mixin label-color-background {
   @include themefy {
-    transition: background-color $transition;
     background-color: themed("label-color") ;
   }
 }
 @mixin label-secondary-color {
   @include themefy {
-    transition: color $transition;
     color: themed("label-secondary-color") ;
   }
 }
 @mixin label-secondary-color-underline {
   @include themefy {
-    transition: text-decoration $transition;
     text-decoration: underline themed("label-secondary-color") solid ;
   }
 }
 @mixin label-tertiary-color {
   @include themefy {
-    transition: color $transition;
     color: themed("label-tertiary-color") ;
   }
 }
 @mixin link-color {
   @include themefy {
-    transition: color $transition;
     color: themed("link-color") ;
   }
 }
 @mixin lighten-high-background-border($border-key, $width, $style) {
   @include themefy {
-    transition: $border-key $transition;
     #{$border-key}: $width themed("lighten-high-background") $style;
   }
 }
 @mixin lighten-high-background {
   @include themefy {
-    transition: background-color $transition;
     background-color: themed("lighten-high-background");
   }
 }
 @mixin lighten-high-text-background {
   @include themefy {
-    transition: background-color $transition;
     background-color: themed("lighten-high-text-background");
   }
 }
 @mixin lighten-high-row-background {
   @include themefy {
-    transition: background-color $transition;
     background-color: themed("lighten-high-row-background");
   }
 }
@@ -190,7 +175,6 @@ $auto-theme: true;
   }
 }
 @mixin transparent-text-color {
-  transition: color $transition;
   @include themefy {
     color: themed("transparent-text-color");
   }

@@ -1,8 +1,6 @@
 @import "../../Styles/Constant";
 @import "../../Styles/Theme";
 
-// TODO 协调滚动
-
 #mobile-navigation-bar.hide {
   top: -$mobile-navigation-bar-height;
 }
@@ -17,7 +15,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 10px;
-  z-index: 999;
+  z-index: 900;
   height: $mobile-navigation-bar-height;
   @include background;
 

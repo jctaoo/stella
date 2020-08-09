@@ -10,6 +10,7 @@ import { configSelector } from "../../Services/SelectConfig";
 import Config from "../../Models/Config";
 import { notFoundLink } from "../../Routes";
 import PassageDetailView from "../../Views/PassageDetailView/PassageDetailView";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 interface PassagePageRouteParams {
   id: string
@@ -34,7 +35,7 @@ function PassagePage() {
 
   return isNotFound ?
     <Redirect to={notFoundLink}/> :
-    isLoading ? (<h1>LOADING</h1>) :
+    isLoading ? (<LoadingPage/>) :
       (() => {
         const passage = currentPassage as PassageDetail;
         return (

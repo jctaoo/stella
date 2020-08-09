@@ -5,7 +5,6 @@ import { useHistory, useLocation } from "react-router";
 import { getRouteItemOfPath, rootLink } from "../../Routes";
 import RouteLabelView from "./RouteLabelView";
 
-// TODO 修复 Scoped
 function MobileNavigationBar({title}: {title: string}) {
   const history = useHistory()
   const location = useLocation();

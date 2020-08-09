@@ -1,5 +1,6 @@
 import React, { HTMLAttributes } from "react";
 import { motion } from "framer-motion";
+import "./BasePage.scss"
 
 function BasePage({children, id}: {children: any} & HTMLAttributes<HTMLDivElement>) {
   return (
@@ -8,6 +9,7 @@ function BasePage({children, id}: {children: any} & HTMLAttributes<HTMLDivElemen
       animate={{opacity:1}}
       exit={{opacity:0}}
       id={id}
+      className="base-page"
     >
       {children}
     </motion.div>

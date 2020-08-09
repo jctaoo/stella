@@ -12,3 +12,7 @@
 .top-progress-bar-hide {
   opacity: 0;
 }
+
+#top-progress-bar > div > div > div > div {
+  @include indicator-high-color;
+}

@@ -1,9 +1,6 @@
 @import "../../Styles/Constant";
 @import "../../Styles/Theme";
 
-// TODO 影响到其他地方了， 或将迁移写法 (detail: wechat 的二维码 popover)
-// TODO popover 顶部小三角颜色
-// TODO border-radius 未生效
 .ant-popover-content {
   .ant-popover-arrow {
     display: none;
