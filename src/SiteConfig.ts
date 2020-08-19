@@ -1,7 +1,6 @@
 import marked from "marked";
 import Katex from "katex";
 import Highlight from "highlight.js";
-import * as serviceWorker from "./serviceWorker";
 import "highlight.js/styles/atom-one-dark.css"
 
 export default function doSiteConfig() {
@@ -111,6 +110,4 @@ export default function doSiteConfig() {
       }
     }
   });
-  // service work
-  serviceWorker.register();
 }
