@@ -1,10 +1,10 @@
 import { createSelector } from "reselect";
 import AppState from "../Models/AppState";
-import { PassageTag } from "../Models/PassageTag";
+import { Tag } from "../Models/BaseContent";
 
-export const tagsSelector = createSelector<AppState, {}, PassageTag[], PassageTag[]>(
+export const tagsSelector = createSelector<AppState, {}, Tag[], Tag[]>(
   state => {
-    const result: PassageTag[] = [];
+    const result: Tag[] = [];
     state.passages.forEach(e => {
       e.about.tags.forEach(t => {
         if (!result.map(i => i.id).includes(t.id)) {

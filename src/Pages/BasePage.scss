@@ -4,11 +4,9 @@
 .base-page {
   flex: 1;
   position: relative;
-  @media (min-width: $middle) {
-    height: 100vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
   @media (max-width: $middle) {
     padding-left: 26px !important;
     padding-right: 26px !important;

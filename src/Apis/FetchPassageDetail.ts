@@ -1,5 +1,4 @@
-import PassageDetail from "../Models/PassageDetail";
-import { demoPassageAbbrs } from "../Models/PassageAbbr";
+import { demoPassageAbbrs, PassageDetail } from "../Models/Passage";
 import DemoText from "../Resources/Text/DemoText";
 
 // TODO

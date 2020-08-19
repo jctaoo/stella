@@ -2,13 +2,11 @@ import marked from "marked";
 import Katex from "katex";
 import Highlight from "highlight.js";
 import * as serviceWorker from "./serviceWorker";
-import store from "./Store";
-import { DEFAULT_HIGHLIGHT_THEME } from "./Constant";
 import "highlight.js/styles/atom-one-dark.css"
 
 export default function doSiteConfig() {
   // highlight.js
-  const theme = store.getState().config.code.highlightThemeName ?? DEFAULT_HIGHLIGHT_THEME;
+  // const theme = store.getState().config.code.highlightThemeName ?? DEFAULT_HIGHLIGHT_THEME;
 
   // Pass dynamic theme
 
@@ -28,6 +26,7 @@ export default function doSiteConfig() {
         // use original renderer
         return false;
       },
+      // @ts-ignore
       paragraph(text: string) {
         if (text.trim().startsWith("$$") && text.trim().endsWith("$$")) {
           let raw = text.trim();

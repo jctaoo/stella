@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./PassageListPage.scss"
 import PassageItemView from "../../Views/PassageItemView/PassageItemView";
 import BasePage from "../BasePage";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 import AppState from "../../Models/AppState";
-import { motion } from "framer-motion";
-import PassageAbbr from "../../Models/PassageAbbr";
-import { useHistory, useRouteMatch } from "react-router";
+import PassageAbbr from "../../Models/Passage";
+import { useHistory } from "react-router";
 import { categoriesSelector } from "../../Services/SelectCategories";
-import { passageLink, routeToPassageListWithFilter } from "../../Routes";
-import PassageFilterView from "./PassageFilterView";
+import { routeToPassageListWithFilter } from "../../Routes";
+import FilterView from "../../Views/FilterView/FilterView";
 import { useFilter } from "../../Services/UseFilter";
-import { PassageTag } from "../../Models/PassageTag";
 import { tagsSelector } from "../../Services/SelectTags";
-
-interface PassageListPageTagRouteParams {
-  tag: string
-}
-interface PassageListPageCategoryRouteParams {
-  category: string
-}
+import { Tag } from "../../Models/BaseContent";
 
 function PassageListPage() {
   const history = useHistory();
@@ -54,22 +46,17 @@ function PassageListPage() {
     routeToPassageListWithFilter(history, { tag: tagFilter, category: category });
   }
 
-  const goToTag = (tag: PassageTag) => {
+  const goToTag = (tag: Tag) => {
     console.log("tag")
     routeToPassageListWithFilter(history, { tag: tag.title, category: categoryFilter });
   }
 
   return (
     <BasePage id="passage-list-page">
-      <motion.div
-        initial={{translateY:500}}
-        animate={{translateY:0}}
-        exit={{translateY:500}}
-        className="passage-list-container"
-      >
+      <div className="passage-list-container">
         { /* 若需要隐藏 passage-list-title 则应用 passage-list-title-hide class */ }
         <span className="passage-list-title">
-          <PassageFilterView
+          <FilterView
             content={categoryFilter ? categoryFilter : "所有"}
             description={"分类的内容"}
             cancelButtonTitle={"取消"}
@@ -79,7 +66,7 @@ function PassageListPage() {
             itemSelected={category => category.toLowerCase() === categoryFilter?.toLowerCase()}
             itemTitle={category => category}
           />
-          <PassageFilterView
+          <FilterView
             content={tagFilter ? tagFilter : "所有"}
             description={"标签的内容"}
             cancelButtonTitle={"取消"}
@@ -90,14 +77,14 @@ function PassageListPage() {
             itemTitle={tag => tag.title}
           />
         </span>
-        <div className="passage-list" key="passage-list">
+        <div className="passage-list">
           {
             passages.map(item => (
               <PassageItemView passage={item} key={item.identifier}/>
             ))
           }
         </div>
-      </motion.div>
+      </div>
     </BasePage>
   )
 }

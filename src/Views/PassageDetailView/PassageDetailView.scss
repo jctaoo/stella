@@ -37,6 +37,18 @@ $base-text-size: 16px;
     }
   }
 
+  .passage-content-container, .partial {
+    h1, h2, h3, h4, h5, h6, p, li {
+      // #TODO
+      @include themefy {
+        color: themed("label-secondary-color") !important;
+      }
+    }
+    p {
+      margin-bottom: 10px !important;
+    }
+  }
+
   .passage-content-container {
     margin-top: 49px;
     width: 100%;

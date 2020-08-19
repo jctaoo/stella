@@ -1,9 +1,9 @@
 import React from "react";
 import Popover from "antd/lib/popover";
-import "./PassageFilterView.scss";
+import "./FilterView.scss";
 import List from "antd/lib/list";
 
-interface PassageFilterViewProps<T> {
+interface FilterViewProps<T> {
   content?: string
   description: string
   cancelButtonTitle?: string
@@ -14,11 +14,11 @@ interface PassageFilterViewProps<T> {
   itemTitle: (item: T) => string
 }
 
-function PassageFilterView<T>(props: PassageFilterViewProps<T>) {
+function FilterView<T>(props: FilterViewProps<T>) {
   return (
       <span className="passage-filter-view">
       <Popover content={
-        <CategoryTagList
+        <FilterViewList
           dataSource={props.dataSource}
           onItemSelected={props.onItemSelected}
           itemSelected={props.itemSelected}
@@ -39,14 +39,14 @@ function PassageFilterView<T>(props: PassageFilterViewProps<T>) {
   );
 }
 
-interface CategoryTagListProps<T> {
+interface FilterViewListProps<T> {
   dataSource: T[]
   onItemSelected: (item: T) => void
   itemSelected: (item: T) => boolean
   itemTitle: (item: T) => string
 }
 
-function CategoryTagList<T>(props: CategoryTagListProps<T>) {
+function FilterViewList<T>(props: FilterViewListProps<T>) {
   return (
     <div className="navigation-link-popover">
       <List
@@ -74,4 +74,4 @@ function CategoryTagList<T>(props: CategoryTagListProps<T>) {
   );
 }
 
-export default PassageFilterView;
+export default FilterView;

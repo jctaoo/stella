@@ -4,13 +4,13 @@ import { Redirect, useRouteMatch } from "react-router";
 import BasePage from "../BasePage";
 import { useDispatch, useSelector } from "react-redux";
 import { createFetchPassageDetailAction, currentPassageSelector } from "../../Services/FetchPassageDetail";
-import PassageDetailState, { isPassageDetailState } from "../../Models/PassageDetailState";
-import PassageDetail from "../../Models/PassageDetail";
 import { configSelector } from "../../Services/SelectConfig";
 import Config from "../../Models/Config";
 import { notFoundLink } from "../../Routes";
 import PassageDetailView from "../../Views/PassageDetailView/PassageDetailView";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import { ContentDetailState, isContentDetailState } from "../../Models/BaseContent";
+import { PassageDetail } from "../../Models/Passage";
 
 interface PassagePageRouteParams {
   id: string
@@ -25,8 +25,8 @@ function PassagePage() {
   const currentPassage = useSelector(currentPassageSelector);
   // @ts-ignore
   const config: Config = useSelector(configSelector);
-  const isNotFound = currentPassage === PassageDetailState.notfound
-  const isLoading = isPassageDetailState(currentPassage) || !currentPassage;
+  const isNotFound = currentPassage === ContentDetailState.notfound
+  const isLoading = isContentDetailState(currentPassage) || !currentPassage;
 
   // 获取数据
   useEffect(() => {

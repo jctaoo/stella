@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { currentPassageSelector } from "../../Services/FetchPassageDetail";
 import Config from "../../Models/Config";
 import { configSelector } from "../../Services/SelectConfig";
-import { isPassageDetailState } from "../../Models/PassageDetailState";
-import PassageDetail from "../../Models/PassageDetail";
 import { createFetchAboutAction } from "../../Services/FetchAbout";
 import PassageDetailView from "../../Views/PassageDetailView/PassageDetailView";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import { isContentDetailState } from "../../Models/BaseContent";
+import { PassageDetail } from "../../Models/Passage";
 
 function AboutPage() {
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ function AboutPage() {
   const currentPassage = useSelector(currentPassageSelector);
   // @ts-ignore
   const config: Config = useSelector(configSelector);
-  const isLoading = isPassageDetailState(currentPassage) || !currentPassage;
+  const isLoading = isContentDetailState(currentPassage) || !currentPassage;
 
   // 获取数据
   useEffect(() => {

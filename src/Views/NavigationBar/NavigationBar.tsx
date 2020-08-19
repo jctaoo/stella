@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './NavigationBar.scss'
 import NavigationLink from "./NavigationLink";
 import MediaInformationView from "../MediaInformationView/MediaInformationView";
@@ -8,15 +8,9 @@ import {
   notFoundLink,
   passageLink,
   rootLink,
-  routeLinks, routeToPassageListWithFilter,
+  routeLinks,
 } from "../../Routes";
-import Popover from "antd/lib/popover";
-import List from "antd/lib/list";
-import { PassageTag } from "../../Models/PassageTag";
-import { useSelector } from "react-redux";
-import { tagsSelector } from "../../Services/SelectTags";
-import { categoriesSelector } from "../../Services/SelectCategories";
-import { useFilter } from "../../Services/UseFilter";
+import { motion } from "framer-motion";
 
 function NavigationBar({title}: {title: string}) {
   const history = useHistory()
@@ -33,7 +27,13 @@ function NavigationBar({title}: {title: string}) {
   const isHome = location.pathname === rootLink
 
   return (
-    <div id="navigation-bar" className={!isHome ? "navigation-bar-shrink" : ""}>
+    <motion.div
+      initial={{opacity:0}}
+      animate={{opacity:1}}
+      exit={{opacity:0}}
+      id="navigation-bar"
+      className={!isHome ? "navigation-bar-shrink" : ""}
+    >
       <div id="navigation-bar-content">
         <h1 id="blog-name-label" onClick={goToHome}>{title}</h1>
         <ul id="links-list">
@@ -56,7 +56,7 @@ function NavigationBar({title}: {title: string}) {
         </ul>
         <MediaInformationView className="navigation-bar-media-info"/>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

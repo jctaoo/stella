@@ -1,15 +1,24 @@
-import React from "react";
-import PassageDetail from "../../Models/PassageDetail";
+import React, { HTMLAttributes } from "react";
 import PassageTitleView from "../PassageTitleView/PassageTitleView";
 import PassageAboutView from "../PassageAboutView/PassageAboutView";
 import marked from "marked";
 import { DiscussionEmbed } from "disqus-react";
 import { DiscusConfig } from "../../Models/Config";
 import "./PassageDetailView.scss";
+import { PassageDetail } from "../../Models/Passage";
+import { BaseContentDetail } from "../../Models/BaseContent";
 
-function PassageDetailView({passage, disqusConfig}: {passage: PassageDetail, disqusConfig?: DiscusConfig}) {
+export enum PassageDetailViewMode {
+  Full,
+  Partial
+}
+
+function PassageDetailView(
+  {passage, disqusConfig, mode = PassageDetailViewMode.Full, className}:
+    {passage: BaseContentDetail, disqusConfig?: DiscusConfig, mode?: PassageDetailViewMode} & HTMLAttributes<any>
+) {
   return (
-    <div className="passage-container">
+    <div className={`passage-container ${className ? className : ""}`}>
       {
         !!passage.topImage ?
           <img src={passage.topImage} className="passage-top-image" /> :
@@ -23,19 +32,37 @@ function PassageDetailView({passage, disqusConfig}: {passage: PassageDetail, dis
         }
         <div className="passage-title">
           <PassageTitleView title={passage.item.title}/>
-          <PassageAboutView
-            updateTimes={passage.item.about.updateTimes}
-            tags={passage.item.about.tags}
-            readTime={passage.item.about.readTime}
-          />
+          {
+            PassageDetailViewMode.Full !== mode ?
+              <></> :
+              <PassageAboutView
+                updateTimes={passage.item.about.updateTimes}
+                tags={passage.item.about.tags}
+                readTime={passage.item.about.readTime}
+              />
+          }
         </div>
       </div>
       <div
-        className="passage-content-container"
+        className={`
+          passage-content-container 
+          ${mode === PassageDetailViewMode.Partial ? "partial" : ""}
+        `}
         dangerouslySetInnerHTML={{__html: marked(passage.markdownRaw)}}
+        style={{
+          marginTop: PassageDetailViewMode.Full !== mode ? 22 : undefined,
+        }}
       />
+      { PassageDetailViewMode.Full === mode ?
+        <></> :
+        <PassageAboutView
+          updateTimes={passage.item.about.updateTimes}
+          tags={passage.item.about.tags}
+          readTime={passage.item.about.readTime}
+        />
+      }
       {
-        !!disqusConfig ?
+        (!!disqusConfig && mode === PassageDetailViewMode.Full) ?
           <div className="passage-comment-container">
             <DiscussionEmbed
               shortname={disqusConfig.shortName}

@@ -1,20 +1,20 @@
-import PassageDetailState from "../Models/PassageDetailState";
 import { createUpdateCurrentPassageDetailStateAction } from "./FetchPassageDetail";
 import { Dispatch } from "redux";
 import fetchAbout from "../Apis/FetchAbout";
+import { ContentDetailState } from "../Models/BaseContent";
 
 export function createFetchAboutAction() {
   return async (dispatch: Dispatch) => {
-    dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.loading));
+    dispatch(createUpdateCurrentPassageDetailStateAction(ContentDetailState.loading));
     try {
       const result = await fetchAbout();
       if (result) {
         dispatch(createUpdateCurrentPassageDetailStateAction(result));
       } else {
-        dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.notfound));
+        dispatch(createUpdateCurrentPassageDetailStateAction(ContentDetailState.notfound));
       }
     } catch (e) {
-      dispatch(createUpdateCurrentPassageDetailStateAction(PassageDetailState.fail));
+      dispatch(createUpdateCurrentPassageDetailStateAction(ContentDetailState.fail));
     }
   }
 }

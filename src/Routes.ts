@@ -11,7 +11,7 @@ export const rootLink = "/"
 export const notFoundLink = "/not-found"
 export const passageLink = "/passage"
 export const aboutLink = "/about"
-export const codeSnippetLink = "/code-snippet"
+export const codeSnippetLink = "/snippets"
 
 export const routeLinks: RouteItem[] = [
   {title: "blog", link: passageLink, special: false},

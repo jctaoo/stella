@@ -1,7 +1,6 @@
 import React from "react";
 import "./TopProgressBar.scss";
 import Progress from "antd/lib/progress";
-// import StyleConstant from "../../Styles/Constant.scss";
 
 function TopProgressBar({show}: {show: boolean}) {
   return (

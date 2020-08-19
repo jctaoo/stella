@@ -4,7 +4,8 @@ import thunk from "redux-thunk";
 import { UPDATE_PASSAGE_DETAIL_STATE } from "./Services/ActionTypes";
 import { UpdateCurrentPassageDetailAction } from "./Services/FetchPassageDetail";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { demoPassageAbbrs } from "./Models/PassageAbbr";
+import { demoPassageAbbrs } from "./Models/Passage";
+import { demoSnippetsAbbrs } from "./Models/Snippet";
 
 function appReducer(state: AppState | undefined = initialState, action: Action<symbol>): AppState {
   if (action.type === UPDATE_PASSAGE_DETAIL_STATE) {
@@ -30,6 +31,7 @@ const initialState: AppState = {
     },
   },
   passages: demoPassageAbbrs,
+  snippets: demoSnippetsAbbrs,
 };
 
 const store = createStore(appReducer, composeWithDevTools(

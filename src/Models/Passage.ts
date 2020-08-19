@@ -1,10 +1,11 @@
-import { PassageAbout } from "./PassageAbout";
+import { BaseContentAbbr, BaseContentDetail } from "./BaseContent";
 
-export default interface PassageAbbr {
-  identifier: string
-  title: string
-  abbr: string
-  about: PassageAbout
+export default interface PassageAbbr extends BaseContentAbbr {
+
+}
+
+export interface PassageDetail extends BaseContentDetail {
+
 }
 
 export const demoAboutAbbr: PassageAbbr = {
@@ -18,7 +19,7 @@ export const demoAboutAbbr: PassageAbbr = {
     category: "about"
   }
 }
-export const demoPassageAbbrs = [
+export const demoPassageAbbrs: PassageAbbr[] = [
   {
     identifier: "0",
     title: "利用快速傅立叶转换求卷积",

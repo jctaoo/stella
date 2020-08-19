@@ -124,9 +124,9 @@ $auto-theme: true;
     background-color: themed("label-color") ;
   }
 }
-@mixin label-secondary-color {
+@mixin label-secondary-color() {
   @include themefy {
-    color: themed("label-secondary-color") ;
+    color: themed("label-secondary-color");
   }
 }
 @mixin label-secondary-color-underline {
