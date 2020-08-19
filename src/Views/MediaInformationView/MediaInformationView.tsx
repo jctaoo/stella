@@ -2,6 +2,10 @@ import React from "react"
 import "./MediaInformationView.scss"
 import Popover from 'antd/lib/popover'
 import WechatQRCode from "../../Resources/Images/wechat-qr.png"
+import SocialMedia from "../../Models/SocialMedia";
+import { useSelector } from "react-redux";
+import AppState from "../../Models/AppState";
+import PassageAbbr from "../../Models/Passage";
 
 function MediaInformationView({className = ""}: {className?: String}) {
   const items: { name: String, link: String }[] = [
@@ -12,19 +16,22 @@ function MediaInformationView({className = ""}: {className?: String}) {
     {name: "wechat", link: ""},
   ]
 
+
+  let medias = useSelector<AppState, SocialMedia[]>(state => state.socialMedias);
+
   return (
     <ul className={`contact-list ${className}`}>
       {
-        items.map(({name, link}, index) =>
-          <a href={`${link}`} className="contact-list-item " key={index}>
+        medias.map(item =>
+          <a href={`${item.link}`} className="contact-list-item " key={item.identifier}>
             {
-              name !== "wechat" ?
-                <span className={`icon-${name}`}/> :
+              !!item.imageName ?
                 <Popover placement={"bottom"} content={
-                  <img src={WechatQRCode} alt=""/>
+                  <img src={item.imageName} alt=""/>
                 }>
-                  <span className={`icon-${name}`}/>
-                </Popover>
+                  <span className={`icon-${item.iconName}`}/>
+                </Popover> :
+                <span className={`icon-${item.iconName}`}/>
             }
           </a>
         )

@@ -32,6 +32,13 @@ const initialState: AppState = {
   },
   passages: demoPassageAbbrs,
   snippets: demoSnippetsAbbrs,
+  socialMedias: [
+    {identifier: "1", iconName: "bilibili", title: "bilibili", link: "https://space.bilibili.com/155950817"},
+    {identifier: "2", iconName: "github", title: "github", link: "https://github.com/jctaoo"},
+    {identifier: "3", iconName: "mail", title: "mail", link: "mailto:jctaoo@outlook.com"},
+    {identifier: "4", iconName: "twitter", title: "twitter", link: ""},
+    {identifier: "5", iconName: "wechat", title: "wechat", link: ""},
+  ],
 };
 
 const store = createStore(appReducer, composeWithDevTools(
