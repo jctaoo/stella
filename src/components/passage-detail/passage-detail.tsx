@@ -16,6 +16,7 @@ function PassageDetail(
   {passage, disqusConfig, mode = PassageDetailViewMode.Full, className}:
     {passage: BaseContentDetail, disqusConfig?: DiscusConfig, mode?: PassageDetailViewMode} & HTMLAttributes<any>
 ) {
+  console.log(passage.topImage)
   return (
     <div className={`passage-container ${className ? className : ""}`}>
       {

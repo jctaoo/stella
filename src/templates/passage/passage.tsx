@@ -40,6 +40,8 @@ export const query = graphql`
       edges {
         node {
           content
+          topImage
+          circleImage
           item {
             abbr
             identifier

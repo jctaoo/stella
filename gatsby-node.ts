@@ -89,11 +89,12 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
           readTime: calculateReadingTimeFromMarkdown(markdownContent),
         }
       }
+      // # TODO 完善空字段处理 https://github.com/gatsbyjs/gatsby/issues/6800
       const passageDetail: PassageDetail = {
         item: passageAbbr,
         content: markdownContent,
-        topImage: yaml.topImage ?? null,
-        circleImage: yaml.circleImage ?? null,
+        topImage: yaml.topImage ?? "",
+        circleImage: yaml.circleImage ?? "",
       }
       abbrs.push(passageAbbr);
       details.push(passageDetail);
