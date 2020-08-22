@@ -1,8 +1,7 @@
 import React, {HTMLAttributes} from 'react';
-import doSiteConfig from "./SiteConfig";
 
-import './Styles/index.scss';
-import './Styles/Font.css';
+import './styles/index.scss';
+import './styles/font.scss';
 import 'antd/dist/antd.css'
 import 'katex/dist/katex.min.css';
 
@@ -15,7 +14,6 @@ interface HtmlProps {
   body: string
 }
 
-doSiteConfig();
 export default function HTML(props: HtmlProps) {
   return (
     <html {...props.htmlAttributes}>
@@ -26,6 +24,7 @@ export default function HTML(props: HtmlProps) {
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
       />
+      <title>Set Title Please</title>
       {props.headComponents}
     </head>
     <body {...props.bodyAttributes}>

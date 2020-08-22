@@ -1,29 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "target": "es2018",
+    "jsx": "react",
+    "allowJs": true,
+    "lib": ["dom", "es2015", "es2017"],
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true
   },
+  "exclude": ["./node_modules", "./public", "./.cache"],
   "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
+    "./src/**/*"
   ]
 }

@@ -1,3 +1,6 @@
-module.exports = {
-  plugins: ['gatsby-plugin-sass']
-}
+'use strict'
+
+require('source-map-support').install();
+require('ts-node').register();
+
+module.exports = require('./gatsby-config.ts');
