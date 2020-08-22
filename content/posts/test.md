@@ -2,12 +2,13 @@
 category: 测试分类
 title: 测试文档
 tags:
-    - t1
-    - t2
+  - t1
+  - t2
 identifier: enlace-documentation
+abbr: 这里是缩写，轻易地扩展任何组件、降低应用程序的耦合度、让维护与调试变得简单
 ---
 <div align="center">
-  <img src="./docs/.vuepress/public/logo.png" width=200px height=200px/>
+  <img src="https://github.com/jctaoo/enlace/raw/develop/docs/.vuepress/public/logo.png" width=200px height=200px/>
    <h1 align="center">Enlace</h1>
    <h2 align="center">基于Deno和Typescript处理连接的服务端框架</h2>
    <h5 align="center">⚠️Enlace正在开发中</h5>

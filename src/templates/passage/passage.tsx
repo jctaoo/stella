@@ -1,56 +1,26 @@
 import React from "react"
 import "./PassagePage.scss"
-import { graphql, useStaticQuery } from "gatsby";
+import { graphql, PageProps, useStaticQuery } from "gatsby";
 import { PassageDetail } from "../../models/passage-content";
 import PassageDetailView from "../../components/passage-detail/passage-detail";
 import Config from "../../models/config";
 import BasePage from "../../layout/base-page/base-page";
 import { Redirect } from "@reach/router";
+import { NodeData, getNodesFromNodeData } from "../../models/node-data";
 
 interface PassagePageData {
-  passage: PassageDetail[]
+  allPassageDetail: NodeData<PassageDetail>
   site: { siteMetadata: { config: Config } }
 }
 
-export default function PassagePage() {
+export default function PassagePage(props: PageProps<PassagePageData>) {
+  console.log(props.data)
 
-  const data = useStaticQuery<PassagePageData>(graphql`
-    {
-      allPassagesDetail {
-        item {
-          identifier
-          title
-          abbr
-          about {
-            updateTimes
-            tags {
-              id
-              title
-            }
-            category
-            readTime
-          }
-        }
-        content
-        topImage
-        circleImage
-      }
-      site {
-        siteMetadata {
-          config {
-            discus {
-              shortName
-            }
-          }
-        }
-      }
-    }
-  `);
+  const matchedPassages = getNodesFromNodeData(props.data.allPassageDetail)
+  const currentPassage = matchedPassages.length > 0 ? matchedPassages[0] : undefined;
+  const config = props.data.site.siteMetadata.config.discus;
 
-  const currentPassage = data.passage[0];
-  const config = data.site.siteMetadata.config.discus;
-
-  const isNotFound = !!currentPassage
+  const isNotFound = !currentPassage
 
   return isNotFound ?
     <Redirect noThrow to={"/404"}/> :
@@ -63,3 +33,38 @@ export default function PassagePage() {
       );
     })()
 }
+
+export const query = graphql`
+  query($identifier: String!) {
+    allPassageDetail(filter: {item: {identifier: {eq: $identifier}}}) {
+      edges {
+        node {
+          content
+          item {
+            abbr
+            identifier
+            title
+            about {
+              category
+              readTime
+              updateTimes
+              tags {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+    site {
+      siteMetadata {
+        config {
+          discus {
+            shortName
+          }
+        }
+      }
+    }
+  }
+`;

@@ -1,7 +1,4 @@
-import { CreateResolversArgs, CreateSchemaCustomizationArgs } from "gatsby";
-import marked from "marked";
-import Katex from "katex";
-import * as Highlight from "highlight.js";
+import { CreatePagesArgs, CreateResolversArgs, CreateSchemaCustomizationArgs, SourceNodesArgs } from "gatsby";
 import * as fs from "fs";
 import * as path from "path";
 import YAML from "yaml";
@@ -9,104 +6,21 @@ import { PassageAbbr, PassageDetail } from "./src/models/passage-content";
 import crypto from "crypto";
 import { MarkdownInfo } from "./src/models/markdown-info";
 import { Tag } from "./src/models/base-content";
+import { NodeData } from "./src/models/node-data";  
+import { SnippetAbbr } from "./src/models/snippet-content";
+
+// #TODO 将 markdown 翻译 html 在 准备阶段执行
 
 export const createResolvers = async (args: CreateResolversArgs) => {
-  const baseDir = path.resolve(__dirname, "content", "posts")
-  const dir = await fs.promises.readdir(baseDir);
-  const moreSymbol = "<--- more --->"
-
-  const abbrs: PassageAbbr[] = [];
-  const details: PassageDetail[] = [];
-  let tags: Tag[] = [];
-  let categories: string[] = [];
-
-  for (const name of dir) {
-    const item = await fs.promises.readFile(path.resolve(baseDir, name));
-    const stat = await fs.promises.stat(path.resolve(baseDir, name));
-
-    const content = item.toString();
-    const regx = /^---\n([\s\S]*?)---\n/;
-    const matchResult = content.match(regx);
-    if (matchResult) {
-      const yaml: MarkdownInfo = YAML.parse(matchResult[1]);
-      const markdown = content.slice((matchResult.index ?? 0) + matchResult[0].length);
-      let abbr: string | undefined = undefined;
-      let markdownContent = markdown;
-      let identifier = yaml.identifier ?? toMD5(yaml.title);
-      if (markdown.includes(moreSymbol)) {
-        abbr = markdown.split(moreSymbol)[0];
-        markdownContent = markdown.split(moreSymbol)[1];
-      }
-      // # TODO 实现多 updateTimes
-      const passageAbbr: PassageAbbr = {
-        identifier: identifier,
-        title: yaml.title,
-        abbr: abbr,
-        about: {
-          updateTimes: [stat.mtime],
-          tags: yaml.tags.map(t => ({ id: toMD5(t), title: t })),
-          category: yaml.category,
-          readTime: 1000 * 100 * 60,
-        }
-      }
-      const passageDetail: PassageDetail = {
-        item: passageAbbr,
-        content: markdownContent,
-        topImage: yaml.topImage,
-        circleImage: yaml.circleImage,
-      }
-      abbrs.push(passageAbbr);
-      details.push(passageDetail);
-      tags = tags.concat(passageAbbr.about.tags);
-      if (passageAbbr.about.category) {
-        categories.push(passageAbbr.about.category);
-      }
-    }
-  }
-
-  tags = Array.from(new Set(tags));
-  categories = Array.from(new Set(categories));
-
+  // #TODO 基于 Gatsby Node 构建
   const resolvers = {
     Query: {
-      allPassagesDetail: {
-        type: ['ContentDetail'],
-        resolve: (source: any, args: any, context: any, info: any) => {
-          return details;
-        }
-      },
-      allPassages: {
-        type: ['ContentAbbr'],
-        resolve: async (source: any, args: any, context: any, info: any) => {
-          return abbrs;
-        }
-      },
       about: {
         type: ['ContentDetail'],
         resolve: (source: any, args: any, context: any, info: any) => {
           return null
         }
       },
-      allTags: {
-        type: ['Tag'],
-        resolve: (source: any, args: any, context: any, info: any) => {
-          return tags;
-        }
-      },
-      allCategories: {
-        type: ['String'],
-        resolve: (source: any, args: any, context: any, info: any) => {
-          return categories;
-        }
-      },
-      allSnippets: {
-        type: ['ContentAbbr'],
-        resolve: (source: any, args: any, context: any, info: any) => {
-          return [
-
-          ]
-        }
-      }
     }
   }
   args.createResolvers(resolvers)
@@ -134,125 +48,199 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
       category: String
       readTime: Int
     }
-    type Tag {
-      id: String!
-      title: String!
-    }
-    type SocialMedia {
-      identifier: String!
-      iconName: String!
-      title: String!
-      link: String
-      imageName: String
-    }
   `;
   createTypes(typeDefs);
+}
+
+export const sourceNodes = async (args: SourceNodesArgs) => {
+  const yamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
+  const codeSnippetRegx = /```.*?\n[\s\S]*?```\n{0,1}/;
+
+  // read posts
+  const baseDir = path.resolve(__dirname, "content", "posts")
+  const dir = await fs.promises.readdir(baseDir);
+
+  const abbrs: PassageAbbr[] = [];
+  const details: PassageDetail[] = [];
+  let tags: Tag[] = [];
+  let categories: string[] = [];
+
+  for (const name of dir) {
+    const item = await fs.promises.readFile(path.resolve(baseDir, name));
+    const stat = await fs.promises.stat(path.resolve(baseDir, name));
+
+    const content = item.toString();
+    const matchResult = content.match(yamlRegx);
+    if (matchResult) {
+      const yaml: MarkdownInfo = YAML.parse(matchResult[1]);
+      const markdown = content.slice((matchResult.index ?? 0) + matchResult[0].length);
+      let abbr = yaml.abbr;
+      let markdownContent = markdown;
+      let identifier = yaml.identifier ?? toMD5(yaml.title);
+      // # TODO 实现多 updateTimes
+      const passageAbbr: PassageAbbr = {
+        identifier: identifier,
+        title: yaml.title,
+        abbr: abbr,
+        about: {
+          updateTimes: [stat.mtime],
+          tags: yaml.tags.map(t => ({ id: toMD5(t), title: t })),
+          category: yaml.category,
+          readTime: calculateReadingTimeFromMarkdown(markdownContent),
+        }
+      }
+      const passageDetail: PassageDetail = {
+        item: passageAbbr,
+        content: markdownContent,
+        topImage: yaml.topImage ?? null,
+        circleImage: yaml.circleImage ?? null,
+      }
+      abbrs.push(passageAbbr);
+      details.push(passageDetail);
+      tags = tags.concat(passageAbbr.about.tags);
+      if (passageAbbr.about.category) {
+        categories.push(passageAbbr.about.category);
+      }
+    }
+  }
+
+  tags = Array.from(new Set(tags));
+  categories = Array.from(new Set(categories));
+
+  tags.forEach(tag => {
+    args.actions.createNode({
+      ...tag,
+      id: args.createNodeId(tag.id),
+      internal: {
+        type: 'Tag',
+        contentDigest: args.createContentDigest(tag)
+      }
+    });
+  });
+  categories.forEach(category => {
+    args.actions.createNode({
+      id: args.createNodeId(category),
+      internal: {
+        type: 'Category',
+        contentDigest: args.createContentDigest(category),
+        content: category,
+      }
+    });
+  })
+  abbrs.forEach(abbr => {
+    args.actions.createNode({
+      ...abbr,
+      id: args.createNodeId(abbr.identifier + "passage"),
+      internal: {
+        type: 'Passage',
+        contentDigest: args.createContentDigest(abbr),
+      }
+    });
+  });
+  details.forEach(detail => {
+    args.actions.createNode({
+      ...detail,
+      id: args.createNodeId(detail.item.identifier + "detail"),
+      internal: {
+        type: 'PassageDetail',
+        contentDigest: args.createContentDigest(detail),
+      }
+    });
+  });
+
+  // read snippets 
+  const snippetsDirName = path.resolve(__dirname, "content", "snippets")
+  const snippetsDir = await fs.promises.readdir(snippetsDirName);
+  
+  const snippets: SnippetAbbr[] = [];
+
+  for (const item of snippetsDir) {
+    const content = (await fs.promises.readFile(path.resolve(snippetsDirName, item))).toString();
+    const stat = await fs.promises.stat(path.resolve(snippetsDirName, item));
+
+    const matchResult = content.match(yamlRegx);
+    const codeMatchResult = content.match(codeSnippetRegx);
+
+    if (matchResult && codeMatchResult) {
+      const yaml: MarkdownInfo = YAML.parse(matchResult[1]);
+      const codeSnippet = codeMatchResult[0];
+      const abbr = content.slice((codeMatchResult.index ?? 0) + codeMatchResult[0].length);
+      
+      let identifier = yaml.identifier ?? toMD5(yaml.title);
+      // # TODO 实现多 updateTimes
+      const snippet: SnippetAbbr = {
+        identifier: identifier,
+        title: yaml.title,
+        abbr: abbr,
+        codeRaw: codeSnippet,
+        about: {
+          updateTimes: [stat.mtime],
+          tags: yaml.tags.map(t => ({ id: toMD5(t), title: t })),
+          category: yaml.category,
+        }
+      }
+      snippets.push(snippet);
+    }
+  }
+
+  snippets.forEach(snippet => {
+    args.actions.createNode({
+      ...snippet,
+      id: args.createNodeId(snippet.identifier + "snippet"),
+      internal: {
+        type: 'Snippet',
+        contentDigest: args.createContentDigest(snippet),
+      }
+    });
+  });
+
+}
+
+interface CreatePagesData {
+  allPassage: NodeData<PassageAbbr>
+}
+
+export const createPages = async (args: CreatePagesArgs) => {
+  const result = await args.graphql<CreatePagesData>(`
+    {
+      allPassage {
+        edges {
+          node {
+            identifier
+            title
+            abbr
+            about {
+              updateTimes
+              tags {
+                id
+                title
+              }
+              category
+              readTime
+            }
+          }
+        }
+      }
+    }
+  `)
+  result.data?.allPassage.edges.forEach(item => {
+    args.actions.createPage({
+      path: `/passage/${item.node.identifier}`,
+      component: path.resolve(__dirname, 'src', 'templates', 'passage', 'passage.tsx'),
+      context: {
+        identifier: item.node.identifier,
+      }
+    });
+  });
+}
+
+const calculateReadingTimeFromMarkdown = (markdown: string): number => {
+  const WORDS_PER_MINUTE = 200;
+  const regex=/\w+/g;
+  return Math.ceil(markdown.match(regex)?.length ?? 0 / WORDS_PER_MINUTE) * 1000;
 }
 
 const toMD5 = (arg: string): string => {
   const hash = crypto.createHash("md5");
   return hash.update(arg).digest("hex");
 };
-
-const configMarked = () => {
-  marked.setOptions({
-    breaks: true,
-    gfm: true,
-  })
-  marked.use({
-    // @ts-ignore
-    renderer: {
-      // @ts-ignore
-      listitem(text, task) {
-        if (task) {
-          return `<li class="task-list-item">${text}</li>\n`;
-        }
-        // use original renderer
-        return false;
-      },
-      // @ts-ignore
-      paragraph(text: string) {
-        if (text.trim().startsWith("$$") && text.trim().endsWith("$$")) {
-          let raw = text.trim();
-          raw = raw.slice(2, raw.length - 2);
-          const result = Katex.renderToString(raw, {throwOnError: false});
-          return `<span class="latex">${result}</span>`;
-        }
-        return false;
-      },
-      code(code, language) {
-        const container = document.createElement('div');
-        container.className = "code-container";
-
-        const coloredBlock = document.createElement('div');
-        coloredBlock.className = "colored-block"
-
-        const lineBlock = document.createElement('div');
-        lineBlock.className = "code-lines-block";
-
-        const lines = code.split('\n');
-        const newLines: string[] = [];
-        const countOfLines = lines.length;
-        for (let i = 0; i < countOfLines; i ++) {
-          const line = lines[i];
-
-          const numberBlock = document.createElement('span');
-          numberBlock.innerText = (i + 1).toString();
-          numberBlock.className = "code-lines-block-item hljs-comment";
-
-          const coloredItemBlock = document.createElement('span');
-          let newline = line;
-          const isAdd = line.startsWith('+');
-          const isDelete = line.startsWith('-');
-          if (isAdd || isDelete) {
-            coloredItemBlock.className = `colored-block-item colored-block-item-colored-${isAdd ? "add" : "delete"}`;
-            newline = ' ' + newline.slice(1, newline.length);
-          } else {
-            coloredItemBlock.className = "colored-block-item";
-          }
-          newLines.push(newline);
-
-          coloredBlock.appendChild(coloredItemBlock);
-          lineBlock.appendChild(numberBlock);
-        }
-        const newCode = newLines.join("\n");
-
-        container.appendChild(lineBlock);
-
-        const preEle = document.createElement('pre');
-        let codeEle = document.createElement('code');
-        if (language) {
-          codeEle.className = "language-" + language
-        }
-        preEle.appendChild(codeEle);
-        codeEle.innerHTML = newCode;
-        Highlight.highlightBlock(preEle);
-        codeEle = preEle.firstChild! as HTMLElement;
-
-        container.appendChild(codeEle);
-
-        const newPreEle = document.createElement('pre');
-        newPreEle.className = preEle.className;
-
-        newPreEle.appendChild(coloredBlock);
-        newPreEle.appendChild(container);
-
-        return newPreEle.outerHTML;
-      },
-      table(header: string, body: string) {
-        const bodyRows = body.split("<tr>").filter((t) => t !== "")
-        const oddClassName = "body-odd-row"
-        const evenClassName = "body-even-row"
-        const newBody = bodyRows.map((i, index) => {
-          const rowString = "<tr>" + i
-          if (index % 2 === 0) {
-            return rowString.slice(0, 3) + ` class="${evenClassName}"` + rowString.slice(3)
-          } else {
-            return rowString.slice(0, 3) + ` class="${oddClassName}"` + rowString.slice(3)
-          }
-        }).join()
-        return `<table>${header + newBody}</table>`;
-      }
-    }
-  });
-}

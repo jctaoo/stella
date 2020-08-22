@@ -5,4 +5,5 @@ export interface MarkdownInfo {
   identifier?: string  
   topImage?: string
   circleImage?: string
+  abbr?: string
 }

@@ -5,6 +5,7 @@ import { DiscussionEmbed } from "disqus-react";
 import "./passage-detail.scss";
 import { BaseContentDetail } from "../../models/base-content";
 import { DiscusConfig } from "../../models/config";
+import marked from "marked";
 
 export enum PassageDetailViewMode {
   Full,
@@ -34,9 +35,7 @@ function PassageDetail(
             PassageDetailViewMode.Full !== mode ?
               <></> :
               <PassageAbout
-                updateTimes={passage.item.about.updateTimes}
-                tags={passage.item.about.tags}
-                readTime={passage.item.about.readTime}
+                {...passage.item.about}
               />
           }
         </div>
@@ -46,7 +45,7 @@ function PassageDetail(
           passage-content-container 
           ${mode === PassageDetailViewMode.Partial ? "partial" : ""}
         `}
-        dangerouslySetInnerHTML={{__html: passage.content}}
+        dangerouslySetInnerHTML={{__html: marked(passage.content)}}
         style={{
           marginTop: PassageDetailViewMode.Full !== mode ? 22 : undefined,
         }}
@@ -54,9 +53,7 @@ function PassageDetail(
       { PassageDetailViewMode.Full === mode ?
         <></> :
         <PassageAbout
-          updateTimes={passage.item.about.updateTimes}
-          tags={passage.item.about.tags}
-          readTime={passage.item.about.readTime}
+          {...passage.item.about}
         />
       }
       {

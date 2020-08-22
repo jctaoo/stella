@@ -9,37 +9,38 @@ import BasePage from "../../layout/base-page/base-page";
 import FilterView from "../../components/FilterView/FilterView";
 import PassageItem from "../../components/passage-item/passage-item";
 import { PassageAbbr } from "../../models/passage-content";
+import { NodeContentData, getContentFromNodeContentData, NodeData, getNodesFromNodeData } from "../../models/node-data";
 
 interface PassageListPageData {
-  allPassages: PassageAbbr[]
-  allCategories: string[]
-  allTags: Tag[]
+  allPassage: NodeData<PassageAbbr>
+  allCategory: NodeContentData<string>
+  allTag: NodeData<Tag>
 }
 
 export default function PassageListPage(props: PageProps<PassageListPageData>) {
   const [tagFilter, categoryFilter] = useFilter();
 
-  const cancelCategoryFilter = () => {
+  const cancelCategoryFilter = async () => {
     const search = QueryString.stringify({ tag: tagFilter });
-    navigate(`/passages?${search}`, { replace: true });
+    await navigate(`/passages?${search}`, { replace: true });
   }
 
-  const cancelTagFilter = () => {
+  const cancelTagFilter = async () => {
     const search = QueryString.stringify({ category: categoryFilter });
-    navigate(`/passages?${search}`, { replace: true });
+    await navigate(`/passages?${search}`, { replace: true });
   }
 
-  const goToCategory = (category: string) => {
+  const goToCategory = async (category: string) => {
     const search = QueryString.stringify({ tag: tagFilter, category: category });
-    navigate(`/passages?${search}`, { replace: true });
+    await navigate(`/passages?${search}`, { replace: true });
   }
 
-  const goToTag = (tag: Tag) => {
+  const goToTag = async (tag: Tag) => {
     const search = QueryString.stringify({ tag: tag.title, category: categoryFilter });
-    navigate(`/passages?${search}`, { replace: true });
+    await navigate(`/passages?${search}`, { replace: true });
   }
 
-  let passages = props.data.allPassages
+  let passages = getNodesFromNodeData(props.data.allPassage);
   passages = passages.filter(item => {
     let flag = true;
     if (tagFilter) {
@@ -51,8 +52,8 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
     return flag;
   })
 
-  const tags: Tag[] = props.data.allTags;
-  const categories: string[] = props.data.allCategories;
+  const tags: Tag[] = getNodesFromNodeData(props.data.allTag);
+  const categories: string[] = getContentFromNodeContentData(props.data.allCategory);
 
   return (
     <BasePage id="passage-list-page">
@@ -94,24 +95,40 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
 
 export const query = graphql`
   {
-    allPassages {
-      identifier
-      title
-      abbr
-      about {
-        updateTimes
-        tags {
+    allPassage {
+      edges {
+        node {
+          title
+          identifier
+          abbr
+          about {
+            category
+            readTime
+            tags {
+              id
+              title
+            }
+            updateTimes
+          }
+        }
+      }
+    }
+    allCategory {
+      edges {
+        node {
+          internal {
+            content
+          }
+        }
+      }
+    }
+    allTag {
+      edges {
+        node {
           id
           title
         }
-        category
-        readTime
       }
-    }
-    allCategories
-    allTags {
-      id
-      title
     }
   }
 `

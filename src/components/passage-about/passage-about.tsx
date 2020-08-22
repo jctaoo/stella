@@ -33,16 +33,16 @@ function PassageAbout(about: About) {
       <span className="passage-about-tags">
         {
           [
-            <span className="passage-tag" key={about.category} onClick={() => {
-              const query = QueryString.stringify({category: about.category})
-              navigate(`/passages?${query}`, { replace: true })
+            <span className="passage-tag" key={about.category} onClick={async () => {
+              const query = QueryString.stringify({category: about.category});
+              await navigate(`/passages?${query}`, { replace: true });
             }}>
               {about.category}
             </span>,
             ...about.tags.map((item) => (
-              <span className="passage-tag" key={item.id} onClick={() => {
-                const query = QueryString.stringify({tag: item.title})
-                navigate(`/passages?${query}`, { replace: true })
+              <span className="passage-tag" key={item.id} onClick={async () => {
+                const query = QueryString.stringify({tag: item.title});
+                await navigate(`/passages?${query}`, { replace: true });
               }}>
                 #{item.title}
               </span>

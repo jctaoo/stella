@@ -5,14 +5,14 @@ import "./snippets.scss";
 import { graphql, PageProps } from "gatsby";
 import BasePage from "../../layout/base-page/base-page";
 import { SnippetAbbr } from "../../models/snippet-content";
+import { NodeData, getNodesFromNodeData } from "../../models/node-data";
 
 interface SnippetsPageData {
-  allSnippets: SnippetAbbr[]
+  allSnippet: NodeData<SnippetAbbr>
 }
 
 export default function SnippetPage(props: PageProps<SnippetsPageData>) {
-
-  let snippets = props.data.allSnippets;
+  let snippets = getNodesFromNodeData(props.data.allSnippet);
 
   return (
     <BasePage id="snippet-page">
@@ -36,19 +36,22 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
 
 export const query = graphql`
   {
-    allSnippets {
-      identifier
-      title
-      abbr
-      codeRaw
-      about {
-        updateTimes
-        tags {
-          id
+    allSnippet {
+      edges {
+        node {
+          identifier
           title
+          abbr
+          codeRaw
+          about {
+            category
+            tags {
+              id
+              title
+            }
+            updateTimes
+          }
         }
-        category
-        readTime
       }
     }
   }
