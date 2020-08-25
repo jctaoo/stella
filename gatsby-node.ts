@@ -9,9 +9,18 @@ import { Tag } from "./src/models/base-content";
 import { NodeData } from "./src/models/node-data";
 import { SnippetAbbr } from "./src/models/snippet-content";
 import * as UUID from "uuid";
+import * as fsExtra from "fs-extra";
 
 // #TODO 链接中的图片无法点击, 无居中
+// #TODO 每次相同的图片生成的图片路径不一样
 
+// 图片缓存, 避免重新生成图片
+const imageAbsolutePathToStaticPath: Map<string, string> = new Map();
+
+/**
+ * 计算阅读时间
+ * @param markdown 
+ */
 const calculateReadingTimeFromMarkdown = (markdown: string): number => {
   const WORDS_PER_MINUTE = 200;
   const regex=/\w+/g;
@@ -52,15 +61,20 @@ const mapStringWithRegx = async (string: string, regx: RegExp, mapBlock: (result
  * @returns 基于 public 的tup路径
  */
 const replaceImagePath = async (imageAbsolutePath: string): Promise<string | null> => {
+  if (!!imageAbsolutePathToStaticPath.get(imageAbsolutePath)) {
+    return imageAbsolutePathToStaticPath.get(imageAbsolutePath) ?? null;
+  }
   if (fs.existsSync(imageAbsolutePath)) {
     const imageDir = path.resolve("public", "static", "images");
     if (!fs.existsSync(imageDir)) {
       await fs.promises.mkdir(imageDir, { recursive: true });
     }
     const imageName = `${UUID.v4()}.${imageAbsolutePath.split(".").reverse()[0] ?? "png"}`;
-    const imagePath = path.resolve(imageDir, imageName)
+    const imagePath = path.resolve(imageDir, imageName);
     await fs.promises.copyFile(imageAbsolutePath, imagePath);
-    return imagePath.replace(path.resolve("public"), "");
+    const publicPath = imagePath.replace(path.resolve("public"), "");
+    imageAbsolutePathToStaticPath.set(imageAbsolutePath, publicPath);
+    return publicPath;
   }
   return null;
 }
@@ -105,6 +119,13 @@ const normalizeMarkdown = async (markdown: string, filePath: string): Promise<st
 
   console.log(resultString)
   return resultString;
+}
+
+const clearImages = () => {
+  const imagePath = path.resolve("public", "static", "images");
+  if (fs.existsSync(imagePath)) {
+    fsExtra.removeSync(imagePath); 
+  }
 }
 
 // #TODO 将 markdown 翻译 html 在 准备阶段执行
@@ -153,6 +174,7 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
 export const sourceNodes = async (args: SourceNodesArgs) => {
 
   console.log("start source nodes")
+  clearImages();
 
   const yamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
   const codeSnippetRegx = /```.*?\n[\s\S]*?```\n{0,1}/;
