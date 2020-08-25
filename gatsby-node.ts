@@ -10,12 +10,13 @@ import { NodeData } from "./src/models/node-data";
 import { SnippetAbbr } from "./src/models/snippet-content";
 import * as UUID from "uuid";
 import * as fsExtra from "fs-extra";
+import axios, { AxiosResponse } from "axios";
 
 // #TODO 链接中的图片无法点击, 无居中
 // #TODO 每次相同的图片生成的图片路径不一样
 
-// 图片缓存, 避免重新生成图片
-const imageAbsolutePathToStaticPath: Map<string, string> = new Map();
+// 图片缓存, 避免重新复制图片/下载图片
+const imageSymbolToStaticPath: Map<string, string> = new Map();
 
 /**
  * 计算阅读时间
@@ -53,6 +54,31 @@ const mapStringWithRegx = async (string: string, regx: RegExp, mapBlock: (result
   return resultString;
 }
 
+const isUrl = (string: string) => {
+  try {
+    new URL(string);
+  } catch (_) {
+    return false;  
+  }
+
+  return true;
+}
+
+/**
+ * 下载图片
+ * @param url 图片的网络链接 
+ * @param to 目标文件的绝对路径
+ */
+const downloadImage = async (url: string, to: string) => {
+  const result: AxiosResponse<fs.ReadStream> = await axios({ url: url, responseType: "stream" });
+  return new Promise((resolve, reject) => {
+    result.data
+      .pipe(fs.createWriteStream(to))
+      .on('finish', () => resolve())
+      .on('error', e => reject(e));
+  });
+}
+
 /**
  * 处理图片路径，从 content 子目录下的绝对图片路径转换到基于 public 的相对路径
  * 副作用: 会复制图片到 public 子目录下
@@ -61,8 +87,8 @@ const mapStringWithRegx = async (string: string, regx: RegExp, mapBlock: (result
  * @returns 基于 public 的tup路径
  */
 const replaceImagePath = async (imageAbsolutePath: string): Promise<string | null> => {
-  if (!!imageAbsolutePathToStaticPath.get(imageAbsolutePath)) {
-    return imageAbsolutePathToStaticPath.get(imageAbsolutePath) ?? null;
+  if (!!imageSymbolToStaticPath.get(imageAbsolutePath)) {
+    return imageSymbolToStaticPath.get(imageAbsolutePath) ?? null;
   }
   if (fs.existsSync(imageAbsolutePath)) {
     const imageDir = path.resolve("public", "static", "images");
@@ -73,7 +99,7 @@ const replaceImagePath = async (imageAbsolutePath: string): Promise<string | nul
     const imagePath = path.resolve(imageDir, imageName);
     await fs.promises.copyFile(imageAbsolutePath, imagePath);
     const publicPath = imagePath.replace(path.resolve("public"), "");
-    imageAbsolutePathToStaticPath.set(imageAbsolutePath, publicPath);
+    imageSymbolToStaticPath.set(imageAbsolutePath, publicPath);
     return publicPath;
   }
   return null;
@@ -94,7 +120,28 @@ const normalizeMarkdown = async (markdown: string, filePath: string): Promise<st
   resultString = await mapStringWithRegx(resultString, markdownImageRegx, async (match) => {
     const imageName = match[1];
     const originalPath = match[2];
-    const imagePath = await replaceImagePath(path.resolve(filePath, "..", originalPath));
+    let imagePath = await replaceImagePath(path.resolve(filePath, "..", originalPath));
+    if (!imagePath && !!originalPath && isUrl(originalPath)) {
+      if (!!imageSymbolToStaticPath.get(originalPath)) {
+        imagePath = imageSymbolToStaticPath.get(originalPath) ?? null;
+      } else {
+        // #TODO duplicate code from line 94
+        const imageDir = path.resolve("public", "static", "images");
+        if (!fs.existsSync(imageDir)) {
+          await fs.promises.mkdir(imageDir, { recursive: true });
+        }
+        const imageName = `${UUID.v4()}.png`;
+        const imageDestination = path.resolve(imageDir, imageName);
+        try {
+          await downloadImage(originalPath, imageDestination);
+          const publicPath = imageDestination.replace(path.resolve("public"), "");
+          imageSymbolToStaticPath.set(originalPath, publicPath);
+          imagePath = publicPath;
+        } catch (error) {
+          // PASS
+        }
+      }
+    }
     return !!imagePath ? `![${imageName}](${imagePath})` : match.input.slice(match.index, match.index + match[0].length);
   });
   resultString = await mapStringWithRegx(resultString, markdownLinkRegx, async (match: RegExpExecArray) => {
