@@ -24,14 +24,5 @@ export default {
   plugins: [
     'gatsby-plugin-sass',
     'gatsby-plugin-typescript',
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: path.resolve(__dirname, 'content'),
-      },
-    },
   ],
 }

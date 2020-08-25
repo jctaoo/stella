@@ -8,6 +8,9 @@ import { MarkdownInfo } from "./src/models/markdown-info";
 import { Tag } from "./src/models/base-content";
 import { NodeData } from "./src/models/node-data";
 import { SnippetAbbr } from "./src/models/snippet-content";
+import * as UUID from "uuid";
+
+// #TODO 链接中的图片无法点击, 无居中
 
 const calculateReadingTimeFromMarkdown = (markdown: string): number => {
   const WORDS_PER_MINUTE = 200;
@@ -19,6 +22,90 @@ const toMD5 = (arg: string): string => {
   const hash = crypto.createHash("md5");
   return hash.update(arg).digest("hex");
 };
+
+const mapStringWithRegx = async (string: string, regx: RegExp, mapBlock: (result: RegExpExecArray) => Promise<string>): Promise<string> => {
+  let resultString = "";
+  let restString = string;
+  let matchResult: RegExpExecArray | null;
+
+  do {
+    matchResult = regx.exec(restString);
+    if (!!matchResult) {
+      const resultLength = matchResult[0].length;
+      const nextRestString = restString.slice(matchResult.index + resultLength);
+      const replacedString = restString.slice(0, matchResult.index) + await mapBlock(matchResult);
+      resultString += replacedString;
+      restString = nextRestString;
+    } else {
+      resultString += restString;
+    }
+  } while (!!matchResult);
+
+  return resultString;
+}
+
+/**
+ * 处理图片路径，从 content 子目录下的绝对图片路径转换到基于 public 的相对路径
+ * 副作用: 会复制图片到 public 子目录下
+ *
+ * @param imageAbsolutePath 图片绝对路径
+ * @returns 基于 public 的tup路径
+ */
+const replaceImagePath = async (imageAbsolutePath: string): Promise<string | null> => {
+  if (fs.existsSync(imageAbsolutePath)) {
+    const imageDir = path.resolve("public", "static", "images");
+    if (!fs.existsSync(imageDir)) {
+      await fs.promises.mkdir(imageDir, { recursive: true });
+    }
+    const imageName = `${UUID.v4()}.${imageAbsolutePath.split(".").reverse()[0] ?? "png"}`;
+    const imagePath = path.resolve(imageDir, imageName)
+    await fs.promises.copyFile(imageAbsolutePath, imagePath);
+    return imagePath.replace(path.resolve("public"), "");
+  }
+  return null;
+}
+
+/**
+ * 规范化 markdown 字符串
+ * @param markdown markdown 内容
+ * @param filePath markdown 绝对路径
+ * @returns 规范化的 markdown 字符串
+ */
+const normalizeMarkdown = async (markdown: string, filePath: string): Promise<string> => {
+  const markdownImageRegx = /!\[([^\]]+)\]\(([^\)]+)\)/;
+  const markdownLinkRegx = /\[(.*?)\]\((.*?)\)/;
+
+  let resultString = markdown;
+
+  resultString = await mapStringWithRegx(resultString, markdownImageRegx, async (match) => {
+    const imageName = match[1];
+    const originalPath = match[2];
+    const imagePath = await replaceImagePath(path.resolve(filePath, "..", originalPath));
+    return !!imagePath ? `![${imageName}](${imagePath})` : match.input.slice(match.index, match.index + match[0].length);
+  });
+  resultString = await mapStringWithRegx(resultString, markdownLinkRegx, async (match: RegExpExecArray) => {
+    const previousIndex = Math.max(0, match.index - 1)
+    if (match.input[previousIndex] !== "!") {
+      const linkName = match[1];
+      const originalLink = match[2];
+      const linkPath = path.resolve(filePath, "..", originalLink);
+      // TODO 不要重复读取文件
+      if (fs.existsSync(linkPath)) {
+        const content = (await fs.promises.readFile(linkPath)).toString();
+        const idntifierMatch = /identifier:\s(.*)/.exec(content);
+        const titleMatch = /title:\S(.*)/.exec(content);
+        const identifier = !!idntifierMatch ? idntifierMatch[1] : (!!titleMatch ? toMD5(titleMatch[1]) : linkPath);
+        return `[${linkName}](/passage/${identifier})`;
+      }
+      return match.input.slice(match.index, match.index + match[0].length)
+    } else {
+      return match.input.slice(match.index, match.index + match[0].length)
+    }
+  });
+
+  console.log(resultString)
+  return resultString;
+}
 
 // #TODO 将 markdown 翻译 html 在 准备阶段执行
 
@@ -65,6 +152,8 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
 
 export const sourceNodes = async (args: SourceNodesArgs) => {
 
+  console.log("start source nodes")
+
   const yamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
   const codeSnippetRegx = /```.*?\n[\s\S]*?```\n{0,1}/;
 
@@ -78,10 +167,17 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
   let categories: string[] = [];
 
   for (const name of dir) {
-    const item = await fs.promises.readFile(path.resolve(baseDir, name));
     const stat = await fs.promises.stat(path.resolve(baseDir, name));
 
-    const content = item.toString();
+    if (!stat.isFile() || name.split(".").reverse().indexOf("md") !== 0) {
+      continue
+    }
+
+    const item = await fs.promises.readFile(path.resolve(baseDir, name));
+
+    let content = item.toString();
+    content = await normalizeMarkdown(content, path.resolve(baseDir, name));
+
     const matchResult = content.match(yamlRegx);
     if (matchResult) {
       const yaml: MarkdownInfo = YAML.parse(matchResult[1]);
@@ -168,8 +264,14 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
   const snippets: SnippetAbbr[] = [];
 
   for (const item of snippetsDir) {
-    const content = (await fs.promises.readFile(path.resolve(snippetsDirName, item))).toString();
     const stat = await fs.promises.stat(path.resolve(snippetsDirName, item));
+
+    if (!stat.isFile() || item.split(".").reverse().indexOf("md") !== 0) {
+      continue;
+    }
+
+    let content = (await fs.promises.readFile(path.resolve(snippetsDirName, item))).toString();
+    content = await normalizeMarkdown(content, path.resolve(snippetsDirName, item));
 
     const matchResult = content.match(yamlRegx);
     const codeMatchResult = content.match(codeSnippetRegx);
@@ -220,23 +322,11 @@ export const createPages = async (args: CreatePagesArgs) => {
         edges {
           node {
             identifier
-            title
-            abbr
-            about {
-              updateTimes
-              tags {
-                id
-                title
-              }
-              category
-              readTime
-            }
           }
         }
       }
     }
   `)
-  console.log(result)
   result.data?.allPassage.edges.forEach(item => {
     args.actions.createPage({
       path: `/passage/${item.node.identifier}`,

@@ -23,6 +23,7 @@
     "@types/redux-devtools-extension": "^2.13.2",
     "@types/redux-thunk": "^2.1.0",
     "@types/reselect": "^2.2.0",
+    "@types/uuid": "^8.3.0",
     "@types/yaml": "^1.9.7",
     "antd": "^4.5.0",
     "disqus-react": "^1.0.8",
@@ -30,9 +31,6 @@
     "gatsby": "^2.24.47",
     "gatsby-image": "^2.4.16",
     "gatsby-plugin-sass": "^2.3.12",
-    "gatsby-plugin-sharp": "^2.6.27",
-    "gatsby-source-filesystem": "^2.3.24",
-    "gatsby-transformer-sharp": "^2.5.13",
     "highlight.js": "^10.1.1",
     "katex": "^0.12.0",
     "marked": "^1.1.1",
@@ -44,6 +42,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2",
+    "uuid": "^8.3.0",
     "yaml": "^1.10.0"
   },
   "scripts": {
