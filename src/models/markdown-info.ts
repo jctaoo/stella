@@ -6,4 +6,5 @@ export interface MarkdownInfo {
   topImage?: string
   circleImage?: string
   abbr?: string
+  updateDates: string[]
 }

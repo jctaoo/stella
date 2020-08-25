@@ -164,7 +164,6 @@ const normalizeMarkdown = async (markdown: string, filePath: string): Promise<st
     }
   });
 
-  console.log(resultString)
   return resultString;
 }
 
@@ -260,7 +259,7 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
         title: yaml.title,
         abbr: abbr,
         about: {
-          updateTimes: [stat.mtime],
+          updateTimes: yaml.updateDates.map(d => new Date(d)),
           tags: yaml.tags.map(t => ({ id: toMD5(t), title: t })),
           category: yaml.category,
           readTime: calculateReadingTimeFromMarkdown(markdownContent),
@@ -284,6 +283,9 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
 
   tags = Array.from(new Set(tags));
   categories = Array.from(new Set(categories));
+  abbrs.sort((lhs, rhs) => {
+    return rhs.about.updateTimes[0].getTime() - lhs.about.updateTimes[0].getTime()
+  });
 
   tags.forEach(tag => {
     args.actions.createNode({
@@ -358,7 +360,7 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
         abbr: abbr,
         codeRaw: codeSnippet,
         about: {
-          updateTimes: [stat.mtime],
+          updateTimes: yaml.updateDates.map(d => new Date(d)),
           tags: yaml.tags.map(t => ({ id: toMD5(t), title: t })),
           category: yaml.category,
         }
@@ -366,6 +368,10 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
       snippets.push(snippet);
     }
   }
+
+  snippets.sort((lhs, rhs) => {
+    return rhs.about.updateTimes[0].getTime() - lhs.about.updateTimes[0].getTime()
+  });
 
   snippets.forEach(snippet => {
     args.actions.createNode({

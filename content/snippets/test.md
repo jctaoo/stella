@@ -5,6 +5,8 @@ tags:
   - t11
   - t22
 identifier: enlace-get-started
+updateDates:
+  - 2020-07-15
 ---
 ```typescript
 @MainApplication
