@@ -16,7 +16,6 @@ function PassageDetail(
   {passage, disqusConfig, mode = PassageDetailViewMode.Full, className}:
     {passage: BaseContentDetail, disqusConfig?: DiscusConfig, mode?: PassageDetailViewMode} & HTMLAttributes<any>
 ) {
-  console.log(passage.topImage)
   return (
     <div className={`passage-container ${className ? className : ""}`}>
       {
@@ -63,7 +62,7 @@ function PassageDetail(
             <DiscussionEmbed
               shortname={disqusConfig.shortName}
               config={{
-                url: window.location.href,
+                url: "https://localhost/blablabla",
                 identifier: passage.item.identifier,
                 title: passage.item.title,
               }}

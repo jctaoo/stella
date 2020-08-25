@@ -3,12 +3,10 @@ import "./app-container.scss"
 import { AnimatePresence } from "framer-motion";
 import MobileNavigationBar from "../../components/mobile-navigation-bar/mobile-navigation-bar";
 import NavigationBar from "../../components/navigation-bar/navigation-bar";
-import TopProgressBar from "../../components/top-progress-bar/top-progress-bar";
 
 function AppContainer({children}: {children: ReactElement}) {
   return (
-    <>
-      <TopProgressBar show={false}/>
+    <div id="stella-container" style={{ display: "contents" }}>
       <MobileNavigationBar />
       <div id="home-page">
         <NavigationBar />
@@ -16,7 +14,7 @@ function AppContainer({children}: {children: ReactElement}) {
           { children }
         </AnimatePresence>
       </div>
-    </>
+    </div>
   );
 }
 

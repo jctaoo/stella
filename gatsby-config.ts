@@ -1,7 +1,9 @@
+import * as path from "path";
+
 export default {
   siteMetadata: {
     title: "Jctaoo.",
-    config: {
+      config: {
       discus: {
         shortName: "jctaoo",
       },
@@ -21,19 +23,15 @@ export default {
   },
   plugins: [
     'gatsby-plugin-sass',
+    'gatsby-plugin-typescript',
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: `gatsby-source-filesystem`,
       options: {
-        name: "src",
-        path: `${__dirname}/content/posts`
-      }
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "src",
-        path: `${__dirname}/content/snippets`
-      }
+        name: `images`,
+        path: path.resolve(__dirname, 'content'),
+      },
     },
   ],
 }

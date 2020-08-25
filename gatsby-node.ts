@@ -6,8 +6,19 @@ import { PassageAbbr, PassageDetail } from "./src/models/passage-content";
 import crypto from "crypto";
 import { MarkdownInfo } from "./src/models/markdown-info";
 import { Tag } from "./src/models/base-content";
-import { NodeData } from "./src/models/node-data";  
+import { NodeData } from "./src/models/node-data";
 import { SnippetAbbr } from "./src/models/snippet-content";
+
+const calculateReadingTimeFromMarkdown = (markdown: string): number => {
+  const WORDS_PER_MINUTE = 200;
+  const regex=/\w+/g;
+  return Math.ceil(markdown.match(regex)?.length ?? 0 / WORDS_PER_MINUTE) * 1000;
+}
+
+const toMD5 = (arg: string): string => {
+  const hash = crypto.createHash("md5");
+  return hash.update(arg).digest("hex");
+};
 
 // #TODO 将 markdown 翻译 html 在 准备阶段执行
 
@@ -53,6 +64,7 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
 }
 
 export const sourceNodes = async (args: SourceNodesArgs) => {
+
   const yamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
   const codeSnippetRegx = /```.*?\n[\s\S]*?```\n{0,1}/;
 
@@ -149,10 +161,10 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
     });
   });
 
-  // read snippets 
+  // read snippets
   const snippetsDirName = path.resolve(__dirname, "content", "snippets")
   const snippetsDir = await fs.promises.readdir(snippetsDirName);
-  
+
   const snippets: SnippetAbbr[] = [];
 
   for (const item of snippetsDir) {
@@ -166,7 +178,7 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
       const yaml: MarkdownInfo = YAML.parse(matchResult[1]);
       const codeSnippet = codeMatchResult[0];
       const abbr = content.slice((codeMatchResult.index ?? 0) + codeMatchResult[0].length);
-      
+
       let identifier = yaml.identifier ?? toMD5(yaml.title);
       // # TODO 实现多 updateTimes
       const snippet: SnippetAbbr = {
@@ -224,6 +236,7 @@ export const createPages = async (args: CreatePagesArgs) => {
       }
     }
   `)
+  console.log(result)
   result.data?.allPassage.edges.forEach(item => {
     args.actions.createPage({
       path: `/passage/${item.node.identifier}`,
@@ -235,13 +248,4 @@ export const createPages = async (args: CreatePagesArgs) => {
   });
 }
 
-const calculateReadingTimeFromMarkdown = (markdown: string): number => {
-  const WORDS_PER_MINUTE = 200;
-  const regex=/\w+/g;
-  return Math.ceil(markdown.match(regex)?.length ?? 0 / WORDS_PER_MINUTE) * 1000;
-}
 
-const toMD5 = (arg: string): string => {
-  const hash = crypto.createHash("md5");
-  return hash.update(arg).digest("hex");
-};

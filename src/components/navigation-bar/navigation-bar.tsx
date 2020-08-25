@@ -22,7 +22,7 @@ interface NavigationBarData {
 
 export default function NavigationBar() {
 
-  const [pathname, setPathname] = useState(window?.location.pathname ?? "/");
+  const [pathname, setPathname] = useState("/");
 
   const data = useStaticQuery<NavigationBarData>(graphql`
     {

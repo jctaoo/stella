@@ -19,7 +19,7 @@ interface MobileNavigationBarData {
 }
 
 function MobileNavigationBar() {
-  const [pathname, setPathname] = useState(window?.location.pathname ?? "/");
+  const [pathname, setPathname] = useState("/");
 
   const data = useStaticQuery<MobileNavigationBarData>(graphql`
     {

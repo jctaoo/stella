@@ -1,16 +1,8 @@
-import "./src/styles/constant.scss";
-import "./src/styles/font.scss";
-import "./src/styles/index.scss";
-import "./src/styles/base.scss";
-import "antd/dist/antd.css";
 import marked from "marked";
 import Katex from "katex";
 import * as Highlight from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css";
 
-export { wrapRootElement } from "./src/gatsby-container";
-
-const configMarked = () => {
+export default function configMarked() {
   marked.setOptions({
     breaks: true,
     gfm: true,
@@ -112,4 +104,3 @@ const configMarked = () => {
     }
   });
 }
-configMarked();
