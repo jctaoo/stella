@@ -14,8 +14,6 @@ interface PassagePageData {
 }
 
 export default function PassagePage(props: PageProps<PassagePageData>) {
-  console.log(props.data)
-
   const matchedPassages = getNodesFromNodeData(props.data.allPassageDetail)
   const currentPassage = matchedPassages.length > 0 ? matchedPassages[0] : undefined;
   const config = props.data.siteMetadata.config.discus;

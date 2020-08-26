@@ -220,8 +220,6 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
 }
 
 export const sourceNodes = async (args: SourceNodesArgs) => {
-
-  console.log("start source nodes")
   clearImages();
 
   const yamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
