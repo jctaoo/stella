@@ -19,13 +19,13 @@ function PassageDetail(
   return (
     <div className={`passage-container ${className ? className : ""}`}>
       {
-        !!passage.topImage ?
+        (!!passage.topImage && mode === PassageDetailViewMode.Full) ?
           <img src={passage.topImage} className="passage-top-image" /> :
           <></>
       }
       <div className="passage-title-container">
         {
-          !!passage.circleImage ?
+          (!!passage.circleImage && mode === PassageDetailViewMode.Full) ?
             <img src={passage.circleImage} className="passage-circle-image" /> :
             <></>
         }

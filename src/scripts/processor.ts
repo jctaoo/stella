@@ -8,6 +8,7 @@ import YAML from "yaml";
 import { PassageAbbr, PassageDetail } from "../models/passage-content";
 import { BaseContentAbbr, BaseContentDetail, Tag } from "../models/base-content";
 import { SnippetAbbr } from "../models/snippet-content";
+import { mainModule } from "process";
 
 interface MarkdownProcessResult {
   information: MarkdownInfo
@@ -141,6 +142,8 @@ export default class Processor {
    * @param filePath 原文件的绝对路径
    */
   private async normalizeImageLink(link: string, filePath: string): Promise<string> {
+    if (link === "") return link;
+
     // 读取缓存的链接
     const cache = this.imageSymbolToTargetPath.get(link);
     if (!!cache) {
@@ -312,8 +315,8 @@ export default class Processor {
     const detail: BaseContentDetail = {
       item: abbr,
       content: markdown,
-      topImage: makdwonInformation.topImage ?? "",
-      circleImage: makdwonInformation.circleImage ?? "",
+      topImage: !!makdwonInformation.topImage ? await this.normalizeImageLink(makdwonInformation.topImage, absolutePath) : "",
+      circleImage: !!makdwonInformation.circleImage ? await this.normalizeImageLink(makdwonInformation.circleImage, absolutePath) : "",
     }
 
     return {
