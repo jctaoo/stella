@@ -80,7 +80,7 @@ export default class Processor {
     });
     return {
       tags,
-      categories,
+      categories: categories.filter(c => c !== ""),
       abbrs,
       details,
     }
@@ -301,11 +301,11 @@ export default class Processor {
     const abbr: BaseContentAbbr = {
       identifier: identifier,
       title: makdwonInformation.title,
-      abbr: makdwonInformation.abbr,
+      abbr: makdwonInformation.abbr ?? "",
       about: {
         updateTimes: (makdwonInformation.updateDates ?? []).map(d => new Date(d)),
         tags: (makdwonInformation.tags ?? []).map(t => ({ id: Utils.toMD5(t), title: t })),
-        category: makdwonInformation.category,
+        category: makdwonInformation.category ?? "",
         readTime: Utils.calculateReadingTimeFromMarkdown(markdown),
       }
     }
