@@ -20,7 +20,7 @@ export interface Tag {
 export interface BaseContentDetail {
   item: BaseContentAbbr
   content: string
-  topImage: string | null
-  circleImage: string | null
+  topImage?: string
+  circleImage?: string
 }
 
