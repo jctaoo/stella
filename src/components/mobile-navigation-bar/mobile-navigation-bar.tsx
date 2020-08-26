@@ -4,13 +4,16 @@ import "./mobile-navigation-bar.scss";
 import RouteLabel from "./route-label";
 import { graphql, navigate, useStaticQuery } from "gatsby";
 import { RouteConfiguration } from "../../models/route-configuration";
+import { useSelector } from "react-redux";
+import AppState from "../../models/app-state";
+import { ADDRGETNETWORKPARAMS } from "dns";
 
 interface MobileNavigationBarData {
   siteMetadata: {
     routeConfigurations: {
-      passages?: RouteConfiguration
-      snippets?: RouteConfiguration
-      about?: RouteConfiguration
+      passages: RouteConfiguration
+      snippets: RouteConfiguration
+      about: RouteConfiguration
     }
     config: {
       homeLargeTitle?: string
@@ -20,11 +23,16 @@ interface MobileNavigationBarData {
 }
 
 function MobileNavigationBar() {
-  const [pathname, setPathname] = useState("/");
+  const pathname = useSelector((state: AppState) => state.currentPathname);
 
   const data = useStaticQuery<MobileNavigationBarData>(graphql`
     {
       siteMetadata {
+        routeConfigurations {
+          about { title }
+          passages { title }
+          snippets { title }
+        }
         config {
           homeLargeTitle
           siteName
@@ -37,7 +45,16 @@ function MobileNavigationBar() {
   }
 
   const isHome = pathname === "/";
-  const routeTitle = "$TITLE$"
+  const routeTitle = ((pathname: string): string | null => {
+    if (pathname.startsWith("/passage")) {
+      return data.siteMetadata.routeConfigurations.passages.title;
+    } else if (pathname.startsWith("/about")) {
+      return data.siteMetadata.routeConfigurations.about.title;
+    } else if (pathname.startsWith("/snippets")) {
+      return data.siteMetadata.routeConfigurations.snippets.title;
+    }
+    return null;
+  })(pathname);
 
   const title = !!data.siteMetadata.config.homeLargeTitle ? data.siteMetadata.config.homeLargeTitle : data.siteMetadata.config.siteName
 
@@ -49,7 +66,7 @@ function MobileNavigationBar() {
             <h1>{title}</h1>
           </span>
           {
-            routeTitle ?
+            !!routeTitle ?
               <>
                 <span className="mobile-navigation-bar-title-divider"/>
                 <RouteLabel className="mobile-navigation-bar-title-route-label" title={routeTitle} />

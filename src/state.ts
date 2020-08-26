@@ -10,7 +10,7 @@ export const CHANGE_PATHNAME_ACTION_ID = Symbol("CHANGE_PATHNAME_ACTION_ID")
 
 export class Actions {
 
-  static createChangePathnameAction(destination: string): ChangePathnameAction {
+  static createChangePathnameAction({destination}: {destination: string}): ChangePathnameAction {
     return {
       type: CHANGE_PATHNAME_ACTION_ID,
       destination,

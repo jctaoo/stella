@@ -6,13 +6,16 @@ import { navigate } from "gatsby";
 import { motion } from "framer-motion";
 import { graphql, useStaticQuery } from "gatsby";
 import { RouteConfiguration } from "../../models/route-configuration";
+import { useDispatch, useSelector } from "react-redux";
+import AppState from '../../models/app-state';
+import { Actions } from '../../state';
 
 interface NavigationBarData {
   siteMetadata: {
     routeConfigurations: {
-      passages?: RouteConfiguration
-      snippets?: RouteConfiguration
-      about?: RouteConfiguration
+      passages: RouteConfiguration
+      snippets: RouteConfiguration
+      about: RouteConfiguration
     }
     config: {
       homeLargeTitle?: string
@@ -23,7 +26,7 @@ interface NavigationBarData {
 
 export default function NavigationBar() {
 
-  const [pathname, setPathname] = useState("/");
+  const pathname = useSelector((state: AppState) => state.currentPathname);
 
   const data = useStaticQuery<NavigationBarData>(graphql`
     {
@@ -46,14 +49,13 @@ export default function NavigationBar() {
 
   const goToHome = async () => {
     await navigate("/", { replace: true });
-    setPathname("/");
   }
 
   const isPassage = pathname.startsWith("/passage");
 
   // #TODO
   const isSpecial = false
-  const showSpecial = pathname === "/" || pathname === "/noutfound" || isSpecial
+  const showSpecial = pathname === "/" || pathname === "/404" || isSpecial
   const isHome = pathname === "/"
 
   const title = !!data.siteMetadata.config.homeLargeTitle ? data.siteMetadata.config.homeLargeTitle : data.siteMetadata.config.siteName
@@ -72,20 +74,17 @@ export default function NavigationBar() {
           <NavigationLink
             title={passagesName}
             to={"/passages"}
-            selected={pathname.startsWith("/passages")}
-            onCLick={() => { setPathname("/passages") }}
+            selected={pathname.startsWith("/passage")}
           />
           <NavigationLink
             title={snippetsName}
             to={"/snippets"}
             selected={pathname.startsWith("/snippets")}
-            onCLick={() => { setPathname("/snippets") }}
           />
           <NavigationLink
             title={aboutName}
             to={"/about"}
             selected={pathname.startsWith("/about")}
-            onCLick={() => { setPathname("/about") }}
           />
         </ul>
         <ul id="links-list-passage-list" className={!isPassage ? "links-list-passage-list-hide" : ""}>
