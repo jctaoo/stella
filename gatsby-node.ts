@@ -15,6 +15,8 @@ import config from "./gatsby-config";
 
 // TODO 链接中的图片无法点击, 无居中
 // TODO 每次相同的图片生成的图片路径不一样
+// TODO 整理并重构 gatsby-node.ts
+// TODO 优化 markdown yaml 的空字段
 
 // 图片缓存, 避免重新复制图片/下载图片
 const imageSymbolToStaticPath: Map<string, string> = new Map();
@@ -179,13 +181,53 @@ const clearImages = () => {
 // TODO 将 markdown 翻译 html 在 准备阶段执行
 
 export const createResolvers = async (args: CreateResolversArgs) => {
+  const yamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
+
+  // read about
+  const aboutDir = path.resolve(__dirname, "content", "about.md");
+  let about: PassageDetail | undefined = undefined;
+  if (fs.existsSync(aboutDir)) {
+    const buffer = await fs.promises.readFile(aboutDir);
+
+    let content = buffer.toString();
+    content = await normalizeMarkdown(content, aboutDir);
+
+    const matchResult = content.match(yamlRegx);
+    if (matchResult) {
+      const yaml: MarkdownInfo = YAML.parse(matchResult[1]);
+      const markdown = content.slice((matchResult.index ?? 0) + matchResult[0].length);
+      let abbr = yaml.abbr;
+      let markdownContent = markdown;
+      let identifier = yaml.identifier ?? toMD5(yaml.title);
+      const passageAbbr: PassageAbbr = {
+        identifier: identifier,
+        title: yaml.title,
+        abbr: abbr,
+        about: {
+          updateTimes: (yaml.updateDates ?? []).map(d => new Date(d)),
+          tags: (yaml.tags ?? []).map(t => ({ id: toMD5(t), title: t })),
+          category: yaml.category,
+          readTime: calculateReadingTimeFromMarkdown(markdownContent),
+        }
+      }
+      // TODO 完善空字段处理 https://github.com/gatsbyjs/gatsby/issues/6800
+      const passageDetail: PassageDetail = {
+        item: passageAbbr,
+        content: markdownContent,
+        topImage: yaml.topImage ?? "",
+        circleImage: yaml.circleImage ?? "",
+      }
+      about = passageDetail;
+    }
+  }
+
   // TODO 基于 Gatsby Node 构建
   const resolvers = {
     Query: {
       about: {
-        type: ['ContentDetail'],
+        type: 'ContentDetail',
         resolve: (source: any, args: any, context: any, info: any) => {
-          return null
+          return about ?? null;
         }
       },
     }
@@ -287,8 +329,8 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
         title: yaml.title,
         abbr: abbr,
         about: {
-          updateTimes: yaml.updateDates.map(d => new Date(d)),
-          tags: yaml.tags.map(t => ({ id: toMD5(t), title: t })),
+          updateTimes: (yaml.updateDates ?? []).map(d => new Date(d)),
+          tags: (yaml.tags ?? []).map(t => ({ id: toMD5(t), title: t })),
           category: yaml.category,
           readTime: calculateReadingTimeFromMarkdown(markdownContent),
         }
@@ -388,8 +430,8 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
         abbr: abbr,
         codeRaw: codeSnippet,
         about: {
-          updateTimes: yaml.updateDates.map(d => new Date(d)),
-          tags: yaml.tags.map(t => ({ id: toMD5(t), title: t })),
+          updateTimes: (yaml.updateDates ?? []).map(d => new Date(d)),
+          tags: (yaml.tags ?? []).map(t => ({ id: toMD5(t), title: t })),
           category: yaml.category,
         }
       }
