@@ -5,25 +5,23 @@ import { graphql, useStaticQuery } from "gatsby";
 import SocialMedia from "../../models/social-media";
 
 interface MediaInformationData {
-  site: { siteMetadata: { medias: SocialMedia[] } }
+  siteMetadata: { medias: SocialMedia[] }
 }
 
 function MediaInformation({className = ""}: {className?: String}) {
   const medias = useStaticQuery<MediaInformationData>(graphql`
     {
-      site {
-        siteMetadata {
-          medias {
-            identifier
-            iconName
-            title
-            link
-            imageName
-          }
+      siteMetadata {
+        medias {
+          identifier
+          iconName
+          title
+          link
+          imageName
         }
       }
     }
-  `).site.siteMetadata.medias;
+  `).siteMetadata.medias;
 
   return (
     <ul className={`contact-list ${className}`}>

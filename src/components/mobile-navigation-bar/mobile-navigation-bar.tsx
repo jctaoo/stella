@@ -6,14 +6,15 @@ import { graphql, navigate, useStaticQuery } from "gatsby";
 import { RouteConfiguration } from "../../models/route-configuration";
 
 interface MobileNavigationBarData {
-  site: {
-    siteMetadata: {
-      routeConfigurations: {
-        passages?: RouteConfiguration
-        snippets?: RouteConfiguration
-        about?: RouteConfiguration
-      }
-      title: string
+  siteMetadata: {
+    routeConfigurations: {
+      passages?: RouteConfiguration
+      snippets?: RouteConfiguration
+      about?: RouteConfiguration
+    }
+    config: {
+      homeLargeTitle?: string
+      siteName: string
     }
   }
 }
@@ -23,14 +24,14 @@ function MobileNavigationBar() {
 
   const data = useStaticQuery<MobileNavigationBarData>(graphql`
     {
-      site {
-        siteMetadata {
-          title
+      siteMetadata {
+        config {
+          homeLargeTitle
+          siteName
         }
       }
     }
   `);
-
   const goToHome = async () => {
     await navigate("/", { replace: true });
   }
@@ -38,12 +39,14 @@ function MobileNavigationBar() {
   const isHome = pathname === "/";
   const routeTitle = "$TITLE$"
 
+  const title = !!data.siteMetadata.config.homeLargeTitle ? data.siteMetadata.config.homeLargeTitle : data.siteMetadata.config.siteName
+
   return (
     <div id="mobile-navigation-bar" className={isHome ? "hide" : ""}>
       <div id="mobile-navigation-bar-header">
         <span id="mobile-navigation-bar-title">
           <span id="mobile-navigation-bar-title-home-label" onClick={goToHome}>
-            <h1>{data.site.siteMetadata.title}</h1>
+            <h1>{title}</h1>
           </span>
           {
             routeTitle ?

@@ -1,4 +1,4 @@
-import { CreatePagesArgs, CreateResolversArgs, CreateSchemaCustomizationArgs, SourceNodesArgs } from "gatsby";
+import { CreatePagesArgs, CreateResolversArgs, CreateSchemaCustomizationArgs, SourceNodesArgs, CreateNodeArgs } from "gatsby";
 import * as fs from "fs";
 import * as path from "path";
 import YAML from "yaml";
@@ -11,9 +11,10 @@ import { SnippetAbbr } from "./src/models/snippet-content";
 import * as UUID from "uuid";
 import * as fsExtra from "fs-extra";
 import axios, { AxiosResponse } from "axios";
+import config from "./gatsby-config";
 
-// #TODO 链接中的图片无法点击, 无居中
-// #TODO 每次相同的图片生成的图片路径不一样
+// TODO 链接中的图片无法点击, 无居中
+// TODO 每次相同的图片生成的图片路径不一样
 
 // 图片缓存, 避免重新复制图片/下载图片
 const imageSymbolToStaticPath: Map<string, string> = new Map();
@@ -174,10 +175,11 @@ const clearImages = () => {
   }
 }
 
-// #TODO 将 markdown 翻译 html 在 准备阶段执行
+// TODO discus 拼错了 ---> disqus
+// TODO 将 markdown 翻译 html 在 准备阶段执行
 
 export const createResolvers = async (args: CreateResolversArgs) => {
-  // #TODO 基于 Gatsby Node 构建
+  // TODO 基于 Gatsby Node 构建
   const resolvers = {
     Query: {
       about: {
@@ -225,6 +227,35 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
   const yamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
   const codeSnippetRegx = /```.*?\n[\s\S]*?```\n{0,1}/;
 
+  // 添加 siteMetadata 节点
+  const siteMetadata: any | undefined = config.siteMetadata;
+  args.actions.createNode({
+    config: {
+      siteName: siteMetadata?.config?.siteName ?? siteMetadata?.title ?? "",
+      homeLargeTitle: siteMetadata?.config?.homeLargeTitle ?? "",
+      discus: {
+        shortName: siteMetadata?.config?.discus?.shortName ?? ""
+      },
+    },
+    routeConfigurations: {
+      about: { title: siteMetadata?.routeConfigurations?.about?.title ?? "" },
+      passages: { title: siteMetadata?.routeConfigurations?.passages?.title ?? "" },
+      snippets: { title: siteMetadata?.routeConfigurations?.snippets?.title ?? "" },
+    },
+    medias: (!!siteMetadata?.medias && Array.isArray(siteMetadata?.medias)) ? (siteMetadata.medias as any[]).map(t => ({
+      identifier: t.identifier ?? "",
+      iconName: t.iconName ?? "",
+      title: t.title ?? "",
+      link: t.link ?? "",
+      imageName: t.imageName ?? "",
+    })) : [],
+    id: args.createNodeId("SiteMetadata"),
+    internal: {
+      type: "SiteMetadata",
+      contentDigest: args.createContentDigest(siteMetadata)
+    }
+  });
+
   // read posts
   const baseDir = path.resolve(__dirname, "content", "posts")
   const dir = await fs.promises.readdir(baseDir);
@@ -253,7 +284,6 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
       let abbr = yaml.abbr;
       let markdownContent = markdown;
       let identifier = yaml.identifier ?? toMD5(yaml.title);
-      // # TODO 实现多 updateTimes
       const passageAbbr: PassageAbbr = {
         identifier: identifier,
         title: yaml.title,
@@ -265,7 +295,7 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
           readTime: calculateReadingTimeFromMarkdown(markdownContent),
         }
       }
-      // # TODO 完善空字段处理 https://github.com/gatsbyjs/gatsby/issues/6800
+      // TODO 完善空字段处理 https://github.com/gatsbyjs/gatsby/issues/6800
       const passageDetail: PassageDetail = {
         item: passageAbbr,
         content: markdownContent,

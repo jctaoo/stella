@@ -9,12 +9,12 @@ import { Redirect } from "@reach/router";
 
 interface AboutPageData {
   about?: PassageDetail
-  site: { siteMetadata: { config: Config } }
+  siteMetadata: { config: Config }
 }
 
 export default function AboutPage(props: PageProps<AboutPageData>) {
   const passage = props.data.about
-  const discusConfig = props.data.site.siteMetadata.config.discus
+  const discusConfig = props.data.siteMetadata.config.discus
   return (
     !!passage ?
     <BasePage id="about-page">
@@ -45,12 +45,10 @@ export const query = graphql`
       topImage
       circleImage
     }
-    site {
-      siteMetadata {
-        config {
-          discus {
-            shortName
-          }
+    siteMetadata {
+      config {
+        discus {
+          shortName
         }
       }
     }

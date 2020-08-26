@@ -8,14 +8,15 @@ import { graphql, useStaticQuery } from "gatsby";
 import { RouteConfiguration } from "../../models/route-configuration";
 
 interface NavigationBarData {
-  site: {
-    siteMetadata: {
-      routeConfigurations: {
-        passages?: RouteConfiguration
-        snippets?: RouteConfiguration
-        about?: RouteConfiguration
-      }
-      title: string
+  siteMetadata: {
+    routeConfigurations: {
+      passages?: RouteConfiguration
+      snippets?: RouteConfiguration
+      about?: RouteConfiguration
+    }
+    config: {
+      homeLargeTitle?: string
+      siteName: string
     }
   }
 }
@@ -26,21 +27,22 @@ export default function NavigationBar() {
 
   const data = useStaticQuery<NavigationBarData>(graphql`
     {
-      site {
-        siteMetadata {
-          routeConfigurations {
-            about { title }
-            passages { title }
-            snippets { title }
-          }
-          title
+      siteMetadata {
+        routeConfigurations {
+          about { title }
+          passages { title }
+          snippets { title }
+        }
+        config {
+          homeLargeTitle
+          siteName
         }
       }
     }
   `);
-  const passagesName = data.site.siteMetadata.routeConfigurations?.passages?.title ?? "passages";
-  const snippetsName = data.site.siteMetadata.routeConfigurations?.snippets?.title ?? "snippets";
-  const aboutName = data.site.siteMetadata.routeConfigurations?.about?.title ?? "about";
+  const passagesName = data.siteMetadata.routeConfigurations?.passages?.title ?? "passages";
+  const snippetsName = data.siteMetadata.routeConfigurations?.snippets?.title ?? "snippets";
+  const aboutName = data.siteMetadata.routeConfigurations?.about?.title ?? "about";
 
   const goToHome = async () => {
     await navigate("/", { replace: true });
@@ -54,6 +56,8 @@ export default function NavigationBar() {
   const showSpecial = pathname === "/" || pathname === "/noutfound" || isSpecial
   const isHome = pathname === "/"
 
+  const title = !!data.siteMetadata.config.homeLargeTitle ? data.siteMetadata.config.homeLargeTitle : data.siteMetadata.config.siteName
+
   return (
     <motion.div
       initial={{opacity:0}}
@@ -63,7 +67,7 @@ export default function NavigationBar() {
       className={!isHome ? "navigation-bar-shrink" : ""}
     >
       <div id="navigation-bar-content">
-        <h1 id="blog-name-label" onClick={goToHome}>{data.site.siteMetadata.title}</h1>
+        <h1 id="blog-name-label" onClick={goToHome}>{title}</h1>
         <ul id="links-list">
           <NavigationLink
             title={passagesName}
@@ -85,7 +89,7 @@ export default function NavigationBar() {
           />
         </ul>
         <ul id="links-list-passage-list" className={!isPassage ? "links-list-passage-list-hide" : ""}>
-
+          {/* PASS */}
         </ul>
         <MediaInformation className="navigation-bar-media-info"/>
       </div>

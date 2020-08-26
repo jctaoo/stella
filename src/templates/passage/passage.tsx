@@ -10,7 +10,7 @@ import { NodeData, getNodesFromNodeData } from "../../models/node-data";
 
 interface PassagePageData {
   allPassageDetail: NodeData<PassageDetail>
-  site: { siteMetadata: { config: Config } }
+  siteMetadata: { config: Config }
 }
 
 export default function PassagePage(props: PageProps<PassagePageData>) {
@@ -18,7 +18,7 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
 
   const matchedPassages = getNodesFromNodeData(props.data.allPassageDetail)
   const currentPassage = matchedPassages.length > 0 ? matchedPassages[0] : undefined;
-  const config = props.data.site.siteMetadata.config.discus;
+  const config = props.data.siteMetadata.config.discus;
 
   const isNotFound = !currentPassage
 
@@ -59,12 +59,10 @@ export const query = graphql`
         }
       }
     }
-    site {
-      siteMetadata {
-        config {
-          discus {
-            shortName
-          }
+    siteMetadata {
+      config {
+        discus {
+          shortName
         }
       }
     }
