@@ -10,6 +10,8 @@ import FilterView from "../../components/FilterView/FilterView";
 import PassageItem from "../../components/passage-item/passage-item";
 import { PassageAbbr } from "../../models/passage-content";
 import { NodeContentData, getContentFromNodeContentData, NodeData, getNodesFromNodeData } from "../../models/node-data";
+import SEO from "../../components/SEO/SEO";
+import useSiteMetadata from "../../hooks/use-site-metadata";
 
 interface PassageListPageData {
   allPassage: NodeData<PassageAbbr>
@@ -55,8 +57,11 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
   const tags: Tag[] = getNodesFromNodeData(props.data.allTag);
   const categories: string[] = getContentFromNodeContentData(props.data.allCategory);
 
+  const description = useSiteMetadata().pageDescription?.passages;
+
   return (
     <BasePage id="passage-list-page">
+      <SEO description={description} />
       <div className="passage-list-container">
         { /* 若需要隐藏 passage-list-title 则应用 passage-list-title-hide class */ }
         <span className="passage-list-title">

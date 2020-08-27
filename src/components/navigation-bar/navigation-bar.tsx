@@ -6,46 +6,19 @@ import { navigate } from "gatsby";
 import { motion } from "framer-motion";
 import { graphql, useStaticQuery } from "gatsby";
 import { RouteConfiguration } from "../../models/route-configuration";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import AppState from '../../models/app-state';
-import { Actions } from '../../state';
+import useSiteMetadata from '../../hooks/use-site-metadata';
 
-interface NavigationBarData {
-  siteMetadata: {
-    routeConfigurations: {
-      passages: RouteConfiguration
-      snippets: RouteConfiguration
-      about: RouteConfiguration
-    }
-    config: {
-      homeLargeTitle?: string
-      siteName: string
-    }
-  }
-}
 
 export default function NavigationBar() {
 
   const pathname = useSelector((state: AppState) => state.currentPathname);
 
-  const data = useStaticQuery<NavigationBarData>(graphql`
-    {
-      siteMetadata {
-        routeConfigurations {
-          about { title }
-          passages { title }
-          snippets { title }
-        }
-        config {
-          homeLargeTitle
-          siteName
-        }
-      }
-    }
-  `);
-  const passagesName = data.siteMetadata.routeConfigurations?.passages?.title ?? "passages";
-  const snippetsName = data.siteMetadata.routeConfigurations?.snippets?.title ?? "snippets";
-  const aboutName = data.siteMetadata.routeConfigurations?.about?.title ?? "about";
+  const siteMetadata = useSiteMetadata();
+  const passagesName = siteMetadata.routeConfigurations?.passages?.title ?? "passages";
+  const snippetsName = siteMetadata.routeConfigurations?.snippets?.title ?? "snippets";
+  const aboutName = siteMetadata.routeConfigurations?.about?.title ?? "about";
 
   const goToHome = async () => {
     await navigate("/", { replace: true });
@@ -58,7 +31,7 @@ export default function NavigationBar() {
   const showSpecial = pathname === "/" || pathname === "/404" || isSpecial
   const isHome = pathname === "/"
 
-  const title = !!data.siteMetadata.config.homeLargeTitle ? data.siteMetadata.config.homeLargeTitle : data.siteMetadata.config.siteName
+  const title = !!siteMetadata.config.homeLargeTitle ? siteMetadata.config.homeLargeTitle : siteMetadata.config.siteName
 
   return (
     <motion.div

@@ -5,6 +5,7 @@ import { NodeData } from "./src/models/node-data";
 import config from "./gatsby-config";
 import Processer from "./src/scripts/processor";
 import typeDefs from "./src/scripts/schema";
+import { SiteMetadata } from "./src/models/site-metadata";
 
 // TODO 链接中的图片无法点击, 无居中
 // TODO 每次相同的图片生成的图片路径不一样
@@ -25,6 +26,7 @@ const processer = new Processer({
 
 export const createResolvers = async (args: CreateResolversArgs) => {
   const about = await processer.processAbout();
+  const siteMetadata: SiteMetadata = config.siteMetadata;
   const resolvers = {
     Query: {
       about: {
@@ -33,6 +35,12 @@ export const createResolvers = async (args: CreateResolversArgs) => {
           return about;
         }
       },
+      siteMetadata: {
+        type: 'SiteMetadata',
+        resolve: (source: any, args: any, context: any, info: any) => {
+          return siteMetadata;
+        }
+      }
     }
   }
   args.createResolvers(resolvers)
@@ -45,35 +53,6 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
 
 export const sourceNodes = async (args: SourceNodesArgs) => {
   await processer.clearAndEnsureImageFolder();
-
-  // 添加 siteMetadata 节点
-  const siteMetadata: any | undefined = config.siteMetadata;
-  args.actions.createNode({
-    config: {
-      siteName: siteMetadata?.config?.siteName ?? siteMetadata?.title ?? "",
-      homeLargeTitle: siteMetadata?.config?.homeLargeTitle ?? "",
-      discus: {
-        shortName: siteMetadata?.config?.discus?.shortName ?? ""
-      },
-    },
-    routeConfigurations: {
-      about: { title: siteMetadata?.routeConfigurations?.about?.title ?? "" },
-      passages: { title: siteMetadata?.routeConfigurations?.passages?.title ?? "" },
-      snippets: { title: siteMetadata?.routeConfigurations?.snippets?.title ?? "" },
-    },
-    medias: (!!siteMetadata?.medias && Array.isArray(siteMetadata?.medias)) ? (siteMetadata.medias as any[]).map(t => ({
-      identifier: t.identifier ?? "",
-      iconName: t.iconName ?? "",
-      title: t.title ?? "",
-      link: t.link ?? "",
-      imageName: t.imageName ?? "",
-    })) : [],
-    id: args.createNodeId("SiteMetadata"),
-    internal: {
-      type: "SiteMetadata",
-      contentDigest: args.createContentDigest(siteMetadata)
-    }
-  });
 
   // 添加 posts
   const posts = await processer.processPosts();

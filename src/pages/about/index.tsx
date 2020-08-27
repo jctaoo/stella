@@ -6,6 +6,8 @@ import PassageDetailView from "../../components/passage-detail/passage-detail";
 import { graphql, PageProps } from "gatsby";
 import Config from "../../models/config";
 import { Redirect } from "@reach/router";
+import SEO from "../../components/SEO/SEO";
+import useSiteMetadata from "../../hooks/use-site-metadata";
 
 interface AboutPageData {
   about?: PassageDetail
@@ -15,9 +17,11 @@ interface AboutPageData {
 export default function AboutPage(props: PageProps<AboutPageData>) {
   const passage = props.data.about
   const discusConfig = props.data.siteMetadata.config.discus
+  const description = useSiteMetadata().pageDescription?.about;
   return (
     !!passage ?
     <BasePage id="about-page">
+      <SEO description={description} />
       <PassageDetailView passage={passage} disqusConfig={discusConfig} />
     </BasePage> :
     <Redirect noThrow to={"/404"}/>

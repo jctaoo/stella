@@ -2,44 +2,15 @@ import React, { useState } from "react";
 import MediaInformation from "../media-information/media-information";
 import "./mobile-navigation-bar.scss";
 import RouteLabel from "./route-label";
-import { graphql, navigate, useStaticQuery } from "gatsby";
-import { RouteConfiguration } from "../../models/route-configuration";
+import { navigate } from "gatsby";
 import { useSelector } from "react-redux";
 import AppState from "../../models/app-state";
-import { ADDRGETNETWORKPARAMS } from "dns";
-
-interface MobileNavigationBarData {
-  siteMetadata: {
-    routeConfigurations: {
-      passages: RouteConfiguration
-      snippets: RouteConfiguration
-      about: RouteConfiguration
-    }
-    config: {
-      homeLargeTitle?: string
-      siteName: string
-    }
-  }
-}
+import useSiteMetadata from "../../hooks/use-site-metadata";
 
 function MobileNavigationBar() {
   const pathname = useSelector((state: AppState) => state.currentPathname);
 
-  const data = useStaticQuery<MobileNavigationBarData>(graphql`
-    {
-      siteMetadata {
-        routeConfigurations {
-          about { title }
-          passages { title }
-          snippets { title }
-        }
-        config {
-          homeLargeTitle
-          siteName
-        }
-      }
-    }
-  `);
+  const siteMetadata = useSiteMetadata();
   const goToHome = async () => {
     await navigate("/", { replace: true });
   }
@@ -47,16 +18,16 @@ function MobileNavigationBar() {
   const isHome = pathname === "/";
   const routeTitle = ((pathname: string): string | null => {
     if (pathname.startsWith("/passage")) {
-      return data.siteMetadata.routeConfigurations.passages.title;
+      return siteMetadata.routeConfigurations.passages.title;
     } else if (pathname.startsWith("/about")) {
-      return data.siteMetadata.routeConfigurations.about.title;
+      return siteMetadata.routeConfigurations.about.title;
     } else if (pathname.startsWith("/snippets")) {
-      return data.siteMetadata.routeConfigurations.snippets.title;
+      return siteMetadata.routeConfigurations.snippets.title;
     }
     return null;
   })(pathname);
 
-  const title = !!data.siteMetadata.config.homeLargeTitle ? data.siteMetadata.config.homeLargeTitle : data.siteMetadata.config.siteName
+  const title = !!siteMetadata.config.homeLargeTitle ? siteMetadata.config.homeLargeTitle : siteMetadata.config.siteName
 
   return (
     <div id="mobile-navigation-bar" className={isHome ? "hide" : ""}>

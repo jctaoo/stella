@@ -7,6 +7,8 @@ import Config from "../../models/config";
 import BasePage from "../../layout/base-page/base-page";
 import { Redirect } from "@reach/router";
 import { NodeData, getNodesFromNodeData } from "../../models/node-data";
+import SEO from "../../components/SEO/SEO";
+import PageDescription from "../../models/page-description";
 
 interface PassagePageData {
   allPassageDetail: NodeData<PassageDetail>
@@ -18,18 +20,21 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
   const currentPassage = matchedPassages.length > 0 ? matchedPassages[0] : undefined;
   const config = props.data.siteMetadata.config.discus;
 
-  const isNotFound = !currentPassage
+  const description: PageDescription | undefined = !!currentPassage ? {
+    title: currentPassage.item.title, 
+    keywords: currentPassage.item.about.tags.map(t => t.title), 
+    description: currentPassage.item.abbr, 
+    largeImage: currentPassage.topImage,
+    // largeImageAlt: string,
+    // TODO
+  } : undefined;
 
-  return isNotFound ?
+  return !currentPassage ?
     <Redirect noThrow to={"/404"}/> :
-    (() => {
-      const passage = currentPassage as PassageDetail;
-      return (
-        <BasePage id="passage-page">
-          <PassageDetailView passage={passage} disqusConfig={config}/>
-        </BasePage>
-      );
-    })()
+    <BasePage id="passage-page">
+      <SEO description={description} />
+      <PassageDetailView passage={currentPassage} disqusConfig={config}/>
+    </BasePage>
 }
 
 export const query = graphql`

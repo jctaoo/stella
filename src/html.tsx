@@ -24,7 +24,6 @@ export default function HTML(props: HtmlProps) {
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
       />
-      <title>Set Title Please</title>
       {props.headComponents}
     </head>
     <body {...props.bodyAttributes}>

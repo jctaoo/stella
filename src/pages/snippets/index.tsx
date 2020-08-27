@@ -6,6 +6,8 @@ import { graphql, PageProps } from "gatsby";
 import BasePage from "../../layout/base-page/base-page";
 import { SnippetAbbr } from "../../models/snippet-content";
 import { NodeData, getNodesFromNodeData } from "../../models/node-data";
+import SEO from "../../components/SEO/SEO";
+import useSiteMetadata from "../../hooks/use-site-metadata";
 
 interface SnippetsPageData {
   allSnippet: NodeData<SnippetAbbr>
@@ -13,9 +15,10 @@ interface SnippetsPageData {
 
 export default function SnippetPage(props: PageProps<SnippetsPageData>) {
   let snippets = getNodesFromNodeData(props.data.allSnippet);
-
+  const description = useSiteMetadata().pageDescription?.snippets;
   return (
-    <BasePage id="snippet-page">
+    <BasePage id="snippet-list-page">
+      <SEO description={description} />
       <div className="snippet-list-container">
         <span className="snippet-list-title">
 

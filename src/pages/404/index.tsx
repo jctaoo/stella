@@ -1,10 +1,14 @@
 import React from "react"
 import "./notfound.scss"
 import BasePage from "../../layout/base-page/base-page";
+import useSiteMetadata from "../../hooks/use-site-metadata";
+import SEO from "../../components/SEO/SEO";
 
 export default function NotFoundPage() {
+  const description = useSiteMetadata().pageDescription?.home;
   return (
     <BasePage id="not-found-page">
+      <SEO description={description} />
       <div id="not-found-page-content">
         <div id="not-found-page-explanation">
           <h1>Page Not Found</h1>

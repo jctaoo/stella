@@ -1,13 +1,13 @@
-import React, { HTMLAttributes } from "react";
+import React, { HTMLAttributes, ReactNode } from "react";
 import { motion } from "framer-motion";
 import "./base-page.scss";
 
-function BasePage({children, id}: {children: any} & HTMLAttributes<HTMLDivElement>) {
+function BasePage({ children, id }: { children: ReactNode } & HTMLAttributes<HTMLDivElement>) {
   return (
     <motion.div
-      initial={{opacity:0}}
-      animate={{opacity:1}}
-      exit={{opacity:0}}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       id={id}
       className="base-page"
     >
