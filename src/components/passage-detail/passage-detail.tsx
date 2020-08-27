@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from "react";
+import React, { HTMLAttributes, MouseEvent } from "react";
 import PassageTitle from "../passage-title/passage-title";
 import PassageAbout from "../passage-about/passage-about";
 import { DiscussionEmbed } from "disqus-react";
@@ -6,6 +6,7 @@ import "./passage-detail.scss";
 import { BaseContentDetail } from "../../models/base-content";
 import { DiscusConfig } from "../../models/config";
 import marked from "marked";
+import { navigate } from "gatsby";
 
 export enum PassageDetailViewMode {
   Full,
@@ -16,6 +17,17 @@ function PassageDetail(
   {passage, disqusConfig, mode = PassageDetailViewMode.Full, className}:
     {passage: BaseContentDetail, disqusConfig?: DiscusConfig, mode?: PassageDetailViewMode} & HTMLAttributes<any>
 ) {
+
+  const onPassageContainerClick = (e: MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLDivElement).className.includes("passage-inner-link") && (e.target as HTMLDivElement).tagName.toLocaleLowerCase() === "a") {  
+      const href = (e.target as HTMLLinkElement).getAttribute("href");
+      if (typeof href === "string" && href.startsWith("/")) {
+        e.preventDefault();
+        navigate(href);
+      }
+    }
+  }
+
   return (
     <div className={`passage-container ${className ? className : ""}`}>
       {
@@ -42,9 +54,11 @@ function PassageDetail(
       </div>
       <div
         className={`
-          passage-content-container 
+          passage-content-container
           ${mode === PassageDetailViewMode.Partial ? "partial" : ""}
         `}
+        id="passage-content-container"
+        onClick={onPassageContainerClick}
         dangerouslySetInnerHTML={{__html: marked(passage.content)}}
         style={{
           marginTop: PassageDetailViewMode.Full !== mode ? 22 : undefined,

@@ -17,7 +17,7 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
   let snippets = getNodesFromNodeData(props.data.allSnippet);
   const description = useSiteMetadata().pageDescription?.snippets;
   return (
-    <BasePage id="snippet-list-page">
+    <BasePage id="snippet-page">
       <SEO description={description} />
       <div className="snippet-list-container">
         <span className="snippet-list-title">

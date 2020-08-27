@@ -10,7 +10,7 @@ export default {
         "shortName": "jctaoo"              // !
       },
       "lang": "zh",                        // !
-      "host": "localhost:9000",                 // !
+      "host": "http://cix7zq.natappfree.cc",                 // !
       "siteName": "Jctaoo.",               // !
       "homeLargeTitle": "Jctaoo.",
     },

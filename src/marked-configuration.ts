@@ -100,6 +100,9 @@ export default function configMarked() {
           }
         }).join()
         return `<table>${header + newBody}</table>`;
+      },
+      link(href, title, text): string {
+        return `<a title=${title} href=${href} class="passage-inner-link">${text}</a>`
       }
     }
   });
