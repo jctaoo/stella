@@ -1,0 +1,44 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.passage-item-title {
+  display: inline-flex;
+  flex-direction: column;
+  cursor: pointer;
+
+  &:hover {
+    .passage-item-title-label {
+      @include label-color;
+    }
+
+    .passage-item-title-indicator-container .passage-item-title-indicator {
+      height: 19.5px;
+      transform: translateY(-4.875px);
+    }
+  }
+
+  .passage-item-title-label {
+    user-select: none;
+    display: inline;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-family: $font;
+    font-size: 25.5px;
+    line-height: 30.75px;
+    z-index: 10;
+    @include label-color;
+  }
+
+  .passage-item-title-indicator-container {
+    height: 9.75px;
+    margin-top: -13px;
+
+    .passage-item-title-indicator {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      transition: $transition;
+      @include indicator-high-color;
+    }
+  }
+}

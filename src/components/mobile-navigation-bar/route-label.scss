@@ -1,0 +1,34 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.route-label-title {
+  display: inline-flex;
+  flex-direction: column;
+  cursor: pointer;
+
+  .route-label-title-label {
+    user-select: none;
+    display: inline;
+    z-index: 10;
+    font-size: 28px;
+    font-family: $font;
+    font-weight: normal;
+    line-height: 34px;
+    margin-bottom: 0;
+    @include label-color;
+  }
+
+  .route-label-title-indicator-container {
+    margin-top: -13px;
+    height: 12.75px;
+    transform: translateY(-10px);
+
+    .route-label-title-indicator {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      transition: $transition;
+      @include indicator-high-color;
+    }
+  }
+}
