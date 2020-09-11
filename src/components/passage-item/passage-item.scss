@@ -1,0 +1,31 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.passage-item {
+  max-width: 466px;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 22px 25px;
+
+  .passage-item-abbreviation {
+    margin-top: 25.75px;
+
+    &:hover {
+      transition: opacity $transition;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    .passage-item-abbreviation-text {
+      font-family: $font;
+      font-size: 17px;
+      line-height: 22px;
+      font-weight: normal;
+      margin-bottom: 0;
+      max-height: 154px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      @include label-secondary-color;
+    }
+  }
+}

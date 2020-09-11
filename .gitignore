@@ -1,7 +1,13 @@
 # for icloud
 node_modules.nosync
 # for react build
-build
+build/
+# gatsby public
+public/
+# gatsby cache
+.cache/
+
+.idea/
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,webstorm,visualstudiocode,node,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,webstorm,visualstudiocode,node,react

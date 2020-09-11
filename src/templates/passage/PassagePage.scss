@@ -1,0 +1,7 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+@import "../../styles/passage-liked";
+
+#passage-page {
+  @include passage-liked-page;
+}
