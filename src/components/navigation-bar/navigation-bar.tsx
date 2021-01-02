@@ -26,7 +26,8 @@ export default function NavigationBar() {
 
   const isPassage = pathname.startsWith("/passage");
 
-  // #TODO
+  // TODO: Support special navigation link (implemented but need optimize)
+  // showSpecial is the mark variable indicates whether is special navigation link or not.
   const isSpecial = false
   const showSpecial = pathname === "/" || pathname === "/404" || isSpecial
   const isHome = pathname === "/"

@@ -1,5 +1,13 @@
-# A SPA blog theme using react - stella✨
+# Stella, an easy using SPA blog theme based on [Gatsby](https://github.com/gatsbyjs/gatsby)
 
-### under development...
+## TODO
+- [ ] Support special navigation link (implemented but need optimize)
 
-## note: sketch 设计文件在 resources 下
+## Demo Site
+
+## Screen Shot
+
+## How to use
+
+
+## License
