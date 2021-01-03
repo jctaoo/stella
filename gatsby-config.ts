@@ -5,13 +5,16 @@ const siteKeywords = ["博客", "Jctaoo", "个人主页", "个人介绍", "生�
 export default {
   siteMetadata: {
     "config": {
-      // "discus": {
+      // "disqus": {
       //   "shortName": "jctaoo"              // !
       // },
       "lang": "zh",                        // !
       "host": "http://cix7zq.natappfree.cc",                 // !
       "siteName": "Jctaoo.",               // !
       "homeLargeTitle": "Jctaoo.",
+      "experiment": {
+        "downloadNebPicture": false,
+      },
     },
     "routeConfigurations": {               // !            
       "about": {                           // !

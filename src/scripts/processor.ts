@@ -8,7 +8,8 @@ import YAML from "yaml";
 import { PassageAbbr, PassageDetail } from "../models/passage-content";
 import { BaseContentAbbr, BaseContentDetail, Tag } from "../models/base-content";
 import { SnippetAbbr } from "../models/snippet-content";
-import { mainModule } from "process";
+import configureMarked from "./marked-configuration";
+import marked from "marked";
 
 interface MarkdownProcessResult {
   information: MarkdownInfo
@@ -24,28 +25,51 @@ interface PostsProcessResult {
   abbrs: PassageAbbr[]
 }
 
+interface ExperimentFeature {
+  downloadWebPicture: boolean
+}
+
 export default class Processor {
 
-  constructor({ publicDir, imageStaticDir, postsDir, snippetsDir, aboutDir }: { publicDir: string, imageStaticDir: string, postsDir: string, snippetsDir: string, aboutDir: string }) {
+  constructor(
+    {
+      publicDir,
+      imageStaticDir,
+      postsDir,
+      snippetsDir,
+      aboutDir
+    }: {
+      publicDir: string,
+      imageStaticDir: string,
+      postsDir: string,
+      snippetsDir: string,
+      aboutDir: string
+    },
+    experimentFeatures: ExperimentFeature
+  ) {
     this.publicDir = publicDir;
     this.imageStaticDir = imageStaticDir;
     this.postsDir = postsDir;
     this.snippetsDir = snippetsDir;
     this.aboutDir = aboutDir;
+    this.experimentFeatures = experimentFeatures;
+    configureMarked();
   }
 
   // ==================== Properties ====================
 
-  private publicDir: string;
-  private imageStaticDir: string;
-  private postsDir: string;
-  private snippetsDir: string;
-  private aboutDir: string;
+  private readonly experimentFeatures: ExperimentFeature;
 
-  private markdownImageRegx = /!\[([^\]]+)\]\(([^\)]+)\)/g;
-  private markdownLinkRegx = /\[(.*?)\]\((.*?)\)/g;
-  private markdownYamlRegx = /^---\n([\s\S]*?)---\n{0,1}/;
-  private codeSnippetRegx = /```.*?\n[\s\S]*?```\n{0,1}/;
+  private readonly publicDir: string;
+  private readonly imageStaticDir: string;
+  private readonly postsDir: string;
+  private readonly snippetsDir: string;
+  private readonly aboutDir: string;
+
+  private readonly markdownImageRegx = /!\[([^\]]+)]\(([^)]+)\)/g;
+  private readonly markdownLinkRegx = /\[(.*?)]\((.*?)\)/g;
+  private readonly markdownYamlRegx = /^---\n([\s\S]*?)---\n?/;
+  private readonly codeSnippetRegx = /```.*?\n([\s\S]*?)```\n?/;
 
   /** 图片缓存, 避免重新复制图片/下载图片 */
   private imageSymbolToTargetPath: Map<string, string> = new Map();
@@ -58,14 +82,14 @@ export default class Processor {
   }
 
   public async processPosts(): Promise<PostsProcessResult> {
-    const childs = await fs.promises.readdir(this.postsDir);
+    const children = await fs.promises.readdir(this.postsDir);
 
     let tags: Tag[] = [];
     let categories: string[] = [];
     let abbrs: PassageAbbr[] = [];
     let details: PassageDetail[] = [];
 
-    for (const childPath of childs) {
+    for (const childPath of children) {
       const result = await this.processMarkdown(path.resolve(this.postsDir, childPath));
       if (!!result) {
         tags = tags.concat(result.abbr.about.tags ?? []);
@@ -89,15 +113,16 @@ export default class Processor {
 
   public async processSnippets(): Promise<SnippetAbbr[]> {
 
-    const childs = await fs.promises.readdir(this.snippetsDir);
+    const children = await fs.promises.readdir(this.snippetsDir);
 
     let abbrs: SnippetAbbr[] = [];
 
-    for (const childPath of childs) {
+    for (const childPath of children) {
+      // TODO refactor: doesnt use result's detail but processMarkdown generate it.
       const result = await this.processMarkdown(path.resolve(this.snippetsDir, childPath));
       if (!!result) {
         const codeMatchResult = result.markdown.match(this.codeSnippetRegx);
-        const codeRaw = !!codeMatchResult ? codeMatchResult[0] : undefined;
+        const codeRaw = !!codeMatchResult ? marked(codeMatchResult[0]) : undefined;
         const abbr = !!codeMatchResult ? result.markdown.slice((codeMatchResult.index ?? 0) + codeMatchResult[0].length) : result.markdown;
         abbrs.push({ ...result.abbr, abbr, codeRaw });
       }
@@ -129,8 +154,13 @@ export default class Processor {
    * @param fileAbsolutePath 文件的绝对路径
    * @param userIdentifier 用户填写的 id
    * @param userTitle 用户填写的文件标题
+   *
+   * Conditions:
+   * - has identifier defined by passage author: using identifier.
+   * - hasn't user identifier but has passage title: using md5(title).
+   * - Neither user identifier nor passage title: using file name.
    */
-  private normalizeIdentifier(fileAbsolutePath: string, userIdentifier?: string, userTitle?: string): string {
+  private static normalizeIdentifier(fileAbsolutePath: string, userIdentifier?: string, userTitle?: string): string {
     const extension = fileAbsolutePath.split(".").reverse()[0]
     const name = path.basename(fileAbsolutePath, extension);
     return userIdentifier ?? (!!userTitle ? Utils.toMD5(userTitle) : name);
@@ -154,8 +184,9 @@ export default class Processor {
       this.imageSymbolToTargetPath.set(link, targetPath);
     };
 
+    // TODO 实验功能 下载 web 图片以 保证未来图片不会丢失
     // 如果是 web url, 下载图片
-    if (Utils.isUrl(link)) {
+    if (this.experimentFeatures.downloadWebPicture && Utils.isUrl(link)) {
       const imageName = `${UUID.v4()}.png`;
       const imageDestination = path.resolve(this.imageStaticDir, imageName);
       try {
@@ -165,14 +196,17 @@ export default class Processor {
         return publicPath;
       } catch (error) {
         // PASS
+        console.log(`
+        Some error occurred when download web image
+        `)
       }
     }
 
-    // 如果本地存在该图片
+    // 如果本地存在该图片, 路径为相对路径，复制
+    // 反之，如果本地存在该图片, 路径为绝对绝对，不做任何操作
     const linkPath = path.resolve(filePath, "..", link);
-    if (fs.existsSync(linkPath)) {
-      const extension = linkPath.split(".").reverse()[0] ?? "png";
-      const imageName = UUID.v4() + "." + extension;
+    if (!path.isAbsolute(link) && fs.existsSync(linkPath)) {
+      const imageName = path.basename(linkPath);
       const imageDestinationPath = path.resolve(this.imageStaticDir, imageName);
       await fs.promises.copyFile(linkPath, imageDestinationPath);
       const publicPath = imageDestinationPath.replace(this.publicDir, "");
@@ -181,6 +215,7 @@ export default class Processor {
     }
 
     // 在不满足以上条件的情况下返回原链接
+    // 此处为绝对路径或网络连接
     cacheLink();
     return link;
   }
@@ -190,8 +225,7 @@ export default class Processor {
    * @param link 原链接
    * @param filePath 原文件的绝对路径
    */
-  // TODO 实现文件链接
-  private async normalizeLink(link: string, filePath: string): Promise<string> {
+  private static async normalizeLink(link: string, filePath: string): Promise<string> {
     // 如果是 web url 不做修改
     if (Utils.isUrl(link)) {
       return link;
@@ -200,13 +234,12 @@ export default class Processor {
     // 如果是本地文件之间的引用
     const linkPath = path.resolve(filePath, "..", link);
     if (fs.existsSync(linkPath)) {
-      // TODO 不要重复读取文件
       const content = (await fs.promises.readFile(linkPath)).toString();
-      const idntifierMatch = /identifier:\s(.*)/.exec(content);
+      const identifierMatch = /identifier:\s(.*)/.exec(content);
       const titleMatch = /title:\S(.*)/.exec(content);
-      const identifier = this.normalizeIdentifier(
+      const identifier = Processor.normalizeIdentifier(
         filePath,
-        !!idntifierMatch ? idntifierMatch[1] : undefined,
+        !!identifierMatch ? identifierMatch[1] : undefined,
         !!titleMatch ? titleMatch[1] : undefined,
       );
       return "/passage/" + identifier;
@@ -227,7 +260,6 @@ export default class Processor {
     let resultString = markdown;
 
     // 处理图片链接
-    // /!\[([^\]]+)\]\(([^\)]+)\)/ 
     // [0]: markdown image name
     // [1]: markdown image link
     resultString = await Utils.replaceAsync(
@@ -240,9 +272,8 @@ export default class Processor {
     );
 
     // 处理链接
-    // /\[(.*?)\]\((.*?)\)/
     // [0]: markdown link name
-    // [1]: markodnw link href
+    // [1]: markdown link href
     resultString = await Utils.replaceAsync(
       resultString,
       this.markdownLinkRegx,
@@ -250,7 +281,7 @@ export default class Processor {
         // 判断不是图片
         const previousIndex = Math.max(0, index - 1)
         if (input[previousIndex] !== "!") {
-          const normalizedLinkHref = await this.normalizeLink(linkHref, filePath);
+          const normalizedLinkHref = await Processor.normalizeLink(linkHref, filePath);
           return `[${linkName}](${normalizedLinkHref})`;
         }
 
@@ -275,6 +306,10 @@ export default class Processor {
     const extension: string | undefined = absolutePath.split(".").reverse()[0]
     const stat = await fs.promises.stat(absolutePath);
     if (!stat.isFile() || !extension || (!!extension && extension !== "md")) {
+      console.log(`
+        File "${absolutePath}" is not a file or has no extension or file's extension is
+        not .md
+      `)
       return;
     }
 
@@ -283,44 +318,42 @@ export default class Processor {
     const buffer = await fs.promises.readFile(absolutePath);
     const content = await this.normalizeMarkdown(buffer.toString(), absolutePath);
 
-    let makdwonInformation: MarkdownInfo = {
+    let markdownInformation: MarkdownInfo = {
       title: name,
     };
     let markdown = content;
 
     // 匹配 yaml 内容
-    // /^---\n([\s\S]*?)---\n{0,1}/
     // [0]: yaml string
     const yamlMatchResult = content.match(this.markdownYamlRegx);
     if (!!yamlMatchResult) {
-      const yaml: MarkdownInfo = YAML.parse(yamlMatchResult[1]);
-      makdwonInformation = yaml;
+      markdownInformation = YAML.parse(yamlMatchResult[1]);
       markdown = content.slice((yamlMatchResult?.index ?? 0) + yamlMatchResult[0].length);
     }
 
     // 处理并产生结结果
-    const identifier = this.normalizeIdentifier(absolutePath, makdwonInformation.identifier, makdwonInformation.title);
+    const identifier = Processor.normalizeIdentifier(absolutePath, markdownInformation.identifier, markdownInformation.title);
 
     const abbr: BaseContentAbbr = {
       identifier: identifier,
-      title: makdwonInformation.title,
-      abbr: makdwonInformation.abbr ?? "",
+      title: markdownInformation.title,
+      abbr: markdownInformation.abbr ?? "",
       about: {
-        updateTimes: (makdwonInformation.updateDates ?? []).map(d => new Date(d)),
-        tags: (makdwonInformation.tags ?? []).map(t => ({ id: Utils.toMD5(t), title: t })),
-        category: makdwonInformation.category ?? "",
+        updateTimes: (markdownInformation.updateDates ?? []).map(d => new Date(d)),
+        tags: (markdownInformation.tags ?? []).map(t => ({ id: Utils.toMD5(t), title: t })),
+        category: markdownInformation.category ?? "",
         readTime: Utils.calculateReadingTimeFromMarkdown(markdown),
       }
     }
     const detail: BaseContentDetail = {
       item: abbr,
-      content: markdown,
-      topImage: !!makdwonInformation.topImage ? await this.normalizeImageLink(makdwonInformation.topImage, absolutePath) : "",
-      circleImage: !!makdwonInformation.circleImage ? await this.normalizeImageLink(makdwonInformation.circleImage, absolutePath) : "",
+      content: marked(markdown),
+      topImage: !!markdownInformation.topImage ? await this.normalizeImageLink(markdownInformation.topImage, absolutePath) : "",
+      circleImage: !!markdownInformation.circleImage ? await this.normalizeImageLink(markdownInformation.circleImage, absolutePath) : "",
     }
 
     return {
-      information: makdwonInformation,
+      information: markdownInformation,
       markdown,
       abbr,
       detail,

@@ -40,7 +40,6 @@ function XQR({ description }: { description?: PageDescription }) {
       <meta property="og:locale" content={locale} />
       { !!description.largeImage ? <meta property="og:image" content={`${siteMetadata.config.host}${description.largeImage}`} /> : undefined }
       { !!description.largeImageAlt ? <meta property="og:image:alt" content={description.largeImageAlt} /> : undefined }
-
     </Helmet>
   );
 }

@@ -13,9 +13,11 @@ updateDates:
 ![girl](girl.jpg)
 
 # Here is an image in link
-[![girl](girl.jpg)](htts://www.google.com)
+[![girl](/Users/junso/Desktop/stella/content/posts/girl.jpg)](htts://www.google.com)
 
 # Here is a web image
 ![@hqqyyy](https://ww4.sinaimg.cn/bmiddle/a2ca645agy1fgcndozmezj21ey1me4n4.jpg)
 
 [to first](./test.md)
+
+[text.pages](/.text.pages)

@@ -28,11 +28,11 @@ export default `
   type Config {
     siteName: String!
     homeLargeTitle: String
-    discus: DiscusConfig
+    disqus: DisqusConfig
     lang: String!
     host: String!
   }
-  type DiscusConfig {
+  type DisqusConfig {
     shortName: String!
   }
   type RouteConfiguration {

@@ -3,30 +3,31 @@ import * as path from "path";
 import { PassageAbbr } from "./src/models/passage-content";
 import { NodeData } from "./src/models/node-data";
 import config from "./gatsby-config";
-import Processer from "./src/scripts/processor";
+import Processor from "./src/scripts/processor";
 import typeDefs from "./src/scripts/schema";
 import { SiteMetadata } from "./src/models/site-metadata";
 
 // TODO 链接中的图片无法点击, 无居中
-// TODO 每次相同的图片生成的图片路径不一样
-// TODO discus 拼错了 ---> disqus
-// TODO 将 markdown 翻译 html 在 准备阶段执行
-// Here is Github codespaces
 
 interface CreatePagesData {
   allPassage: NodeData<PassageAbbr>
 }
 
-const processer = new Processer({
-  publicDir: path.resolve(__dirname, "public"),
-  imageStaticDir: path.resolve(__dirname, "public", "static", "images"),
-  postsDir: path.resolve(__dirname, "content", "posts"),
-  snippetsDir: path.resolve(__dirname, "content", "snippets"),
-  aboutDir: path.resolve(__dirname, "content", "about.md")
-});
+const processor = new Processor(
+  {
+    publicDir: path.resolve(__dirname, "public"),
+    imageStaticDir: path.resolve(__dirname, "public", "static", "images"),
+    postsDir: path.resolve(__dirname, "content", "posts"),
+    snippetsDir: path.resolve(__dirname, "content", "snippets"),
+    aboutDir: path.resolve(__dirname, "content", "about.md")
+  },
+  {
+    downloadWebPicture: config.siteMetadata.config.experiment.downloadNebPicture
+  },
+);
 
 export const createResolvers = async (args: CreateResolversArgs) => {
-  const about = await processer.processAbout();
+  const about = await processor.processAbout();
   const siteMetadata: SiteMetadata = config.siteMetadata;
   const resolvers = {
     Query: {
@@ -53,10 +54,10 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
 }
 
 export const sourceNodes = async (args: SourceNodesArgs) => {
-  await processer.clearAndEnsureImageFolder();
+  await processor.clearAndEnsureImageFolder();
 
   // 添加 posts
-  const posts = await processer.processPosts();
+  const posts = await processor.processPosts();
 
   posts.tags.forEach(tag => {
     args.actions.createNode({
@@ -100,7 +101,7 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
   });
 
   // 添加 snippets
-  const snippets = await processer.processSnippets();
+  const snippets = await processor.processSnippets();
 
   snippets.forEach(snippet => {
     args.actions.createNode({

@@ -4,8 +4,7 @@ import PassageAbout from "../passage-about/passage-about";
 import { DiscussionEmbed } from "disqus-react";
 import "./passage-detail.scss";
 import { BaseContentDetail } from "../../models/base-content";
-import { DiscusConfig } from "../../models/config";
-import marked from "marked";
+import { DisqusConfig } from "../../models/config";
 import { navigate } from "gatsby";
 
 export enum PassageDetailViewMode {
@@ -15,7 +14,7 @@ export enum PassageDetailViewMode {
 
 function PassageDetail(
   {passage, disqusConfig, mode = PassageDetailViewMode.Full, className}:
-    {passage: BaseContentDetail, disqusConfig?: DiscusConfig, mode?: PassageDetailViewMode} & HTMLAttributes<any>
+    {passage: BaseContentDetail, disqusConfig?: DisqusConfig, mode?: PassageDetailViewMode} & HTMLAttributes<any>
 ) {
 
   const onPassageContainerClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -23,7 +22,7 @@ function PassageDetail(
       const href = (e.target as HTMLLinkElement).getAttribute("href");
       if (typeof href === "string" && href.startsWith("/")) {
         e.preventDefault();
-        navigate(href);
+        navigate(href).then();
       }
     }
   }
@@ -59,7 +58,7 @@ function PassageDetail(
         `}
         id="passage-content-container"
         onClick={onPassageContainerClick}
-        dangerouslySetInnerHTML={{__html: marked(passage.content)}}
+        dangerouslySetInnerHTML={{__html: passage.content}}
         style={{
           marginTop: PassageDetailViewMode.Full !== mode ? 22 : undefined,
         }}

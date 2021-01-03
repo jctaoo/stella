@@ -1,12 +1,15 @@
 interface Config {
   siteName: string
   homeLargeTitle?: string
-  discus?: DiscusConfig
+  disqus?: DisqusConfig
   lang: string
   host: string
+  experiment: {
+    downloadNebPicture: boolean
+  }
 }
 
-export interface DiscusConfig {
+export interface DisqusConfig {
   shortName: string
 }
 

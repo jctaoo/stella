@@ -47,7 +47,7 @@ const initialState: AppState = {
   isLoading: false 
 };
 
-const appRducer: Reducer<AppState, Action<Symbol>> = (state = initialState, action): AppState => {
+const appReducer: Reducer<AppState, Action<Symbol>> = (state = initialState, action): AppState => {
   if (action.type === CHANGE_PATHNAME_ACTION_ID) {
     const changePathnameAction = action as ChangePathnameAction;
     return {
@@ -69,7 +69,7 @@ const appRducer: Reducer<AppState, Action<Symbol>> = (state = initialState, acti
 
 // #==================== store ====================#
 
-const store = createStore(appRducer, composeWithDevTools(
+const store = createStore(appReducer, composeWithDevTools(
   applyMiddleware(thunk)
 ));
 

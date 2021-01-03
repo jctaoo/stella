@@ -18,7 +18,7 @@ interface PassagePageData {
 export default function PassagePage(props: PageProps<PassagePageData>) {
   const matchedPassages = getNodesFromNodeData(props.data.allPassageDetail)
   const currentPassage = matchedPassages.length > 0 ? matchedPassages[0] : undefined;
-  const config = props.data.siteMetadata.config.discus;
+  const config = props.data.siteMetadata.config.disqus;
 
   const description: PageDescription | undefined = !!currentPassage ? {
     title: currentPassage.item.title, 
@@ -26,7 +26,7 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
     description: currentPassage.item.abbr, 
     largeImage: currentPassage.topImage,
     // largeImageAlt: string,
-    // TODO
+    // TODO support largeImageAlt
   } : undefined;
 
   return !currentPassage ?
@@ -64,7 +64,7 @@ export const query = graphql`
     }
     siteMetadata {
       config {
-        discus {
+        disqus {
           shortName
         }
       }

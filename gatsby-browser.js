@@ -4,13 +4,8 @@ import "./src/styles/index.scss";
 import "./src/styles/base.scss";
 import "antd/dist/antd.css";
 import "highlight.js/styles/atom-one-dark.css";
-import configMarked from "./src/marked-configuration";
 import store, { Actions } from "./src/state";
 import { RouteUpdateArgs, RouteUpdateDelayedArgs } from "gatsby";
-
-export const onClientEntry = () => {
-  configMarked();
-};
 
 /**
  * @param {RouteUpdateArgs} args 

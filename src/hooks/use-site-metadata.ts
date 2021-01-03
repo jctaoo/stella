@@ -8,7 +8,7 @@ const useSiteMetadata = (): SiteMetadata => {
         config {
           siteName
           homeLargeTitle
-          discus {
+          disqus {
             shortName
           }
           lang
