@@ -1,7 +1,8 @@
 {
   "name": "setlla",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "license": "0BSD",
+  "private": false,
   "dependencies": {
     "@reach/router": "^1.3.4",
     "@testing-library/jest-dom": "^4.2.4",

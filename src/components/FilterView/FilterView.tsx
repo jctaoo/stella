@@ -2,6 +2,8 @@ import React from "react";
 import { Popover, List } from "antd";
 import "./FilterView.scss";
 
+// TODO rename to filter-view
+
 interface FilterViewProps<T> {
   content?: string
   description: string

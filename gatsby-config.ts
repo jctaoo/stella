@@ -108,7 +108,7 @@ export default {
         background_color: '#FFD54F',
         theme_color: '#FFD54F',
         display: 'standalone',
-        icon: 'src/resources/image/icon.png',
+        icon: 'static/icon.png',
       },
     },
     'gatsby-plugin-offline'
