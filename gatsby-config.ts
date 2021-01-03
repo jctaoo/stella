@@ -104,18 +104,6 @@ export default {
     },
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
-    {
-      resolve: 'gatsby-plugin-manifest',
-      options: {
-        name: 'Jctaoo.',
-        short_name: 'Jctaoo.',
-        start_url: '/',
-        background_color: '#FFD54F',
-        theme_color: '#FFD54F',
-        display: 'standalone',
-        icon: 'static/icon.png',
-      },
-    },
     'gatsby-plugin-offline'
   ],
 }
