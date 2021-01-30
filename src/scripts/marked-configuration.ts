@@ -50,7 +50,7 @@ export default function configMarked() {
 
           const numberBlock = document.createElement('span');
           // in jsdom cannot use innerText
-          https://github.com/jsdom/jsdom/issues/1245
+          // https://github.com/jsdom/jsdom/issues/1245
           numberBlock.innerHTML = (i + 1).toString();
           console.log(numberBlock.innerHTML)
           numberBlock.className = "code-lines-block-item hljs-comment";

@@ -19,7 +19,6 @@ function AppContainer({ children }: { children: ReactElement }) {
   return (
     <div id="stella-container" style={{ display: "contents" }}>
       <Provider store={store}>
-        <GlobalInformation text={"本站点为示例站点, 网站内容来自互联网"} />
         <TopProgress />
         <MobileNavigationBar />
         <div id="home-page">

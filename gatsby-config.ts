@@ -62,7 +62,7 @@ export default {
         "identifier": "1",                 // !
         "iconName": "bilibili",            // !
         "title": "bilibili",               // !
-        "link": "https://space.bilibili.com/155950817",
+        "link": undefined,
         "imageName": undefined
       },
       {

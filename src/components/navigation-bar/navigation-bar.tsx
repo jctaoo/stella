@@ -6,9 +6,10 @@ import { navigate } from "gatsby";
 import { motion } from "framer-motion";
 import { graphql, useStaticQuery } from "gatsby";
 import { RouteConfiguration } from "../../models/route-configuration";
-import { useSelector } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import AppState from '../../models/app-state';
 import useSiteMetadata from '../../hooks/use-site-metadata';
+import GlobalInformation from "../global-information/GlobalInformation";
 
 
 export default function NavigationBar() {
@@ -66,6 +67,7 @@ export default function NavigationBar() {
         </ul>
         <MediaInformation className="navigation-bar-media-info"/>
       </div>
+      <GlobalInformation text={"本站点为示例站点, 网站内容来自互联网"} />
     </motion.div>
   );
 }

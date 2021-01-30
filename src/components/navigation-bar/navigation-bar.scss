@@ -7,6 +7,7 @@ $horizontal-shrink-padding: 52.5px;
 $horizontal-mobile-padding: 35px;
 
 #navigation-bar.navigation-bar-shrink {
+  position: relative;
   #navigation-bar-content {
     padding-left: ($horizontal-shrink-padding) !important;
     padding-right: 0 !important;

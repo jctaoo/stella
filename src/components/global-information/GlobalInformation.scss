@@ -2,10 +2,10 @@
 @import "../../styles/theme";
 
 #global-information {
-  position: fixed;
+  position: absolute;
   left: 0;
   bottom: 0;
-  width: 100vw;
+  width: 100%;
   background-color: #faebd7;
   z-index: 999;
   padding-top: 10px;
