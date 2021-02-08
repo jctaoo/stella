@@ -5,9 +5,10 @@ const siteKeywords = ["博客", "Jctaoo", "个人主页", "个人介绍", "生�
 export default {
   siteMetadata: {
     "config": {
-      // "disqus": {
-      //   "shortName": "jctaoo"              // !
-      // },
+      "disqus": {
+        "shortName": "jctaoo",              // !
+        "developmentShortName": "jctaoo-dev", // !
+      },
       "lang": "zh",                        // !
       "host": "http://cix7zq.natappfree.cc",                 // !
       "siteName": "Jctaoo.",               // !
@@ -16,7 +17,11 @@ export default {
         "downloadNebPicture": false,
       },
     },
-    "routeConfigurations": {               // !            
+    "copyright": {
+      "author": "jctaoo",
+      "creativeCommons": "by",
+    },
+    "routeConfigurations": {               // !
       "about": {                           // !
         "title": "关于"                     // !
       },                                   // !
@@ -31,28 +36,28 @@ export default {
       "home": {
         "title": "主页",                   // !
         "keywords": siteKeywords,          // !
-        "description": "Jctaoo的个人网站",    
+        "description": "Jctaoo的个人网站",
         "largeImage": undefined,
         "largeImageAlt": undefined,
       },
       "passages": {
         "title": "文章列表",                // !
         "keywords": [...siteKeywords, "文章列表"],          // !
-        "description": "所有发布的文章列表",    
+        "description": "所有发布的文章列表",
         "largeImage": undefined,
         "largeImageAlt": undefined,
       },
       "snippets": {
         "title": "片段列表",                // !
         "keywords": [...siteKeywords, "片段列表", "vlog"],          // !
-        "description": "所有发布的片段列表, 记录代码与日常片段",    
+        "description": "所有发布的片段列表, 记录代码与日常片段",
         "largeImage": undefined,
         "largeImageAlt": undefined,
       },
       "about": {
         "title": "关于",                  // !
         "keywords": [...siteKeywords, "关于", "简介", "说明"],          // !
-        "description": "关于Jctaoo的个人网站",    
+        "description": "关于Jctaoo的个人网站",
         "largeImage": undefined,
         "largeImageAlt": undefined,
       },

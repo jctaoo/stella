@@ -10,11 +10,11 @@ export const useFilter = (): [string | undefined, string | undefined] => {
   let categoryFilter: string | undefined;
 
   if (typeof params['tag'] === "string") {
-    tagFilter = params['tag'];
+    tagFilter = params['tag'] as unknown as string;
   }
 
   if (typeof params['category'] === "string") {
-    categoryFilter = params['category'];
+    categoryFilter = params['category'] as unknown as string;
   }
 
   return [tagFilter, categoryFilter];

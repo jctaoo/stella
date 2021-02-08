@@ -6,6 +6,10 @@ import "./passage-detail.scss";
 import { BaseContentDetail } from "../../models/base-content";
 import { DisqusConfig } from "../../models/config";
 import { navigate } from "gatsby";
+import { useLocation } from "@reach/router";
+import { AppEnv, useEnv } from "../../hooks/useEnv";
+import Footer from "../footer/footer";
+import { CreativeCommons } from "../../models/creative-commons";
 
 export enum PassageDetailViewMode {
   Full,
@@ -14,11 +18,11 @@ export enum PassageDetailViewMode {
 
 function PassageDetail(
   {passage, disqusConfig, mode = PassageDetailViewMode.Full, className}:
-    {passage: BaseContentDetail, disqusConfig?: DisqusConfig, mode?: PassageDetailViewMode} & HTMLAttributes<any>
+    { passage: BaseContentDetail, disqusConfig?: DisqusConfig, mode?: PassageDetailViewMode } & HTMLAttributes<any>
 ) {
 
   const onPassageContainerClick = (e: MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLDivElement).className.includes("passage-inner-link") && (e.target as HTMLDivElement).tagName.toLocaleLowerCase() === "a") {  
+    if ((e.target as HTMLDivElement).className.includes("passage-inner-link") && (e.target as HTMLDivElement).tagName.toLocaleLowerCase() === "a") {
       const href = (e.target as HTMLLinkElement).getAttribute("href");
       if (typeof href === "string" && href.startsWith("/")) {
         e.preventDefault();
@@ -27,17 +31,21 @@ function PassageDetail(
     }
   }
 
+  const url = useLocation().href;
+  const disqusShortName = useEnv() === AppEnv.dev ? disqusConfig?.developmentShortName : disqusConfig?.shortName;
+  console.log(disqusShortName, disqusConfig)
+
   return (
     <div className={`passage-container ${className ? className : ""}`}>
       {
         (!!passage.topImage && mode === PassageDetailViewMode.Full) ?
-          <img src={passage.topImage} className="passage-top-image" /> :
+          <img src={passage.topImage} className="passage-top-image"/> :
           <></>
       }
       <div className="passage-title-container">
         {
           (!!passage.circleImage && mode === PassageDetailViewMode.Full) ?
-            <img src={passage.circleImage} className="passage-circle-image" /> :
+            <img src={passage.circleImage} className="passage-circle-image"/> :
             <></>
         }
         <div className="passage-title">
@@ -63,26 +71,27 @@ function PassageDetail(
           marginTop: PassageDetailViewMode.Full !== mode ? 22 : undefined,
         }}
       />
-      { PassageDetailViewMode.Full === mode ?
+      {PassageDetailViewMode.Full === mode ?
         <></> :
         <PassageAbout
           {...passage.item.about}
         />
       }
       {
-        (!!disqusConfig && mode === PassageDetailViewMode.Full) ?
+        (!!disqusShortName && mode === PassageDetailViewMode.Full) ?
           <div className="passage-comment-container">
             <DiscussionEmbed
-              shortname={disqusConfig.shortName}
+              shortname={disqusShortName}
               config={{
-                url: "https://localhost/blablabla",
-                identifier: passage.item.identifier,
-                title: passage.item.title,
+                url: url+'2',
+                identifier: passage.item.identifier+'2',
+                title: passage.item.title+'2',
               }}
             />
           </div> :
           <></>
       }
+      <Footer />
     </div>
   );
 }

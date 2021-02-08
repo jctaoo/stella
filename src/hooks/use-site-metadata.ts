@@ -10,9 +10,14 @@ const useSiteMetadata = (): SiteMetadata => {
           homeLargeTitle
           disqus {
             shortName
+            developmentShortName
           }
           lang
           host
+        }
+        copyright {
+          author
+          creativeCommons
         }
         routeConfigurations {
           about { title }

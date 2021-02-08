@@ -1,3 +1,5 @@
+import { CreativeCommons } from "./creative-commons";
+
 interface Config {
   siteName: string
   homeLargeTitle?: string
@@ -8,9 +10,9 @@ interface Config {
     downloadNebPicture: boolean
   }
 }
+export default Config;
 
 export interface DisqusConfig {
   shortName: string
+  developmentShortName: string
 }
-
-export default Config;

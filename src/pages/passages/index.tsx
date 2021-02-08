@@ -1,6 +1,6 @@
 import React from "react";
 import "./passages.scss";
-import { useFilter } from "../../services/use-filter";
+import { useFilter } from "../../hooks/use-filter";
 import { navigate } from "gatsby";
 import QueryString from "query-string";
 import { graphql, PageProps } from "gatsby";

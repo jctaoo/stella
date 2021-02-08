@@ -10,16 +10,16 @@ $themes: (
     label-color: black,
     label-secondary-color: rgba(60, 60, 67, 0.6),
     label-tertiary-color: rgba(60, 60, 67, 0.3),
-    link-color: rgb(3, 102, 214),
+    link-color: rgb(0, 118, 255),
     lighten-high-background: rgb(219, 217, 217),
     lighten-high-text-background: rgb(236, 233, 233),
     lighten-high-row-background: rgb(248, 245, 245),
-    indicator-normal-color: #ADA0A0,
-    indicator-high-color: #FFD54F,
+    indicator-normal-color: #ada0a0,
+    indicator-high-color: #ffd54f,
     transparent-text-color: rgba(97, 97, 97, 0.04),
   ),
   dark: (
-    background: #1C1C1C,
+    background: #1c1c1c,
     popover-background: rgba(22, 22, 22, 0.8),
     popover-selected: #353535,
     label-link-normal-color: rgba(235, 235, 245, 0.6),
@@ -32,7 +32,7 @@ $themes: (
     lighten-high-text-background: rgba(142, 142, 147, 0.28),
     lighten-high-row-background: rgba(142, 142, 147, 0.28),
     indicator-normal-color: #646464,
-    indicator-high-color: #3F51B5,
+    indicator-high-color: #3f51b5,
     transparent-text-color: rgba(97, 97, 97, 0.24),
   ),
   deep-dark: (
@@ -49,28 +49,33 @@ $themes: (
     lighten-high-text-background: rgba(142, 142, 147, 0.28),
     lighten-high-row-background: rgba(142, 142, 147, 0.28),
     indicator-normal-color: #646464,
-    indicator-high-color: #3F51B5,
+    indicator-high-color: #3f51b5,
     transparent-text-color: rgba(97, 97, 97, 0.24),
-  )
+  ),
 );
 
 $theme-map: null;
 $auto-theme: true;
+// TODO 样式选择
 
 @mixin themefy {
   @if ($auto-theme) {
-    @media (prefers-color-scheme: dark) {
-      $theme-map: map-get($themes, "dark") !global;
-      body & {
-        @content
-      }
+    $theme-map: map-get($themes, "light") !global;
+    body & {
+      @content;
     }
-    @media (prefers-color-scheme: light) {
-      $theme-map: map-get($themes, "light") !global;
-      body & {
-        @content
-      }
-    }
+    // @media (prefers-color-scheme: dark) {
+    //   $theme-map: map-get($themes, "dark") !global;
+    //   body & {
+    //     @content
+    //   }
+    // }
+    // @media (prefers-color-scheme: light) {
+    //   $theme-map: map-get($themes, "light") !global;
+    //   body & {
+    //     @content
+    //   }
+    // }
   } @else {
     @each $theme-name, $theme-map in $themes {
       $theme-map: $theme-map !global;
@@ -81,47 +86,47 @@ $auto-theme: true;
   }
 }
 @function themed($key) {
-  @return map-get($theme-map, $key)
+  @return map-get($theme-map, $key);
 }
 
 @mixin background {
   @include themefy {
-    background-color: themed("background") ;
+    background-color: themed("background");
   }
 }
 @mixin popover-background {
   @include themefy {
-    background-color: themed("popover-background") ;
+    background-color: themed("popover-background");
   }
 }
 @mixin popover-selected {
   @include themefy {
-    background-color: themed("popover-selected") ;
+    background-color: themed("popover-selected");
   }
 }
 @mixin label-link-normal-color {
   @include themefy {
-    color: themed("label-link-normal-color") ;
+    color: themed("label-link-normal-color");
   }
 }
 @mixin label-link-high-color {
   @include themefy {
-    color: themed("label-link-high-color") ;
+    color: themed("label-link-high-color");
   }
 }
 @mixin label-color {
   @include themefy {
-    color: themed("label-color") ;
+    color: themed("label-color");
   }
 }
 @mixin label-color-border($border-key, $width, $style) {
   @include themefy {
-    #{$border-key}: $width themed("label-color") $style ;
+    #{$border-key}: $width themed("label-color") $style;
   }
 }
 @mixin label-color-background {
   @include themefy {
-    background-color: themed("label-color") ;
+    background-color: themed("label-color");
   }
 }
 @mixin label-secondary-color() {
@@ -131,17 +136,17 @@ $auto-theme: true;
 }
 @mixin label-secondary-color-underline {
   @include themefy {
-    text-decoration: underline themed("label-secondary-color") solid ;
+    text-decoration: underline themed("label-secondary-color") solid;
   }
 }
 @mixin label-tertiary-color {
   @include themefy {
-    color: themed("label-tertiary-color") ;
+    color: themed("label-tertiary-color");
   }
 }
 @mixin link-color {
   @include themefy {
-    color: themed("link-color") ;
+    color: themed("link-color");
   }
 }
 @mixin lighten-high-background-border($border-key, $width, $style) {

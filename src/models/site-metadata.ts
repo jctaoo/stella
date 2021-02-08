@@ -15,5 +15,9 @@ export interface SiteMetadata {
     snippets?: PageDescription,
     about?: PageDescription,
   },
-  medias: SocialMedia[]
+  medias: SocialMedia[],
+  copyright?: {
+    author?: string,
+    creativeCommons?: string
+  }
 }

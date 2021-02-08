@@ -21,9 +21,9 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
   const config = props.data.siteMetadata.config.disqus;
 
   const description: PageDescription | undefined = !!currentPassage ? {
-    title: currentPassage.item.title, 
-    keywords: currentPassage.item.about.tags.map(t => t.title), 
-    description: currentPassage.item.abbr, 
+    title: currentPassage.item.title,
+    keywords: currentPassage.item.about.tags.map(t => t.title),
+    description: currentPassage.item.abbr,
     largeImage: currentPassage.topImage,
     // largeImageAlt: string,
     // TODO support largeImageAlt
@@ -66,6 +66,7 @@ export const query = graphql`
       config {
         disqus {
           shortName
+          developmentShortName
         }
       }
     }

@@ -1,4 +1,12 @@
 export default `
+  enum CreativeCommons {
+    by
+    byNc
+    byNcNd
+    byNcSa
+    byNd
+    bySa
+  }
   type ContentDetail {
     item: ContentAbbr!
     content: String!
@@ -18,12 +26,16 @@ export default `
     category: String
     readTime: Int
   }
-
+  type Copyright {
+    author: String
+    creativeCommons: CreativeCommons
+  }
   type SiteMetadata {
     config: Config!
     routeConfigurations: RouteConfiguration!
     pageDescription: PageDescription
     medias: [SocialMedia!]!
+    copyright: Copyright
   }
   type Config {
     siteName: String!
@@ -34,6 +46,7 @@ export default `
   }
   type DisqusConfig {
     shortName: String!
+    developmentShortName: String!
   }
   type RouteConfiguration {
     about: RouteConfigurationItem!
