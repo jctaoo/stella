@@ -16,13 +16,14 @@ interface AboutPageData {
 
 export default function AboutPage(props: PageProps<AboutPageData>) {
   const passage = props.data.about
-  const disqusConfig = props.data.siteMetadata.config.disqus
-  const description = useSiteMetadata().pageDescription?.about;
+  const siteMetadata = useSiteMetadata();
+  const description = siteMetadata.pageDescription?.about;
+  const disqusConfig = siteMetadata.config.disqus;
   return (
     !!passage ?
     <BasePage id="about-page">
       <SEO description={description} />
-      <PassageDetailView passage={passage} disqusConfig={disqusConfig} />
+      <PassageDetailView passage={passage} disqusConfig={disqusConfig} showFooter={false} />
     </BasePage> :
     <Redirect noThrow to={"/404"}/>
   );
@@ -48,13 +49,6 @@ export const query = graphql`
       content
       topImage
       circleImage
-    }
-    siteMetadata {
-      config {
-        disqus {
-          shortName
-        }
-      }
     }
   }
 `

@@ -167,7 +167,7 @@ export default class Processor {
   }
 
   /**
-   * 规范化图片链接 
+   * 规范化图片链接
    * @param link 原图片链接
    * @param filePath 原文件的绝对路径
    */

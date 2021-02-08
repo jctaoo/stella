@@ -17,11 +17,13 @@ export enum PassageDetailViewMode {
 }
 
 function PassageDetail(
-  {passage, disqusConfig, mode = PassageDetailViewMode.Full, className}:
-    { passage: BaseContentDetail, disqusConfig?: DisqusConfig, mode?: PassageDetailViewMode } & HTMLAttributes<any>
+  {passage, disqusConfig, mode = PassageDetailViewMode.Full, className, showFooter = true}:
+    { passage: BaseContentDetail, disqusConfig?: DisqusConfig, mode?: PassageDetailViewMode, showFooter?: Boolean
+    } & HTMLAttributes<any>
 ) {
 
   const onPassageContainerClick = (e: MouseEvent<HTMLDivElement>) => {
+    // TODO 优化
     if ((e.target as HTMLDivElement).className.includes("passage-inner-link") && (e.target as HTMLDivElement).tagName.toLocaleLowerCase() === "a") {
       const href = (e.target as HTMLLinkElement).getAttribute("href");
       if (typeof href === "string" && href.startsWith("/")) {
@@ -33,7 +35,6 @@ function PassageDetail(
 
   const url = useLocation().href;
   const disqusShortName = useEnv() === AppEnv.dev ? disqusConfig?.developmentShortName : disqusConfig?.shortName;
-  console.log(disqusShortName, disqusConfig)
 
   return (
     <div className={`passage-container ${className ? className : ""}`}>
@@ -78,20 +79,24 @@ function PassageDetail(
         />
       }
       {
-        (!!disqusShortName && mode === PassageDetailViewMode.Full) ?
+        (!!disqusShortName) ?
           <div className="passage-comment-container">
             <DiscussionEmbed
               shortname={disqusShortName}
               config={{
-                url: url+'2',
-                identifier: passage.item.identifier+'2',
-                title: passage.item.title+'2',
+                url: url,
+                identifier: passage.item.identifier,
+                title: passage.item.title,
               }}
             />
           </div> :
           <></>
       }
-      <Footer />
+      {
+        mode === PassageDetailViewMode.Full && !!showFooter ?
+          <Footer/> :
+          <></>
+      }
     </div>
   );
 }

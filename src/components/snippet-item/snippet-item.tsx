@@ -6,7 +6,7 @@ import { SnippetAbbr, SnippetDetail } from "../../models/snippet-content";
 export default function SnippetItemView({ item }: { item: SnippetAbbr }) {
   const detail: SnippetDetail = {
     item: item,
-    content: (item.abbr ?? "") + "\n" + (item.codeRaw ?? ""),
+    content: (`<p>${item.abbr}</p>` ?? "") + "\n" + (item.codeRaw ?? ""),
   }
   return (
     <PassageDetail className="snippet-item" passage={detail} mode={PassageDetailViewMode.Partial}/>

@@ -60,22 +60,18 @@ $auto-theme: true;
 
 @mixin themefy {
   @if ($auto-theme) {
-    $theme-map: map-get($themes, "light") !global;
-    body & {
-      @content;
-    }
-    // @media (prefers-color-scheme: dark) {
-    //   $theme-map: map-get($themes, "dark") !global;
-    //   body & {
-    //     @content
-    //   }
-    // }
-    // @media (prefers-color-scheme: light) {
-    //   $theme-map: map-get($themes, "light") !global;
-    //   body & {
-    //     @content
-    //   }
-    // }
+     @media (prefers-color-scheme: dark) {
+       $theme-map: map-get($themes, "dark") !global;
+       body & {
+         @content
+       }
+     }
+     @media (prefers-color-scheme: light) {
+       $theme-map: map-get($themes, "light") !global;
+       body & {
+         @content
+       }
+     }
   } @else {
     @each $theme-name, $theme-map in $themes {
       $theme-map: $theme-map !global;
