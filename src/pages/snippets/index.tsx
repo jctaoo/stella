@@ -1,16 +1,16 @@
 import React from "react";
 import "./snippets.scss"
-import SnippetItemView from "../../components/snippet-item/snippet-item";
 import "./snippets.scss";
 import { graphql, PageProps } from "gatsby";
 import BasePage from "../../layout/base-page/base-page";
-import { SnippetAbbr } from "../../models/snippet-content";
+import { SnippetDetail } from "../../models/snippet-content";
 import { NodeData, getNodesFromNodeData } from "../../models/node-data";
 import SEO from "../../components/SEO/SEO";
 import useSiteMetadata from "../../hooks/use-site-metadata";
+import PassageDetail, { PassageDetailViewMode } from "../../components/passage-detail/passage-detail";
 
 interface SnippetsPageData {
-  allSnippet: NodeData<SnippetAbbr>
+  allSnippet: NodeData<SnippetDetail>
 }
 
 export default function SnippetPage(props: PageProps<SnippetsPageData>) {
@@ -27,7 +27,11 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
           {
             snippets.map(item => {
               return (
-                <SnippetItemView item={item} key={item.identifier} />
+                <PassageDetail
+                  className="snippet-item"
+                  passage={item}
+                  mode={PassageDetailViewMode.Partial}
+                />
               );
             })
           }
@@ -42,17 +46,21 @@ export const query = graphql`
     allSnippet {
       edges {
         node {
-          identifier
-          title
-          abbr
-          codeRaw
-          about {
-            category
-            tags {
-              id
-              title
+          content
+          item {
+            abbr
+            about {
+              category
+              tags {
+                title
+                id
+              }
+              readTime
+              updateTimes
             }
-            updateTimes
+            identifier
+            title
+            codeRaw
           }
         }
       }

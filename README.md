@@ -7,6 +7,7 @@
 - [ ] Convert to [gatsby theme](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/converting-a-starter/) instead of starter
 - [ ] Support PWA
 - [ ] Better image processing with [gatsby-image](https://www.npmjs.com/package/gatsby-image)
+- [ ] Pageation
 
 ## Demo Site
 

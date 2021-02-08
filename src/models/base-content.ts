@@ -17,8 +17,8 @@ export interface Tag {
   title: string
 }
 
-export interface BaseContentDetail {
-  item: BaseContentAbbr
+export interface BaseContentDetail<Abbr extends BaseContentAbbr = BaseContentAbbr> {
+  item: Abbr
   content: string
   topImage?: string
   circleImage?: string

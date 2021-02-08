@@ -4,6 +4,6 @@ export interface PassageAbbr extends BaseContentAbbr {
 
 }
 
-export interface PassageDetail extends BaseContentDetail {
+export interface PassageDetail extends BaseContentDetail<PassageAbbr> {
 
 }

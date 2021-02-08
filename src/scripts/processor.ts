@@ -7,7 +7,7 @@ import * as UUID from "uuid";
 import YAML from "yaml";
 import { PassageAbbr, PassageDetail } from "../models/passage-content";
 import { BaseContentAbbr, BaseContentDetail, Tag } from "../models/base-content";
-import { SnippetAbbr } from "../models/snippet-content";
+import { SnippetAbbr, SnippetDetail } from "../models/snippet-content";
 import configureMarked from "./marked-configuration";
 import marked from "marked";
 
@@ -23,6 +23,12 @@ interface PostsProcessResult {
   categories: string[]
   details: PassageDetail[]
   abbrs: PassageAbbr[]
+}
+
+interface SnippetsProcessResult {
+  tags: Tag[]
+  categories: string[]
+  details: SnippetDetail[]
 }
 
 interface ExperimentFeature {
@@ -98,40 +104,57 @@ export default class Processor {
         details.push(result.detail);
       }
     }
-    tags = Array.from(new Set(tags));
-    categories = Array.from(new Set(categories));
+
     abbrs.sort((lhs, rhs) => {
       return rhs.about.updateTimes[0].getTime() - lhs.about.updateTimes[0].getTime()
     });
+
     return {
-      tags,
-      categories: categories.filter(c => c !== ""),
+      tags: Array.from(new Set(tags)),
+      categories: Array.from(new Set(categories)).filter(c => c !== ""),
       abbrs,
       details,
     }
   }
 
-  public async processSnippets(): Promise<SnippetAbbr[]> {
+  public async processSnippets(): Promise<SnippetsProcessResult> {
 
     const children = await fs.promises.readdir(this.snippetsDir);
 
-    let abbrs: SnippetAbbr[] = [];
+    let tags: Tag[] = [];
+    let categories: string[] = [];
+    let details: SnippetDetail[] = [];
 
     for (const childPath of children) {
       // TODO refactor: doesnt use result's detail but processMarkdown generate it.
       const result = await this.processMarkdown(path.resolve(this.snippetsDir, childPath));
       if (!!result) {
+        // details
         const codeMatchResult = result.markdown.match(this.codeSnippetRegx);
         const codeRaw = !!codeMatchResult ? marked(codeMatchResult[0]) : undefined;
         const abbr = !!codeMatchResult ? result.markdown.slice((codeMatchResult.index ?? 0) + codeMatchResult[0].length) : result.markdown;
-        abbrs.push({ ...result.abbr, abbr, codeRaw });
+        const detail: SnippetDetail = {
+          content: (`<p>${abbr}</p>` ?? "") + "\n" + (codeRaw ?? ""),
+          item: {...result.abbr, abbr, codeRaw},
+          topImage: undefined,
+          circleImage: undefined,
+        };
+        details.push(detail);
+        // tags & categories
+        tags = tags.concat(result.abbr.about.tags ?? []);
+        categories.push(result.abbr.about.category ?? "");
       }
     }
 
-    abbrs.sort((lhs, rhs) => {
-      return rhs.about.updateTimes[0].getTime() - lhs.about.updateTimes[0].getTime()
+    details.sort((lhs, rhs) => {
+      return rhs.item.about.updateTimes[0].getTime() - lhs.item.about.updateTimes[0].getTime()
     });
-    return abbrs
+
+    return {
+      tags: Array.from(new Set(tags)),
+      categories: Array.from(new Set(categories)).filter(c => c !== ""),
+      details: details
+    }
   }
 
   // ==================== 预处理流程 ====================
@@ -340,7 +363,7 @@ export default class Processor {
       abbr: markdownInformation.abbr ?? "",
       about: {
         updateTimes: (markdownInformation.updateDates ?? []).map(d => new Date(d)),
-        tags: (markdownInformation.tags ?? []).map(t => ({ id: Utils.toMD5(t), title: t })),
+        tags: (markdownInformation.tags ?? []).map(t => ({id: Utils.toMD5(t), title: t})),
         category: markdownInformation.category ?? "",
         readTime: Utils.calculateReadingTimeFromMarkdown(markdown),
       }

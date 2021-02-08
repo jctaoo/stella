@@ -4,6 +4,6 @@ export interface SnippetAbbr extends BaseContentAbbr {
   codeRaw?: string
 }
 
-export interface SnippetDetail extends BaseContentDetail {
+export interface SnippetDetail extends BaseContentDetail<SnippetAbbr> {
 
 }

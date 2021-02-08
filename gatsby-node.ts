@@ -56,29 +56,10 @@ export const createSchemaCustomization = async (args: CreateSchemaCustomizationA
 export const sourceNodes = async (args: SourceNodesArgs) => {
   await processor.clearAndEnsureImageFolder();
 
+
   // 添加 posts
   const posts = await processor.processPosts();
 
-  posts.tags.forEach(tag => {
-    args.actions.createNode({
-      ...tag,
-      id: args.createNodeId(tag.id),
-      internal: {
-        type: 'Tag',
-        contentDigest: args.createContentDigest(tag)
-      }
-    });
-  });
-  posts.categories.forEach(category => {
-    args.actions.createNode({
-      id: args.createNodeId(category),
-      internal: {
-        type: 'Category',
-        contentDigest: args.createContentDigest(category),
-        content: category,
-      }
-    });
-  })
   posts.abbrs.forEach(abbr => {
     args.actions.createNode({
       ...abbr,
@@ -103,17 +84,40 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
   // 添加 snippets
   const snippets = await processor.processSnippets();
 
-  snippets.forEach(snippet => {
+  snippets.details.forEach(detail => {
     args.actions.createNode({
-      ...snippet,
-      id: args.createNodeId(snippet.identifier + "snippet"),
+      ...detail,
+      id: args.createNodeId(detail.item.identifier + "detail"),
       internal: {
         type: 'Snippet',
-        contentDigest: args.createContentDigest(snippet),
+        contentDigest: args.createContentDigest(detail),
       }
     });
   });
 
+  // 添加 tag & category
+  // TODO 唯一化
+  // TODO snippets post tag category 差异化
+  [...posts.tags, ...snippets.tags].forEach(tag => {
+    args.actions.createNode({
+      ...tag,
+      id: args.createNodeId(tag.id),
+      internal: {
+        type: 'Tag',
+        contentDigest: args.createContentDigest(tag)
+      }
+    });
+  });
+  [...posts.categories, ...snippets.categories].forEach(category => {
+    args.actions.createNode({
+      id: args.createNodeId(category),
+      internal: {
+        type: 'Category',
+        contentDigest: args.createContentDigest(category),
+        content: category,
+      }
+    });
+  })
 }
 
 export const createPages = async (args: CreatePagesArgs) => {
