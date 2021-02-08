@@ -67,7 +67,7 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
         <div className="snippet-list-header-container">
           <span className="snippet-list-title">
             <FilterView
-              content={categoryFilter ? categoryFilter : "所有"}
+              content={!!categoryFilter ? categoryFilter : "所有"}
               description={"分类的内容"}
               cancelButtonTitle={"取消"}
               onCancelButtonClick={cancelCategoryFilter}
@@ -75,9 +75,10 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
               onItemSelected={goToCategory}
               itemSelected={category => category.toLowerCase() === categoryFilter?.toLowerCase()}
               itemTitle={category => category}
+              showCancelButton={!!categoryFilter}
             />
             <FilterView
-              content={tagFilter ? tagFilter : "所有"}
+              content={!!tagFilter ? tagFilter : "所有"}
               description={"标签的内容"}
               cancelButtonTitle={"取消"}
               onCancelButtonClick={cancelTagFilter}
@@ -85,6 +86,7 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
               onItemSelected={goToTag}
               itemSelected={tag => tag.title.toLowerCase() === tagFilter?.toUpperCase()}
               itemTitle={tag => tag.title}
+              showCancelButton={!!tagFilter}
             />
           </span>
         </div>

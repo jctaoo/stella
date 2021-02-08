@@ -54,7 +54,7 @@
   align-items: center;
   user-select: none;
 
-  h1 {
+  .passage-filter-text {
     @include label-secondary-color;
     font-family: $font;
     font-weight: bold;

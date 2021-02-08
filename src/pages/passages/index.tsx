@@ -66,7 +66,7 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
         { /* 若需要隐藏 passage-list-title 则应用 passage-list-title-hide class */ }
         <span className="passage-list-title">
           <FilterView
-            content={categoryFilter ? categoryFilter : "所有"}
+            content={!!categoryFilter ? categoryFilter : "所有"}
             description={"分类的内容"}
             cancelButtonTitle={"取消"}
             onCancelButtonClick={cancelCategoryFilter}
@@ -74,9 +74,10 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
             onItemSelected={goToCategory}
             itemSelected={category => category.toLowerCase() === categoryFilter?.toLowerCase()}
             itemTitle={category => category}
+            showCancelButton={!!categoryFilter}
           />
           <FilterView
-            content={tagFilter ? tagFilter : "所有"}
+            content={!!tagFilter ? tagFilter : "所有"}
             description={"标签的内容"}
             cancelButtonTitle={"取消"}
             onCancelButtonClick={cancelTagFilter}
@@ -84,6 +85,7 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
             onItemSelected={goToTag}
             itemSelected={tag => tag.title.toLowerCase() === tagFilter?.toUpperCase()}
             itemTitle={tag => tag.title}
+            showCancelButton={!!tagFilter}
           />
         </span>
         <div className="passage-list">

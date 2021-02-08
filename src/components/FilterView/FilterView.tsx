@@ -6,6 +6,7 @@ import "./FilterView.scss";
 
 interface FilterViewProps<T> {
   content?: string
+  showCancelButton?: Boolean
   description: string
   cancelButtonTitle?: string
   onCancelButtonClick?: () => void
@@ -17,26 +18,29 @@ interface FilterViewProps<T> {
 
 function FilterView<T>(props: FilterViewProps<T>) {
   return (
-      <span className="passage-filter-view">
-      <Popover content={
-        <FilterViewList
-          dataSource={props.dataSource}
-          onItemSelected={props.onItemSelected}
-          itemSelected={props.itemSelected}
-          itemTitle={props.itemTitle}
-        />
-      }>
-          <h1 className="passage-filter-content">
-            { props.content }
-          </h1>
-      </Popover>
-        <h1 className="passage-filter-description">
-          { props.description }
-        </h1>
-        <a className="passage-filter-cancel" onClick={props.onCancelButtonClick}>
-          { props.cancelButtonTitle ?? "取消" }
-        </a>
-      </span>
+    <span className="passage-filter-view">
+        <Popover content={
+          <FilterViewList
+            dataSource={props.dataSource}
+            onItemSelected={props.onItemSelected}
+            itemSelected={props.itemSelected}
+            itemTitle={props.itemTitle}
+          />
+        }>
+            <p className="passage-filter-content passage-filter-text">
+              {props.content}
+            </p>
+        </Popover>
+        <p className="passage-filter-description passage-filter-text">
+          {props.description}
+        </p>
+      {
+        !!props.showCancelButton ?
+          <a className="passage-filter-cancel" onClick={props.onCancelButtonClick}>
+            {props.cancelButtonTitle ?? "取消"}
+          </a> : <></>
+      }
+    </span>
   );
 }
 
