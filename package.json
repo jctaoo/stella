@@ -43,7 +43,7 @@
     "highlight.js": "^10.1.1",
     "jsdom": "^16.4.0",
     "katex": "^0.12.0",
-    "marked": "^1.1.1",
+    "marked": "^2.0.0",
     "moment": "^2.27.0",
     "query-string": "^6.13.1",
     "rc-queue-anim": "^1.8.5",
