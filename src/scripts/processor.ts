@@ -6,50 +6,53 @@ import * as path from "path";
 import * as UUID from "uuid";
 import YAML from "yaml";
 import { PassageAbbr, PassageDetail } from "../models/passage-content";
-import { BaseContentAbbr, BaseContentDetail, Tag } from "../models/base-content";
+import {
+  BaseContentAbbr,
+  BaseContentDetail,
+  Tag,
+} from "../models/base-content";
 import { SnippetAbbr, SnippetDetail } from "../models/snippet-content";
 import configureMarked from "./marked-configuration";
 import marked from "marked";
 
 interface MarkdownProcessResult {
-  information: MarkdownInfo
-  markdown: string
-  abbr: BaseContentAbbr,
-  detail: BaseContentDetail,
+  information: MarkdownInfo;
+  markdown: string;
+  abbr: BaseContentAbbr;
+  detail: BaseContentDetail;
 }
 
 interface PostsProcessResult {
-  tags: Tag[]
-  categories: string[]
-  details: PassageDetail[]
-  abbrs: PassageAbbr[]
+  tags: Tag[];
+  categories: string[];
+  details: PassageDetail[];
+  abbrs: PassageAbbr[];
 }
 
 interface SnippetsProcessResult {
-  tags: Tag[]
-  categories: string[]
-  details: SnippetDetail[]
+  tags: Tag[];
+  categories: string[];
+  details: SnippetDetail[];
 }
 
 interface ExperimentFeature {
-  downloadWebPicture: boolean
+  downloadWebPicture: boolean;
 }
 
 export default class Processor {
-
   constructor(
     {
       publicDir,
       imageStaticDir,
       postsDir,
       snippetsDir,
-      aboutDir
+      aboutDir,
     }: {
-      publicDir: string,
-      imageStaticDir: string,
-      postsDir: string,
-      snippetsDir: string,
-      aboutDir: string
+      publicDir: string;
+      imageStaticDir: string;
+      postsDir: string;
+      snippetsDir: string;
+      aboutDir: string;
     },
     experimentFeatures: ExperimentFeature
   ) {
@@ -82,9 +85,9 @@ export default class Processor {
 
   // ==================== 处理流程 ====================
 
-  public async processAbout(): Promise<PassageDetail | null> {
+  public async processAbout(): Promise<PassageDetail | undefined> {
     const result = await this.processMarkdown(this.aboutDir);
-    return result?.detail ?? null;
+    return result?.detail;
   }
 
   public async processPosts(): Promise<PostsProcessResult> {
@@ -96,7 +99,9 @@ export default class Processor {
     let details: PassageDetail[] = [];
 
     for (const childPath of children) {
-      const result = await this.processMarkdown(path.resolve(this.postsDir, childPath));
+      const result = await this.processMarkdown(
+        path.resolve(this.postsDir, childPath)
+      );
       if (!!result) {
         tags = tags.concat(result.abbr.about.tags ?? []);
         categories.push(result.abbr.about.category ?? "");
@@ -106,19 +111,20 @@ export default class Processor {
     }
 
     abbrs.sort((lhs, rhs) => {
-      return rhs.about.updateTimes[0].getTime() - lhs.about.updateTimes[0].getTime()
+      return (
+        rhs.about.updateTimes[0].getTime() - lhs.about.updateTimes[0].getTime()
+      );
     });
 
     return {
       tags: Array.from(new Set(tags)),
-      categories: Array.from(new Set(categories)).filter(c => c !== ""),
+      categories: Array.from(new Set(categories)).filter((c) => c !== ""),
       abbrs,
       details,
-    }
+    };
   }
 
   public async processSnippets(): Promise<SnippetsProcessResult> {
-
     const children = await fs.promises.readdir(this.snippetsDir);
 
     let tags: Tag[] = [];
@@ -127,15 +133,23 @@ export default class Processor {
 
     for (const childPath of children) {
       // TODO refactor: doesnt use result's detail but processMarkdown generate it.
-      const result = await this.processMarkdown(path.resolve(this.snippetsDir, childPath));
+      const result = await this.processMarkdown(
+        path.resolve(this.snippetsDir, childPath)
+      );
       if (!!result) {
         // details
         const codeMatchResult = result.markdown.match(this.codeSnippetRegx);
-        const codeRaw = !!codeMatchResult ? marked(codeMatchResult[0]) : undefined;
-        const abbr = !!codeMatchResult ? result.markdown.slice((codeMatchResult.index ?? 0) + codeMatchResult[0].length) : result.markdown;
+        const codeRaw = !!codeMatchResult
+          ? marked(codeMatchResult[0])
+          : undefined;
+        const abbr = !!codeMatchResult
+          ? result.markdown.slice(
+              (codeMatchResult.index ?? 0) + codeMatchResult[0].length
+            )
+          : result.markdown;
         const detail: SnippetDetail = {
           content: (`<p>${abbr}</p>` ?? "") + "\n" + (codeRaw ?? ""),
-          item: {...result.abbr, abbr, codeRaw},
+          item: { ...result.abbr, abbr, codeRaw },
           topImage: undefined,
           circleImage: undefined,
         };
@@ -147,14 +161,17 @@ export default class Processor {
     }
 
     details.sort((lhs, rhs) => {
-      return rhs.item.about.updateTimes[0].getTime() - lhs.item.about.updateTimes[0].getTime()
+      return (
+        rhs.item.about.updateTimes[0].getTime() -
+        lhs.item.about.updateTimes[0].getTime()
+      );
     });
 
     return {
       tags: Array.from(new Set(tags)),
-      categories: Array.from(new Set(categories)).filter(c => c !== ""),
-      details: details
-    }
+      categories: Array.from(new Set(categories)).filter((c) => c !== ""),
+      details: details,
+    };
   }
 
   // ==================== 预处理流程 ====================
@@ -183,8 +200,12 @@ export default class Processor {
    * - hasn't user identifier but has passage title: using md5(title).
    * - Neither user identifier nor passage title: using file name.
    */
-  private static normalizeIdentifier(fileAbsolutePath: string, userIdentifier?: string, userTitle?: string): string {
-    const extension = fileAbsolutePath.split(".").reverse()[0]
+  private static normalizeIdentifier(
+    fileAbsolutePath: string,
+    userIdentifier?: string,
+    userTitle?: string
+  ): string {
+    const extension = fileAbsolutePath.split(".").reverse()[0];
     const name = path.basename(fileAbsolutePath, extension);
     return userIdentifier ?? (!!userTitle ? Utils.toMD5(userTitle) : name);
   }
@@ -194,7 +215,10 @@ export default class Processor {
    * @param link 原图片链接
    * @param filePath 原文件的绝对路径
    */
-  private async normalizeImageLink(link: string, filePath: string): Promise<string> {
+  private async normalizeImageLink(
+    link: string,
+    filePath: string
+  ): Promise<string> {
     if (link === "") return link;
 
     // 读取缓存的链接
@@ -221,7 +245,7 @@ export default class Processor {
         // PASS
         console.log(`
         Some error occurred when download web image
-        `)
+        `);
       }
     }
 
@@ -248,7 +272,10 @@ export default class Processor {
    * @param link 原链接
    * @param filePath 原文件的绝对路径
    */
-  private static async normalizeLink(link: string, filePath: string): Promise<string> {
+  private static async normalizeLink(
+    link: string,
+    filePath: string
+  ): Promise<string> {
     // 如果是 web url 不做修改
     if (Utils.isUrl(link)) {
       return link;
@@ -263,7 +290,7 @@ export default class Processor {
       const identifier = Processor.normalizeIdentifier(
         filePath,
         !!identifierMatch ? identifierMatch[1] : undefined,
-        !!titleMatch ? titleMatch[1] : undefined,
+        !!titleMatch ? titleMatch[1] : undefined
       );
       return "/passage/" + identifier;
     }
@@ -278,8 +305,10 @@ export default class Processor {
    * @param filePath markdown 文件的绝对路径
    * @returns 规范化的 markdown 字符串
    */
-  private async normalizeMarkdown(markdown: string, filePath: string): Promise<string> {
-
+  private async normalizeMarkdown(
+    markdown: string,
+    filePath: string
+  ): Promise<string> {
     let resultString = markdown;
 
     // 处理图片链接
@@ -288,8 +317,17 @@ export default class Processor {
     resultString = await Utils.replaceAsync(
       resultString,
       this.markdownImageRegx,
-      async (_matchString: string, imageName: string, imageLink: string, _index: number, _input: string): Promise<string> => {
-        const normalizedImageLink = await this.normalizeImageLink(imageLink, filePath);
+      async (
+        _matchString: string,
+        imageName: string,
+        imageLink: string,
+        _index: number,
+        _input: string
+      ): Promise<string> => {
+        const normalizedImageLink = await this.normalizeImageLink(
+          imageLink,
+          filePath
+        );
         return `![${imageName}](${normalizedImageLink})`;
       }
     );
@@ -300,11 +338,20 @@ export default class Processor {
     resultString = await Utils.replaceAsync(
       resultString,
       this.markdownLinkRegx,
-      async (matchString: string, linkName: string, linkHref: string, index: number, input: string): Promise<string> => {
+      async (
+        matchString: string,
+        linkName: string,
+        linkHref: string,
+        index: number,
+        input: string
+      ): Promise<string> => {
         // 判断不是图片
-        const previousIndex = Math.max(0, index - 1)
+        const previousIndex = Math.max(0, index - 1);
         if (input[previousIndex] !== "!") {
-          const normalizedLinkHref = await Processor.normalizeLink(linkHref, filePath);
+          const normalizedLinkHref = await Processor.normalizeLink(
+            linkHref,
+            filePath
+          );
           return `[${linkName}](${normalizedLinkHref})`;
         }
 
@@ -321,25 +368,30 @@ export default class Processor {
    * 处理 markdown 文件并返回处理结果
    * @param absolutePath markdown 文件的绝对路径
    */
-  private async processMarkdown(absolutePath: string): Promise<MarkdownProcessResult | undefined> {
+  private async processMarkdown(
+    absolutePath: string
+  ): Promise<MarkdownProcessResult | undefined> {
     // 意外情况处理
     if (!fs.existsSync(absolutePath)) {
       return;
     }
-    const extension: string | undefined = absolutePath.split(".").reverse()[0]
+    const extension: string | undefined = absolutePath.split(".").reverse()[0];
     const stat = await fs.promises.stat(absolutePath);
     if (!stat.isFile() || !extension || (!!extension && extension !== "md")) {
       console.log(`
         File "${absolutePath}" is not a file or has no extension or file's extension is
         not .md
-      `)
+      `);
       return;
     }
 
     // 开始正式处理
     const name = path.basename(absolutePath, extension);
     const buffer = await fs.promises.readFile(absolutePath);
-    const content = await this.normalizeMarkdown(buffer.toString(), absolutePath);
+    const content = await this.normalizeMarkdown(
+      buffer.toString(),
+      absolutePath
+    );
 
     let markdownInformation: MarkdownInfo = {
       title: name,
@@ -351,36 +403,57 @@ export default class Processor {
     const yamlMatchResult = content.match(this.markdownYamlRegx);
     if (!!yamlMatchResult) {
       markdownInformation = YAML.parse(yamlMatchResult[1]);
-      markdown = content.slice((yamlMatchResult?.index ?? 0) + yamlMatchResult[0].length);
+      markdown = content.slice(
+        (yamlMatchResult?.index ?? 0) + yamlMatchResult[0].length
+      );
     }
 
     // 处理并产生结结果
-    const identifier = Processor.normalizeIdentifier(absolutePath, markdownInformation.identifier, markdownInformation.title);
+    const identifier = Processor.normalizeIdentifier(
+      absolutePath,
+      markdownInformation.identifier,
+      markdownInformation.title
+    );
 
     const abbr: BaseContentAbbr = {
       identifier: identifier,
       title: markdownInformation.title,
       abbr: markdownInformation.abbr ?? "",
       about: {
-        updateTimes: (markdownInformation.updateDates ?? []).map(d => new Date(d)),
-        tags: (markdownInformation.tags ?? []).map(t => ({id: Utils.toMD5(t), title: t})),
+        updateTimes: (markdownInformation.updateDates ?? []).map(
+          (d) => new Date(d)
+        ),
+        tags: (markdownInformation.tags ?? []).map((t) => ({
+          id: Utils.toMD5(t),
+          title: t,
+        })),
         category: markdownInformation.category ?? "",
         readTime: Utils.calculateReadingTimeFromMarkdown(markdown),
-      }
-    }
+      },
+    };
     const detail: BaseContentDetail = {
       item: abbr,
       content: marked(markdown),
-      topImage: !!markdownInformation.topImage ? await this.normalizeImageLink(markdownInformation.topImage, absolutePath) : "",
-      circleImage: !!markdownInformation.circleImage ? await this.normalizeImageLink(markdownInformation.circleImage, absolutePath) : "",
-    }
+      topImage: !!markdownInformation.topImage
+        ? await this.normalizeImageLink(
+            markdownInformation.topImage,
+            absolutePath
+          )
+        : "",
+      topImageAlt: markdownInformation.topImageAlt,
+      circleImage: !!markdownInformation.circleImage
+        ? await this.normalizeImageLink(
+            markdownInformation.circleImage,
+            absolutePath
+          )
+        : "",
+    };
 
     return {
       information: markdownInformation,
       markdown,
       abbr,
       detail,
-    }
+    };
   }
-
 }

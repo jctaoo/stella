@@ -106,21 +106,41 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
   // 添加 tag & category
   // TODO 唯一化
   // TODO snippets post tag category 差异化
-  [...posts.tags, ...snippets.tags].forEach((tag) => {
+  posts.tags.forEach((tag) => {
     args.actions.createNode({
       ...tag,
       id: args.createNodeId(tag.id),
       internal: {
-        type: "Tag",
+        type: "PostTag",
         contentDigest: args.createContentDigest(tag),
       },
     });
   });
-  [...posts.categories, ...snippets.categories].forEach((category) => {
+  posts.categories.forEach((category) => {
     args.actions.createNode({
       id: args.createNodeId(category),
       internal: {
-        type: "Category",
+        type: "PostCategory",
+        contentDigest: args.createContentDigest(category),
+        content: category,
+      },
+    });
+  });
+  snippets.tags.forEach((tag) => {
+    args.actions.createNode({
+      ...tag,
+      id: args.createNodeId(tag.id),
+      internal: {
+        type: "SnippetTag",
+        contentDigest: args.createContentDigest(tag),
+      },
+    });
+  });
+  snippets.categories.forEach((category) => {
+    args.actions.createNode({
+      id: args.createNodeId(category),
+      internal: {
+        type: "SnippetCategory",
         contentDigest: args.createContentDigest(category),
         content: category,
       },

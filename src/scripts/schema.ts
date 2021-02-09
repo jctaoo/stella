@@ -11,6 +11,7 @@ export default `
     item: ContentAbbr!
     content: String!
     topImage: String
+    topImageAlt: String
     circleImage: String
   }
   type ContentAbbr {
@@ -25,6 +26,10 @@ export default `
     tags: [Tag!]!
     category: String
     readTime: Int
+  }
+  type Tag {
+    id: String
+    title: String
   }
   type Copyright {
     author: String

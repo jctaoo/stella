@@ -2,7 +2,7 @@
  * @description 文章以及 snippets 等的过滤的逻辑
  */
 
-import QueryString from "querystring";
+import QueryString from "query-string";
 import { graphql, navigate, useStaticQuery } from "gatsby";
 import { useLocation } from "@reach/router";
 import { Tag } from "../models/base-content";
@@ -12,6 +12,11 @@ import {
   NodeContentData,
   NodeData,
 } from "../models/node-data";
+
+export enum ListEnvironment {
+  passages = "passages",
+  snippets = "snippets",
+}
 
 export async function jumpToPassagePage(filter: {
   category?: string;
@@ -36,7 +41,7 @@ export async function cancelCategoryFilter({
   tag?: string;
 }) {
   const search = QueryString.stringify({ tag });
-  await navigate(`/passages?${search}`, { replace: true });
+  await navigate(`?${search}`, { replace: true });
 }
 
 export async function cancelTagFilter({
@@ -46,21 +51,25 @@ export async function cancelTagFilter({
   tag?: string;
 }) {
   const search = QueryString.stringify({ category });
-  await navigate(`/passages?${search}`, { replace: true });
+  await navigate(`?${search}`, { replace: true });
 }
 
 // https://www.gatsbyjs.com/blog/2019-02-20-introducing-use-static-query/
 // TODO Its a limitation in gatsby that can only use one instance of useStaticQuery in a file.
 function useTagsAndCategories(): {
-  allTag: NodeData<Tag>;
-  allCategory: NodeContentData<string>;
+  allPostTag: NodeData<Tag>;
+  allSnippetTag: NodeData<Tag>;
+  allPostCategory: NodeContentData<string>;
+  allSnippetCategory: NodeContentData<string>;
 } {
   return useStaticQuery<{
-    allTag: NodeData<Tag>;
-    allCategory: NodeContentData<string>;
+    allPostTag: NodeData<Tag>;
+    allSnippetTag: NodeData<Tag>;
+    allPostCategory: NodeContentData<string>;
+    allSnippetCategory: NodeContentData<string>;
   }>(graphql`
     {
-      allCategory {
+      allPostCategory {
         edges {
           node {
             internal {
@@ -69,7 +78,23 @@ function useTagsAndCategories(): {
           }
         }
       }
-      allTag {
+      allSnippetCategory {
+        edges {
+          node {
+            internal {
+              content
+            }
+          }
+        }
+      }
+      allPostTag {
+        edges {
+          node {
+            title
+          }
+        }
+      }
+      allSnippetTag {
         edges {
           node {
             title
@@ -80,18 +105,46 @@ function useTagsAndCategories(): {
   `);
 }
 
-export function useCategories(): string[] {
+/**
+ * @param env if env is null, useTags will return all categories.
+ */
+export function useCategories(env?: ListEnvironment): string[] {
   const res = useTagsAndCategories();
-  return getContentFromNodeContentData(res.allCategory);
-}
-
-export function useTags(): Tag[] {
-  const res = useTagsAndCategories();
-  return getNodesFromNodeData(res.allTag);
+  const postCategories = getContentFromNodeContentData(res.allPostCategory);
+  const snippetCategories = getContentFromNodeContentData(
+    res.allSnippetCategory
+  );
+  if (!!env) {
+    switch (env) {
+      case ListEnvironment.passages:
+        return postCategories;
+      case ListEnvironment.snippets:
+        return snippetCategories;
+    }
+  }
+  return [...postCategories, ...snippetCategories];
 }
 
 /**
- * @return {[string | undefined, string | undefined]} first is tagFilter and second is categoryFilter
+ * @param env if env is null, useTags will return all tags.
+ */
+export function useTags(env?: ListEnvironment): Tag[] {
+  const res = useTagsAndCategories();
+  const postTags = getNodesFromNodeData(res.allPostTag);
+  const snippetTags = getNodesFromNodeData(res.allSnippetTag);
+  if (!!env) {
+    switch (env) {
+      case ListEnvironment.passages:
+        return postTags;
+      case ListEnvironment.snippets:
+        return snippetTags;
+    }
+  }
+  return [...postTags, ...snippetTags];
+}
+
+/**
+ * @return first is tagFilter and second is categoryFilter
  */
 export function useFilter(): [string | undefined, string | undefined] {
   const location = useLocation();

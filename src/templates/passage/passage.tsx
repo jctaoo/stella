@@ -27,8 +27,7 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
         keywords: currentPassage.item.about.tags.map((t) => t.title),
         description: currentPassage.item.abbr,
         largeImage: currentPassage.topImage,
-        // largeImageAlt: string,
-        // TODO support largeImageAlt
+        largeImageAlt: currentPassage.topImageAlt,
       }
     : undefined;
 
@@ -49,6 +48,7 @@ export const query = graphql`
         node {
           content
           topImage
+          topImageAlt
           circleImage
           item {
             abbr

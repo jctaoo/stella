@@ -5,6 +5,7 @@ import {
   cancelTagFilter,
   jumpToPassagePage,
   jumpToSnippetsPage,
+  ListEnvironment,
   useCategories,
   useFilter,
   useTags,
@@ -12,41 +13,36 @@ import {
 import { Tag } from "../../models/base-content";
 import "./list-title.scss";
 
-export enum ListTitleMode {
-  passages,
-  snippets,
-}
-
-function ListTitle({ mode }: { mode: ListTitleMode }) {
-  const tags = useTags();
-  const categories = useCategories();
+function ListTitle({ env }: { env: ListEnvironment }) {
+  const tags = useTags(env);
+  const categories = useCategories(env);
 
   // TODO multiple category filter
   const [tagFilter, categoryFilter] = useFilter();
   const currentFilter = { tag: tagFilter, category: categoryFilter };
 
   function jumpTag(tag: Tag) {
-    switch (mode) {
-      case ListTitleMode.passages:
+    switch (env) {
+      case ListEnvironment.passages:
         jumpToPassagePage({ ...currentFilter, tag: tag.title }).then();
         break;
-      case ListTitleMode.snippets:
+      case ListEnvironment.snippets:
         jumpToSnippetsPage({ ...currentFilter, tag: tag.title }).then();
         break;
     }
   }
 
   function jumpCategory(category: string) {
-    switch (mode) {
-      case ListTitleMode.passages:
+    switch (env) {
+      case ListEnvironment.passages:
         jumpToPassagePage({ ...currentFilter, category }).then();
         break;
-      case ListTitleMode.snippets:
+      case ListEnvironment.snippets:
         jumpToSnippetsPage({ ...currentFilter, category }).then();
         break;
     }
   }
-
+  console.log(tagFilter);
   return (
     <span className="passage-list-title">
       {/* 若需要隐藏 passage-list-title 则应用 passage-list-title-hide class */}
