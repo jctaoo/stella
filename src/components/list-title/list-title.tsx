@@ -42,6 +42,7 @@ function ListTitle({ env }: { env: ListEnvironment }) {
         break;
     }
   }
+
   console.log(tagFilter);
   return (
     <span className="passage-list-title">
@@ -53,9 +54,7 @@ function ListTitle({ env }: { env: ListEnvironment }) {
         onCancelButtonClick={() => cancelCategoryFilter(currentFilter)}
         dataSource={categories}
         onItemSelected={(category) => jumpCategory(category)}
-        itemSelected={(category) =>
-          category.toLowerCase() === categoryFilter?.toLowerCase()
-        }
+        itemSelected={(category) => category === categoryFilter}
         itemTitle={(category) => category}
         showCancelButton={!!categoryFilter}
       />
@@ -66,9 +65,7 @@ function ListTitle({ env }: { env: ListEnvironment }) {
         onCancelButtonClick={() => cancelTagFilter(currentFilter)}
         dataSource={tags}
         onItemSelected={(tag) => jumpTag(tag)}
-        itemSelected={(tag) =>
-          tag.title.toLowerCase() === tagFilter?.toUpperCase()
-        }
+        itemSelected={(tag) => tag.title === tagFilter}
         itemTitle={(tag) => tag.title}
         showCancelButton={!!tagFilter}
       />

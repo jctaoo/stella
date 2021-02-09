@@ -27,9 +27,10 @@
           border-radius: 6px;
           margin-bottom: 3px;
           &:hover {
-            @include lighten-high-background;
+            @include lighten-high-text-background;
           }
-          h4, span {
+          h4,
+          span {
             margin-bottom: 0;
             font-family: $font;
             font-weight: normal;
@@ -38,7 +39,7 @@
           }
         }
         .navigation-link-popover-item.navigation-link-popover-item-selected {
-          @include popover-selected;
+          @include lighten-high-background;
         }
         .navigation-link-popover-item:last-child {
           margin-bottom: 0 !important;
