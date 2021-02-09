@@ -1,61 +1,44 @@
 import React from "react";
 import "./passages.scss";
-import { useFilter } from "../../hooks/use-filter";
-import { navigate } from "gatsby";
-import QueryString from "query-string";
 import { graphql, PageProps } from "gatsby";
 import { Tag } from "../../models/base-content";
 import BasePage from "../../layout/base-page/base-page";
-import FilterView from "../../components/FilterView/FilterView";
 import PassageItem from "../../components/passage-item/passage-item";
 import { PassageAbbr } from "../../models/passage-content";
-import { NodeContentData, getContentFromNodeContentData, NodeData, getNodesFromNodeData } from "../../models/node-data";
+import {
+  getNodesFromNodeData,
+  NodeContentData,
+  NodeData,
+} from "../../models/node-data";
 import SEO from "../../components/SEO/SEO";
 import useSiteMetadata from "../../hooks/use-site-metadata";
+import { useFilter } from "../../componsitions/filter";
+import ListTitle, {
+  ListTitleMode,
+} from "../../components/list-title/list-title";
 
 interface PassageListPageData {
-  allPassage: NodeData<PassageAbbr>
-  allCategory: NodeContentData<string>
-  allTag: NodeData<Tag>
+  allPassage: NodeData<PassageAbbr>;
+  allCategory: NodeContentData<string>;
+  allTag: NodeData<Tag>;
 }
 
 export default function PassageListPage(props: PageProps<PassageListPageData>) {
-  const [tagFilter, categoryFilter] = useFilter();
-
-  const cancelCategoryFilter = async () => {
-    const search = QueryString.stringify({ tag: tagFilter });
-    await navigate(`/passages?${search}`, { replace: true });
-  }
-
-  const cancelTagFilter = async () => {
-    const search = QueryString.stringify({ category: categoryFilter });
-    await navigate(`/passages?${search}`, { replace: true });
-  }
-
-  const goToCategory = async (category: string) => {
-    const search = QueryString.stringify({ tag: tagFilter, category: category });
-    await navigate(`/passages?${search}`, { replace: true });
-  }
-
-  const goToTag = async (tag: Tag) => {
-    const search = QueryString.stringify({ tag: tag.title, category: categoryFilter });
-    await navigate(`/passages?${search}`, { replace: true });
-  }
+  const [tag, category] = useFilter();
 
   let passages = getNodesFromNodeData(props.data.allPassage);
-  passages = passages.filter(item => {
+  passages = passages.filter((item) => {
     let flag = true;
-    if (tagFilter) {
-      flag = item.about.tags.map(t => t.title.toLowerCase()).includes(tagFilter.toLowerCase());
+    if (!!tag) {
+      flag = item.about.tags
+        .map((t) => t.title.toLowerCase())
+        .includes(tag.toLowerCase());
     }
-    if (categoryFilter) {
-      flag = item.about.category?.toLowerCase() === categoryFilter;
+    if (!!category) {
+      flag = item.about.category?.toLowerCase() === category;
     }
     return flag;
-  })
-
-  const tags: Tag[] = getNodesFromNodeData(props.data.allTag);
-  const categories: string[] = getContentFromNodeContentData(props.data.allCategory);
+  });
 
   const description = useSiteMetadata().pageDescription?.passages;
 
@@ -63,41 +46,15 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
     <BasePage id="passage-list-page">
       <SEO description={description} />
       <div className="passage-list-container">
-        { /* 若需要隐藏 passage-list-title 则应用 passage-list-title-hide class */ }
-        <span className="passage-list-title">
-          <FilterView
-            content={!!categoryFilter ? categoryFilter : "所有"}
-            description={"分类的内容"}
-            cancelButtonTitle={"取消"}
-            onCancelButtonClick={cancelCategoryFilter}
-            dataSource={categories}
-            onItemSelected={goToCategory}
-            itemSelected={category => category.toLowerCase() === categoryFilter?.toLowerCase()}
-            itemTitle={category => category}
-            showCancelButton={!!categoryFilter}
-          />
-          <FilterView
-            content={!!tagFilter ? tagFilter : "所有"}
-            description={"标签的内容"}
-            cancelButtonTitle={"取消"}
-            onCancelButtonClick={cancelTagFilter}
-            dataSource={tags}
-            onItemSelected={goToTag}
-            itemSelected={tag => tag.title.toLowerCase() === tagFilter?.toUpperCase()}
-            itemTitle={tag => tag.title}
-            showCancelButton={!!tagFilter}
-          />
-        </span>
+        <ListTitle mode={ListTitleMode.passages} />
         <div className="passage-list">
-          {
-            passages.map(item => (
-              <PassageItem passage={item} key={item.identifier}/>
-            ))
-          }
+          {passages.map((item) => (
+            <PassageItem passage={item} key={item.identifier} />
+          ))}
         </div>
       </div>
     </BasePage>
-  )
+  );
 }
 
 export const query = graphql`
@@ -120,22 +77,5 @@ export const query = graphql`
         }
       }
     }
-    allCategory {
-      edges {
-        node {
-          internal {
-            content
-          }
-        }
-      }
-    }
-    allTag {
-      edges {
-        node {
-          id
-          title
-        }
-      }
-    }
   }
-`
+`;

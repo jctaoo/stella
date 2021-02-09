@@ -46,6 +46,7 @@
     "katex": "^0.12.0",
     "marked": "^1.1.1",
     "moment": "^2.27.0",
+    "prettier": "^2.2.1",
     "query-string": "^6.13.1",
     "rc-queue-anim": "^1.8.5",
     "react": "^16.13.1",
@@ -54,7 +55,6 @@
     "react-redux": "^7.2.1",
     "react-scripts": "3.4.1",
     "sass": "^1.32.0",
-    "styled-components": "^5.2.1",
     "typescript": "~3.7.2",
     "uuid": "^8.3.0",
     "yaml": "^1.10.0"

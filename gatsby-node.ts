@@ -1,4 +1,9 @@
-import { CreatePagesArgs, CreateResolversArgs, CreateSchemaCustomizationArgs, SourceNodesArgs } from "gatsby";
+import {
+  CreatePagesArgs,
+  CreateResolversArgs,
+  CreateSchemaCustomizationArgs,
+  SourceNodesArgs,
+} from "gatsby";
 import * as path from "path";
 import { PassageAbbr } from "./src/models/passage-content";
 import { NodeData } from "./src/models/node-data";
@@ -10,7 +15,7 @@ import { SiteMetadata } from "./src/models/site-metadata";
 // TODO 链接中的图片无法点击, 无居中
 
 interface CreatePagesData {
-  allPassage: NodeData<PassageAbbr>
+  allPassage: NodeData<PassageAbbr>;
 }
 
 const processor = new Processor(
@@ -19,106 +24,109 @@ const processor = new Processor(
     imageStaticDir: path.resolve(__dirname, "public", "static", "images"),
     postsDir: path.resolve(__dirname, "content", "posts"),
     snippetsDir: path.resolve(__dirname, "content", "snippets"),
-    aboutDir: path.resolve(__dirname, "content", "about.md")
+    aboutDir: path.resolve(__dirname, "content", "about.md"),
   },
   {
-    downloadWebPicture: config.siteMetadata.config.experiment.downloadNebPicture
-  },
+    downloadWebPicture:
+      config.siteMetadata.config.experiment.downloadNebPicture,
+  }
 );
 
 export const createResolvers = async (args: CreateResolversArgs) => {
   const about = await processor.processAbout();
-  const siteMetadata: SiteMetadata = config.siteMetadata;
+  // TODO remove as
+  const siteMetadata: SiteMetadata = config.siteMetadata as SiteMetadata;
   const resolvers = {
     Query: {
       about: {
-        type: 'ContentDetail',
+        type: "ContentDetail",
         resolve: (source: any, args: any, context: any, info: any) => {
           return about;
-        }
+        },
       },
       siteMetadata: {
-        type: 'SiteMetadata',
+        type: "SiteMetadata",
         resolve: (source: any, args: any, context: any, info: any) => {
           return siteMetadata;
-        }
-      }
-    }
-  }
-  args.createResolvers(resolvers)
-}
+        },
+      },
+    },
+  };
+  args.createResolvers(resolvers);
+};
 
-export const createSchemaCustomization = async (args: CreateSchemaCustomizationArgs) => {
+export const createSchemaCustomization = async (
+  args: CreateSchemaCustomizationArgs
+) => {
   const { createTypes } = args.actions;
   createTypes(typeDefs);
-}
+};
 
 export const sourceNodes = async (args: SourceNodesArgs) => {
   await processor.clearAndEnsureImageFolder();
 
-
   // 添加 posts
   const posts = await processor.processPosts();
 
-  posts.abbrs.forEach(abbr => {
+  posts.abbrs.forEach((abbr) => {
     args.actions.createNode({
       ...abbr,
       id: args.createNodeId(abbr.identifier + "passage"),
       internal: {
-        type: 'Passage',
+        type: "Passage",
         contentDigest: args.createContentDigest(abbr),
-      }
+      },
     });
   });
-  posts.details.forEach(detail => {
+  posts.details.forEach((detail) => {
     args.actions.createNode({
       ...detail,
       id: args.createNodeId(detail.item.identifier + "detail"),
       internal: {
-        type: 'PassageDetail',
+        type: "PassageDetail",
         contentDigest: args.createContentDigest(detail),
-      }
+      },
     });
   });
 
   // 添加 snippets
   const snippets = await processor.processSnippets();
 
-  snippets.details.forEach(detail => {
+  snippets.details.forEach((detail) => {
     args.actions.createNode({
       ...detail,
       id: args.createNodeId(detail.item.identifier + "detail"),
       internal: {
-        type: 'Snippet',
+        type: "Snippet",
         contentDigest: args.createContentDigest(detail),
-      }
+      },
     });
   });
 
   // 添加 tag & category
   // TODO 唯一化
   // TODO snippets post tag category 差异化
-  [...posts.tags, ...snippets.tags].forEach(tag => {
+  [...posts.tags, ...snippets.tags].forEach((tag) => {
     args.actions.createNode({
       ...tag,
       id: args.createNodeId(tag.id),
       internal: {
-        type: 'Tag',
-        contentDigest: args.createContentDigest(tag)
-      }
+        type: "Tag",
+        contentDigest: args.createContentDigest(tag),
+      },
     });
   });
-  [...posts.categories, ...snippets.categories].forEach(category => {
+  [...posts.categories, ...snippets.categories].forEach((category) => {
     args.actions.createNode({
       id: args.createNodeId(category),
       internal: {
-        type: 'Category',
+        type: "Category",
         contentDigest: args.createContentDigest(category),
         content: category,
-      }
+      },
     });
-  })
-}
+  });
+};
 
 export const createPages = async (args: CreatePagesArgs) => {
   const result = await args.graphql<CreatePagesData>(`
@@ -131,14 +139,20 @@ export const createPages = async (args: CreatePagesArgs) => {
         }
       }
     }
-  `)
-  result.data?.allPassage.edges.forEach(item => {
+  `);
+  result.data?.allPassage.edges.forEach((item) => {
     args.actions.createPage({
       path: `/passage/${item.node.identifier}`,
-      component: path.resolve(__dirname, 'src', 'templates', 'passage', 'passage.tsx'),
+      component: path.resolve(
+        __dirname,
+        "src",
+        "templates",
+        "passage",
+        "passage.tsx"
+      ),
       context: {
         identifier: item.node.identifier,
-      }
+      },
     });
   });
-}
+};

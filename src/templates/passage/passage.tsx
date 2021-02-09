@@ -1,5 +1,5 @@
-import React from "react"
-import "./PassagePage.scss"
+import React from "react";
+import "./PassagePage.scss";
 import { graphql, PageProps, useStaticQuery } from "gatsby";
 import { PassageDetail } from "../../models/passage-content";
 import PassageDetailView from "../../components/passage-detail/passage-detail";
@@ -11,35 +11,40 @@ import SEO from "../../components/SEO/SEO";
 import PageDescription from "../../models/page-description";
 
 interface PassagePageData {
-  allPassageDetail: NodeData<PassageDetail>
-  siteMetadata: { config: Config }
+  allPassageDetail: NodeData<PassageDetail>;
+  siteMetadata: { config: Config };
 }
 
 export default function PassagePage(props: PageProps<PassagePageData>) {
-  const matchedPassages = getNodesFromNodeData(props.data.allPassageDetail)
-  const currentPassage = matchedPassages.length > 0 ? matchedPassages[0] : undefined;
+  const matchedPassages = getNodesFromNodeData(props.data.allPassageDetail);
+  const currentPassage =
+    matchedPassages.length > 0 ? matchedPassages[0] : undefined;
   const config = props.data.siteMetadata.config.disqus;
 
-  const description: PageDescription | undefined = !!currentPassage ? {
-    title: currentPassage.item.title,
-    keywords: currentPassage.item.about.tags.map(t => t.title),
-    description: currentPassage.item.abbr,
-    largeImage: currentPassage.topImage,
-    // largeImageAlt: string,
-    // TODO support largeImageAlt
-  } : undefined;
+  const description: PageDescription | undefined = !!currentPassage
+    ? {
+        title: currentPassage.item.title,
+        keywords: currentPassage.item.about.tags.map((t) => t.title),
+        description: currentPassage.item.abbr,
+        largeImage: currentPassage.topImage,
+        // largeImageAlt: string,
+        // TODO support largeImageAlt
+      }
+    : undefined;
 
-  return !currentPassage ?
-    <Redirect noThrow to={"/404"}/> :
+  return !currentPassage ? (
+    <Redirect noThrow to={"/404"} />
+  ) : (
     <BasePage id="passage-page">
       <SEO description={description} />
-      <PassageDetailView passage={currentPassage} disqusConfig={config}/>
+      <PassageDetailView passage={currentPassage} disqusConfig={config} />
     </BasePage>
+  );
 }
 
 export const query = graphql`
   query($identifier: String!) {
-    allPassageDetail(filter: {item: {identifier: {eq: $identifier}}}) {
+    allPassageDetail(filter: { item: { identifier: { eq: $identifier } } }) {
       edges {
         node {
           content

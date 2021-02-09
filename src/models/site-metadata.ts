@@ -1,6 +1,9 @@
 import Config from "./config";
 import SocialMedia from "./social-media";
 import PageDescription from "./page-description";
+import { CreativeCommons } from "./creative-commons";
+
+type CreativeCommonsKey = keyof typeof CreativeCommons;
 
 export interface SiteMetadata {
   config: Config
@@ -18,6 +21,6 @@ export interface SiteMetadata {
   medias: SocialMedia[],
   copyright?: {
     author?: string,
-    creativeCommons?: string
+    creativeCommons?: CreativeCommonsKey
   }
 }

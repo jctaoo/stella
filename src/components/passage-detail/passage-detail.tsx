@@ -23,8 +23,8 @@ function PassageDetail(
 ) {
 
   const onPassageContainerClick = (e: MouseEvent<HTMLDivElement>) => {
-    // TODO 优化
-    if ((e.target as HTMLDivElement).className.includes("passage-inner-link") && (e.target as HTMLDivElement).tagName.toLocaleLowerCase() === "a") {
+    const element = e.target as HTMLElement;
+    if (element.className.includes("passage-inner-link") && element.tagName.toLocaleLowerCase() === "a") {
       const href = (e.target as HTMLLinkElement).getAttribute("href");
       if (typeof href === "string" && href.startsWith("/")) {
         e.preventDefault();
