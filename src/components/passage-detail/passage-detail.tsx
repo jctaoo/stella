@@ -9,6 +9,7 @@ import { navigate } from "gatsby";
 import { useLocation } from "@reach/router";
 import { AppEnv, useEnv } from "../../hooks/useEnv";
 import Footer from "../footer/footer";
+import { openLink } from "../../utils";
 
 export enum PassageDetailViewMode {
   Full,
@@ -27,16 +28,32 @@ function PassageDetail({
   mode?: PassageDetailViewMode;
   showFooter?: Boolean;
 } & HTMLAttributes<any>) {
-  const onPassageContainerClick = (e: MouseEvent<HTMLDivElement>) => {
-    const element = e.target as HTMLElement;
-    if (
-      element.className.includes("passage-inner-link") &&
-      element.tagName.toLocaleLowerCase() === "a"
+  const onPassageContainerClick = (e: MouseEvent<HTMLElement>) => {
+    const isLink = (e: HTMLElement) =>
+      e.className.includes("passage-inner-link") &&
+      e.tagName.toLocaleLowerCase() === "a";
+
+    let currentElement = e.target as HTMLElement;
+
+    while (
+      !isLink(currentElement) &&
+      !currentElement.isEqualNode(e.currentTarget)
     ) {
-      const href = (e.target as HTMLLinkElement).getAttribute("href");
-      if (typeof href === "string" && href.startsWith("/")) {
+      if (!!currentElement.parentElement) {
+        currentElement = currentElement.parentElement;
+      } else {
+        return;
+      }
+    }
+
+    if (isLink(currentElement)) {
+      e.preventDefault();
+      const href = currentElement.getAttribute("href");
+      if (typeof href === "string" && href.startsWith("./")) {
         e.preventDefault();
         navigate(href).then();
+      } else if (typeof href === "string") {
+        openLink(href);
       }
     }
   };
@@ -79,7 +96,7 @@ function PassageDetail({
           ${mode === PassageDetailViewMode.Partial ? "partial" : ""}
         `}
         id="passage-content-container"
-        onClick={onPassageContainerClick}
+        onClickCapture={onPassageContainerClick}
         dangerouslySetInnerHTML={{ __html: passage.content }}
         style={{
           marginTop: PassageDetailViewMode.Full !== mode ? 22 : undefined,

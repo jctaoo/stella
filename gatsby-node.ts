@@ -12,8 +12,6 @@ import Processor from "./src/scripts/processor";
 import typeDefs from "./src/scripts/schema";
 import { SiteMetadata } from "./src/models/site-metadata";
 
-// TODO 链接中的图片无法点击, 无居中
-
 interface CreatePagesData {
   allPassage: NodeData<PassageAbbr>;
 }
@@ -104,8 +102,6 @@ export const sourceNodes = async (args: SourceNodesArgs) => {
   });
 
   // 添加 tag & category
-  // TODO 唯一化
-  // TODO snippets post tag category 差异化
   posts.tags.forEach((tag) => {
     args.actions.createNode({
       ...tag,
