@@ -6,21 +6,21 @@ import { CreativeCommons } from "./creative-commons";
 type CreativeCommonsKey = keyof typeof CreativeCommons;
 
 export interface SiteMetadata {
-  config: Config
+  config: Config;
   routeConfigurations: {
-    about: { title: string },
-    passages: { title: string },
-    snippets: { title: string },
-  },
+    about: { title: string };
+    passages: { title: string };
+    snippets: { title: string };
+  };
   pageDescription?: {
-    home?: PageDescription,
-    passages?: PageDescription,
-    snippets?: PageDescription,
-    about?: PageDescription,
-  },
-  medias: SocialMedia[],
+    home?: PageDescription;
+    passages?: PageDescription;
+    snippets?: PageDescription;
+    about?: PageDescription;
+  };
+  medias: SocialMedia[];
   copyright?: {
-    author?: string,
-    creativeCommons?: CreativeCommonsKey
-  }
+    author?: string;
+    creativeCommons?: CreativeCommonsKey;
+  };
 }

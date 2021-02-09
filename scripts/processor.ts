@@ -1,17 +1,17 @@
-import { MarkdownInfo } from "../models/markdown-info";
+import { MarkdownInfo } from "../src/models/markdown-info";
 import * as Utils from "./utils";
 import * as fs from "fs";
 import * as fsExtra from "fs-extra";
 import * as path from "path";
 import * as UUID from "uuid";
 import YAML from "yaml";
-import { PassageAbbr, PassageDetail } from "../models/passage-content";
+import { PassageAbbr, PassageDetail } from "../src/models/passage-content";
 import {
   BaseContentAbbr,
   BaseContentDetail,
   Tag,
-} from "../models/base-content";
-import { SnippetAbbr, SnippetDetail } from "../models/snippet-content";
+} from "../src/models/base-content";
+import { SnippetAbbr, SnippetDetail } from "../src/models/snippet-content";
 import configureMarked from "./marked-configuration";
 import marked from "marked";
 import { DownloadManager } from "./download-manager";

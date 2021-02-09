@@ -2,7 +2,10 @@ import React, { HTMLAttributes, ReactNode } from "react";
 import { motion } from "framer-motion";
 import "./base-page.scss";
 
-function BasePage({ children, id }: { children: ReactNode } & HTMLAttributes<HTMLDivElement>) {
+function BasePage({
+  children,
+  id,
+}: { children: ReactNode } & HTMLAttributes<HTMLDivElement>) {
   return (
     <motion.div
       initial={{ opacity: 0 }}

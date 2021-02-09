@@ -60,11 +60,9 @@
     "yaml": "^1.10.0"
   },
   "scripts": {
-    "develop": "DEBUG=1 npx gatsby develop",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "format": "prettier -w ."
   },
   "devDependencies": {
     "gatsby-plugin-typescript": "^2.4.18",

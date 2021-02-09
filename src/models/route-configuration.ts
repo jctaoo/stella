@@ -1,3 +1,3 @@
 export interface RouteConfiguration {
-  title: string
+  title: string;
 }

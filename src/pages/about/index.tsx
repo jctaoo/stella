@@ -10,22 +10,26 @@ import SEO from "../../components/SEO/SEO";
 import useSiteMetadata from "../../hooks/use-site-metadata";
 
 interface AboutPageData {
-  about?: PassageDetail
-  siteMetadata: { config: Config }
+  about?: PassageDetail;
+  siteMetadata: { config: Config };
 }
 
 export default function AboutPage(props: PageProps<AboutPageData>) {
-  const passage = props.data.about
+  const passage = props.data.about;
   const siteMetadata = useSiteMetadata();
   const description = siteMetadata.pageDescription?.about;
   const disqusConfig = siteMetadata.config.disqus;
-  return (
-    !!passage ?
+  return !!passage ? (
     <BasePage id="about-page">
       <SEO description={description} />
-      <PassageDetailView passage={passage} disqusConfig={disqusConfig} showFooter={false} />
-    </BasePage> :
-    <Redirect noThrow to={"/404"}/>
+      <PassageDetailView
+        passage={passage}
+        disqusConfig={disqusConfig}
+        showFooter={false}
+      />
+    </BasePage>
+  ) : (
+    <Redirect noThrow to={"/404"} />
   );
 }
 
@@ -51,4 +55,4 @@ export const query = graphql`
       circleImage
     }
   }
-`
+`;

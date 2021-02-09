@@ -13,7 +13,7 @@ function MobileNavigationBar() {
   const siteMetadata = useSiteMetadata();
   const goToHome = async () => {
     await navigate("/", { replace: true });
-  }
+  };
 
   const isHome = pathname === "/";
   const routeTitle = ((pathname: string): string | null => {
@@ -27,7 +27,9 @@ function MobileNavigationBar() {
     return null;
   })(pathname);
 
-  const title = !!siteMetadata.config.homeLargeTitle ? siteMetadata.config.homeLargeTitle : siteMetadata.config.siteName
+  const title = !!siteMetadata.config.homeLargeTitle
+    ? siteMetadata.config.homeLargeTitle
+    : siteMetadata.config.siteName;
 
   return (
     <div id="mobile-navigation-bar" className={isHome ? "hide" : ""}>
@@ -36,18 +38,19 @@ function MobileNavigationBar() {
           <span id="mobile-navigation-bar-title-home-label" onClick={goToHome}>
             <h1>{title}</h1>
           </span>
-          {
-            !!routeTitle ?
-              <>
-                <span className="mobile-navigation-bar-title-divider"/>
-                <RouteLabel className="mobile-navigation-bar-title-route-label" title={routeTitle} />
-              </>
-            : null
-          }
+          {!!routeTitle ? (
+            <>
+              <span className="mobile-navigation-bar-title-divider" />
+              <RouteLabel
+                className="mobile-navigation-bar-title-route-label"
+                title={routeTitle}
+              />
+            </>
+          ) : null}
         </span>
       </div>
-      <MediaInformation className="mobile-navigation-bar-media-info"/>
-      <span className="mobile-navigation-bar-bottom-divider"/>
+      <MediaInformation className="mobile-navigation-bar-media-info" />
+      <span className="mobile-navigation-bar-bottom-divider" />
     </div>
   );
 }

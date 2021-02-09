@@ -1,9 +1,7 @@
 import { BaseContentAbbr, BaseContentDetail } from "./base-content";
 
 export interface SnippetAbbr extends BaseContentAbbr {
-  codeRaw?: string
+  codeRaw?: string;
 }
 
-export interface SnippetDetail extends BaseContentDetail<SnippetAbbr> {
-
-}
+export interface SnippetDetail extends BaseContentDetail<SnippetAbbr> {}

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import "./app-container.scss"
+import "./app-container.scss";
 import { AnimatePresence } from "framer-motion";
 import MobileNavigationBar from "../../components/mobile-navigation-bar/mobile-navigation-bar";
 import NavigationBar from "../../components/navigation-bar/navigation-bar";
@@ -10,11 +10,10 @@ import AppState from "../../models/app-state";
 import GlobalInformation from "../../components/global-information/GlobalInformation";
 
 function AppContainer({ children }: { children: ReactElement }) {
-
   const TopProgress = () => {
     const isLoading = useSelector((state: AppState) => state.isLoading);
     return <TopProgressBar show={isLoading} />;
-  }
+  };
 
   return (
     <div id="stella-container" style={{ display: "contents" }}>
@@ -23,9 +22,7 @@ function AppContainer({ children }: { children: ReactElement }) {
         <MobileNavigationBar />
         <div id="home-page">
           <NavigationBar />
-          <AnimatePresence>
-            {children}
-          </AnimatePresence>
+          <AnimatePresence>{children}</AnimatePresence>
         </div>
       </Provider>
     </div>

@@ -8,23 +8,29 @@ import store, { Actions } from "./src/state";
 import { RouteUpdateArgs, RouteUpdateDelayedArgs } from "gatsby";
 
 /**
- * @param {RouteUpdateArgs} args 
+ * @param {RouteUpdateArgs} args
  */
 export const onRouteUpdate = (args) => {
   if (store.getState().isLoading) {
-    const disableLoadingAction = Actions.createChangeLoadingStateAction({ enable: false });
+    const disableLoadingAction = Actions.createChangeLoadingStateAction({
+      enable: false,
+    });
     store.dispatch(disableLoadingAction);
   }
-  const action = Actions.createChangePathnameAction({ destination: args.location.pathname });
+  const action = Actions.createChangePathnameAction({
+    destination: args.location.pathname,
+  });
   store.dispatch(action);
-}
+};
 
 /**
- * @param {RouteUpdateDelayedArgs} _args 
+ * @param {RouteUpdateDelayedArgs} _args
  */
 export const onRouteUpdateDelayed = (_args) => {
-  const enableLoadingAction = Actions.createChangeLoadingStateAction({ enable: true });
+  const enableLoadingAction = Actions.createChangeLoadingStateAction({
+    enable: true,
+  });
   store.dispatch(enableLoadingAction);
-}
+};
 
 export { wrapRootElement } from "./src/gatsby-container";

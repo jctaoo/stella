@@ -8,8 +8,8 @@ import * as path from "path";
 import { PassageAbbr } from "./src/models/passage-content";
 import { NodeData } from "./src/models/node-data";
 import config from "./gatsby-config";
-import Processor from "./src/scripts/processor";
-import typeDefs from "./src/scripts/schema";
+import Processor from "./scripts/processor";
+import typeDefs from "./scripts/schema";
 import { SiteMetadata } from "./src/models/site-metadata";
 import { CreativeCommons } from "./src/models/creative-commons";
 

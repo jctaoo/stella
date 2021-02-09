@@ -38,7 +38,14 @@ $base-text-size: 16px;
   }
 
   .partial {
-    h1, h2, h3, h4, h5, h6, p, li {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li {
       @include label-secondary-color;
     }
     p {
@@ -51,7 +58,12 @@ $base-text-size: 16px;
     margin-top: 49px;
     width: 100%;
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-family: $font;
       margin-bottom: 16px;
       margin-top: 35px;
@@ -128,7 +140,7 @@ $base-text-size: 16px;
         margin-left: 0;
       }
 
-      input[type=checkbox] {
+      input[type="checkbox"] {
         // wtf ??
         -webkit-appearance: checkbox;
         margin-right: 3px;
@@ -156,7 +168,8 @@ $base-text-size: 16px;
       }
     }
 
-    ul > li:nth-child(1), ol > li:nth-child(1) {
+    ul > li:nth-child(1),
+    ol > li:nth-child(1) {
       margin-top: 0;
     }
 
@@ -221,7 +234,6 @@ $base-text-size: 16px;
           }
         }
       }
-
     }
 
     & > *:not(pre) > code {
@@ -247,12 +259,13 @@ $base-text-size: 16px;
       }
     }
 
-    ul ul, ol ol {
+    ul ul,
+    ol ol {
       padding-left: 16px;
     }
 
     ul li:before {
-      content: '\1F95E';
+      content: "\1F95E";
       display: inline-flex;
       color: transparent;
       height: 10px;
@@ -327,7 +340,6 @@ $base-text-size: 16px;
       margin-top: 35px;
       @include label-color;
     }
-
   }
 
   .passage-comment-container {

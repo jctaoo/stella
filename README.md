@@ -1,6 +1,7 @@
 # Stella, an easy using SPA blog theme based on [Gatsby](https://github.com/gatsbyjs/gatsby)
 
 ## TODO
+
 - [ ] TODO multiple category filter
 - [ ] Support multiple code snippets in snippets page (support only one code snippet now)
 - [ ] Support passage large image description (img tag alt property)
@@ -14,6 +15,5 @@
 ## Screen Shot
 
 ## How to use
-
 
 ## License

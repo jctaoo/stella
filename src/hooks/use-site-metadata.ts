@@ -20,9 +20,15 @@ const useSiteMetadata = (): SiteMetadata => {
           creativeCommons
         }
         routeConfigurations {
-          about { title }
-          passages { title }
-          snippets { title }
+          about {
+            title
+          }
+          passages {
+            title
+          }
+          snippets {
+            title
+          }
         }
         pageDescription {
           home {
@@ -65,6 +71,6 @@ const useSiteMetadata = (): SiteMetadata => {
     }
   `);
   return data.siteMetadata;
-}
+};
 
 export default useSiteMetadata;

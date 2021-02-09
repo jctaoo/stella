@@ -1,5 +1,5 @@
-import React from "react"
-import "./notfound.scss"
+import React from "react";
+import "./notfound.scss";
 import BasePage from "../../layout/base-page/base-page";
 import useSiteMetadata from "../../hooks/use-site-metadata";
 import SEO from "../../components/SEO/SEO";
