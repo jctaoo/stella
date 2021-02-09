@@ -13,11 +13,16 @@ import {
 import { Tag } from "../../models/base-content";
 import "./list-title.scss";
 
-function ListTitle({ env }: { env: ListEnvironment }) {
+function ListTitle({
+  env,
+  shrink = false,
+}: {
+  env: ListEnvironment;
+  shrink?: Boolean;
+}) {
   const tags = useTags(env);
   const categories = useCategories(env);
 
-  // TODO multiple category filter
   const [tagFilter, categoryFilter] = useFilter();
   const currentFilter = { tag: tagFilter, category: categoryFilter };
 
@@ -45,7 +50,11 @@ function ListTitle({ env }: { env: ListEnvironment }) {
 
   console.log(tagFilter);
   return (
-    <span className="passage-list-title">
+    <span
+      className={`passage-list-title ${
+        shrink ? "passage-list-title-shrink" : ""
+      }`}
+    >
       {/* 若需要隐藏 passage-list-title 则应用 passage-list-title-hide class */}
       <FilterView
         content={!!categoryFilter ? categoryFilter : "所有"}

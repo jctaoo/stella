@@ -4,13 +4,15 @@ import axios, { AxiosResponse } from "axios";
 
 /**
  * 计算阅读时间
- * @param markdown 
+ * @param markdown
  */
 export const calculateReadingTimeFromMarkdown = (markdown: string): number => {
   const WORDS_PER_MINUTE = 200;
-  const regex=/\w+/g;
-  return Math.ceil(markdown.match(regex)?.length ?? 0 / WORDS_PER_MINUTE) * 1000;
-}
+  const regex = /\w+/g;
+  return (
+    Math.ceil(markdown.match(regex)?.length ?? 0 / WORDS_PER_MINUTE) * 1000
+  );
+};
 
 export const toMD5 = (arg: string): string => {
   const hash = crypto.createHash("md5");
@@ -19,24 +21,27 @@ export const toMD5 = (arg: string): string => {
 
 /**
  * 下载图片
- * @param url 图片的网络链接 
+ * @param url 图片的网络链接
  * @param to 目标文件的绝对路径
  */
 export const downloadImage = async (url: string, to: string) => {
-  const result: AxiosResponse<fs.ReadStream> = await axios({ url: url, responseType: "stream" });
+  const result: AxiosResponse<fs.ReadStream> = await axios({
+    url: url,
+    responseType: "stream",
+  });
   return new Promise((resolve, reject) => {
     result.data
       .pipe(fs.createWriteStream(to))
-      .on('finish', () => resolve())
-      .on('error', e => reject(e));
+      .on("finish", () => resolve())
+      .on("error", (e) => reject(e));
   });
-}
+};
 
 export const isUrl = (string: string) => {
   try {
     new URL(string);
   } catch (_) {
-    return false;  
+    return false;
   }
   return true;
 };
@@ -47,10 +52,13 @@ export const ensureFolder = async (path: string) => {
   }
 };
 
-type ReplaceAsyncReplacer = (substring: string, ...args: any[]) => Promise<string>; 
+type ReplaceAsyncReplacer = (
+  substring: string,
+  ...args: any[]
+) => Promise<string>;
 export async function replaceAsync(
-  originalStr: string, 
-  searchValue: RegExp | string, 
+  originalStr: string,
+  searchValue: RegExp | string,
   replacer: ReplaceAsyncReplacer
 ): Promise<string> {
   const promises: Promise<string>[] = [];

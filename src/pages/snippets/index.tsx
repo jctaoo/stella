@@ -40,7 +40,7 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
       <SEO description={description} />
       <div className="snippet-list-container">
         <div className="snippet-list-header-container">
-          <ListTitle env={ListEnvironment.snippets} />
+          <ListTitle env={ListEnvironment.snippets} shrink />
         </div>
         <div className="snippet-list">
           {snippets.map((item) => {

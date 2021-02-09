@@ -1,18 +1,21 @@
 import { CreativeCommons } from "./creative-commons";
 
 interface Config {
-  siteName: string
-  homeLargeTitle?: string
-  disqus?: DisqusConfig
-  lang: string
-  host: string
+  siteName: string;
+  homeLargeTitle?: string;
+  disqus?: DisqusConfig;
+  lang: string;
+  host: string;
   experiment: {
-    downloadNebPicture: boolean
-  }
+    downloadWebPicture?: {
+      enable: Boolean;
+      excludeUrlRegx: string[];
+    };
+  };
 }
 export default Config;
 
 export interface DisqusConfig {
-  shortName: string
-  developmentShortName: string
+  shortName: string;
+  developmentShortName: string;
 }

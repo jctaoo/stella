@@ -11,6 +11,9 @@ import config from "./gatsby-config";
 import Processor from "./src/scripts/processor";
 import typeDefs from "./src/scripts/schema";
 import { SiteMetadata } from "./src/models/site-metadata";
+import { CreativeCommons } from "./src/models/creative-commons";
+
+const siteMetadata: SiteMetadata = config.siteMetadata as SiteMetadata;
 
 interface CreatePagesData {
   allPassage: NodeData<PassageAbbr>;
@@ -25,15 +28,42 @@ const processor = new Processor(
     aboutDir: path.resolve(__dirname, "content", "about.md"),
   },
   {
-    downloadWebPicture:
-      config.siteMetadata.config.experiment.downloadNebPicture,
+    downloadWebPicture: {
+      enable: !!siteMetadata.config.experiment.downloadWebPicture?.enable,
+      excludeUrlRegx:
+        siteMetadata.config.experiment.downloadWebPicture?.excludeUrlRegx ?? [],
+    },
   }
 );
 
 export const createResolvers = async (args: CreateResolversArgs) => {
   const about = await processor.processAbout();
-  // TODO remove as
-  const siteMetadata: SiteMetadata = config.siteMetadata as SiteMetadata;
+
+  if (
+    !!siteMetadata.copyright?.creativeCommons &&
+    !Object.keys(CreativeCommons).includes(
+      siteMetadata.copyright.creativeCommons
+    )
+  ) {
+    console.log("错误的 CreateCommons 值");
+    console.log("您可能需要如下的值:");
+    for (const key of Object.keys(CreativeCommons)) {
+      console.log(
+        `\t${key} (代表 ${
+          CreativeCommons[key as keyof typeof CreativeCommons]
+        } 协议)`
+      );
+    }
+    console.log("如果您不想使用 CreativeCommons, 请去掉 creativeCommons 字段");
+    console.log(
+      "您可以跳转到 CreativeCommons 的网站 https://creativecommons.org/"
+    );
+    console.log(
+      "或者使用 CreativeCommons 官方的方式来选择适合您的协议 https://creativecommons.org/choose/"
+    );
+    process.exit(-1);
+  }
+
   const resolvers = {
     Query: {
       about: {

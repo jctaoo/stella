@@ -14,6 +14,7 @@ import {
 import { SnippetAbbr, SnippetDetail } from "../models/snippet-content";
 import configureMarked from "./marked-configuration";
 import marked from "marked";
+import { DownloadManager } from "./download-manager";
 
 interface MarkdownProcessResult {
   information: MarkdownInfo;
@@ -36,7 +37,10 @@ interface SnippetsProcessResult {
 }
 
 interface ExperimentFeature {
-  downloadWebPicture: boolean;
+  downloadWebPicture: {
+    enable: Boolean;
+    excludeUrlRegx: string[];
+  };
 }
 
 export default class Processor {
@@ -82,6 +86,7 @@ export default class Processor {
 
   /** 图片缓存, 避免重新复制图片/下载图片 */
   private imageSymbolToTargetPath: Map<string, string> = new Map();
+  private readonly downloadManager = new DownloadManager();
 
   // ==================== 处理流程 ====================
 
@@ -132,7 +137,6 @@ export default class Processor {
     let details: SnippetDetail[] = [];
 
     for (const childPath of children) {
-      // TODO refactor: doesnt use result's detail but processMarkdown generate it.
       const result = await this.processMarkdown(
         path.resolve(this.snippetsDir, childPath)
       );
@@ -223,29 +227,49 @@ export default class Processor {
 
     // 读取缓存的链接
     const cache = this.imageSymbolToTargetPath.get(link);
+    console.log("get cache", link, cache);
     if (!!cache) {
       return cache;
     }
 
     const cacheLink = (targetPath: string = link) => {
+      console.log("cache", link, targetPath);
       this.imageSymbolToTargetPath.set(link, targetPath);
     };
 
-    // TODO 实验功能 下载 web 图片以 保证未来图片不会丢失
     // 如果是 web url, 下载图片
-    if (this.experimentFeatures.downloadWebPicture && Utils.isUrl(link)) {
-      const imageName = `${UUID.v4()}.png`;
-      const imageDestination = path.resolve(this.imageStaticDir, imageName);
-      try {
-        await Utils.downloadImage(link, imageDestination);
-        const publicPath = imageDestination.replace(this.publicDir, "");
-        cacheLink(publicPath);
-        return publicPath;
-      } catch (error) {
-        // PASS
-        console.log(`
-        Some error occurred when download web image
-        `);
+    if (
+      this.experimentFeatures.downloadWebPicture.enable &&
+      Utils.isUrl(link)
+    ) {
+      // check if is be exclude
+      let included = true;
+      for (const regx of this.experimentFeatures.downloadWebPicture
+        .excludeUrlRegx) {
+        included = !new RegExp(regx).test(link);
+        if (!included) break;
+      }
+      console.log("1downloading......", link, included);
+      // download image
+      if (included) {
+        console.log("downloading......", link);
+        return await this.downloadManager.startTask(link, async (link) => {
+          const imageName = `${UUID.v4()}.png`;
+          const imageDestination = path.resolve(this.imageStaticDir, imageName);
+          try {
+            await Utils.downloadImage(link, imageDestination);
+            const publicPath = imageDestination.replace(this.publicDir, "");
+            cacheLink(publicPath);
+            return publicPath;
+          } catch (error) {
+            console.log(`
+              [实验功能｜experimentFeatures]下载图片时遇到错误(图片链接: ${link}): ${error}
+            `);
+            console.log("将使用原始链接");
+          }
+          // 如果发生错误，返回原始链接
+          return link;
+        });
       }
     }
 

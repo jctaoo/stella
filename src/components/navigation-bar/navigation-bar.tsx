@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import './navigation-bar.scss'
+import React, { useState } from "react";
+import "./navigation-bar.scss";
 import NavigationLink from "./navigation-link";
 import MediaInformation from "../media-information/media-information";
 import { navigate } from "gatsby";
@@ -7,44 +7,44 @@ import { motion } from "framer-motion";
 import { graphql, useStaticQuery } from "gatsby";
 import { RouteConfiguration } from "../../models/route-configuration";
 import { Provider, useSelector } from "react-redux";
-import AppState from '../../models/app-state';
-import useSiteMetadata from '../../hooks/use-site-metadata';
+import AppState from "../../models/app-state";
+import useSiteMetadata from "../../hooks/use-site-metadata";
 import GlobalInformation from "../global-information/GlobalInformation";
 
-
 export default function NavigationBar() {
-
   const pathname = useSelector((state: AppState) => state.currentPathname);
 
   const siteMetadata = useSiteMetadata();
-  const passagesName = siteMetadata.routeConfigurations?.passages?.title ?? "passages";
-  const snippetsName = siteMetadata.routeConfigurations?.snippets?.title ?? "snippets";
+  const passagesName =
+    siteMetadata.routeConfigurations?.passages?.title ?? "passages";
+  const snippetsName =
+    siteMetadata.routeConfigurations?.snippets?.title ?? "snippets";
   const aboutName = siteMetadata.routeConfigurations?.about?.title ?? "about";
 
   const goToHome = async () => {
     await navigate("/", { replace: true });
-  }
+  };
 
   const isPassage = pathname.startsWith("/passage");
 
-  // TODO: Support special navigation link (implemented but need optimize)
-  // showSpecial is the mark variable indicates whether is special navigation link or not.
-  const isSpecial = false
-  const showSpecial = pathname === "/" || pathname === "/404" || isSpecial
-  const isHome = pathname === "/"
+  const isHome = pathname === "/";
 
-  const title = !!siteMetadata.config.homeLargeTitle ? siteMetadata.config.homeLargeTitle : siteMetadata.config.siteName
+  const title = !!siteMetadata.config.homeLargeTitle
+    ? siteMetadata.config.homeLargeTitle
+    : siteMetadata.config.siteName;
 
   return (
     <motion.div
-      initial={{opacity:0}}
-      animate={{opacity:1}}
-      exit={{opacity:0}}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       id="navigation-bar"
       className={!isHome ? "navigation-bar-shrink" : ""}
     >
       <div id="navigation-bar-content">
-        <h1 id="blog-name-label" onClick={goToHome}>{title}</h1>
+        <h1 id="blog-name-label" onClick={goToHome}>
+          {title}
+        </h1>
         <ul id="links-list">
           <NavigationLink
             title={passagesName}
@@ -62,10 +62,13 @@ export default function NavigationBar() {
             selected={pathname.startsWith("/about")}
           />
         </ul>
-        <ul id="links-list-passage-list" className={!isPassage ? "links-list-passage-list-hide" : ""}>
+        <ul
+          id="links-list-passage-list"
+          className={!isPassage ? "links-list-passage-list-hide" : ""}
+        >
           {/* PASS */}
         </ul>
-        <MediaInformation className="navigation-bar-media-info"/>
+        <MediaInformation className="navigation-bar-media-info" />
       </div>
       <GlobalInformation text={"本站点为示例站点, 网站内容来自互联网"} />
     </motion.div>

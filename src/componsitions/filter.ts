@@ -55,7 +55,6 @@ export async function cancelTagFilter({
 }
 
 // https://www.gatsbyjs.com/blog/2019-02-20-introducing-use-static-query/
-// TODO Its a limitation in gatsby that can only use one instance of useStaticQuery in a file.
 function useTagsAndCategories(): {
   allPostTag: NodeData<Tag>;
   allSnippetTag: NodeData<Tag>;
