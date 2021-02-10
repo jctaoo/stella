@@ -95,7 +95,7 @@ export default {
         iconName: "github", // !
         title: "github", // !
         link: "https://github.com/jctaoo",
-        imageName: undefined,
+        imageName: "github_qr_code.png",
       },
       {
         identifier: "3", // !

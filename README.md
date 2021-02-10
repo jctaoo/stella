@@ -1,4 +1,5 @@
 # Stella, an easy using and beautiful blog based on [Gatsby](https://github.com/gatsbyjs/gatsby)
+![preview](./static/preview.png)
 
 ## 🚀 Quick start
 
