@@ -45,23 +45,23 @@ export const createResolvers = async (args: CreateResolversArgs) => {
       siteMetadata.copyright.creativeCommons
     )
   ) {
-    console.log("错误的 CreateCommons 值");
-    console.log("您可能需要如下的值:");
-    for (const key of Object.keys(CreativeCommons)) {
-      console.log(
-        `\t${key} (代表 ${
-          CreativeCommons[key as keyof typeof CreativeCommons]
-        } 协议)`
-      );
-    }
-    console.log("如果您不想使用 CreativeCommons, 请去掉 creativeCommons 字段");
-    console.log(
-      "您可以跳转到 CreativeCommons 的网站 https://creativecommons.org/"
+    args.reporter.panic(
+      `
+错误的 CreateCommons 值, 您可能需要如下的值:
+${Object.keys(CreativeCommons)
+  .map(
+    (key) =>
+      `\t$'{key}' (代表 ${
+        CreativeCommons[key as keyof typeof CreativeCommons]
+      } 协议)`
+  )
+  .join("\n")}
+如果您不想使用 CreativeCommons, 请去掉 creativeCommons 字段
+您可以跳转到 CreativeCommons 的网站 https://creativecommons.org/
+或者使用 CreativeCommons 官方的方式来选择适合您的协议 https://creativecommons.org/choose/
+      `,
+      new Error("Bad `createCommons` value")
     );
-    console.log(
-      "或者使用 CreativeCommons 官方的方式来选择适合您的协议 https://creativecommons.org/choose/"
-    );
-    process.exit(-1);
   }
 
   const resolvers = {
