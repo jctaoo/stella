@@ -7,29 +7,30 @@ You need create a file named `config.json` in the root path of your blog content
 
 ### (Optional) Config for [disqus](https://disqus.com/):
 `config.disqus.shortName` string: Your short name of disqus.
+
 `config.disqus.developmentShortName` string: Same as shortName but only for development.
 
 ### (Required) Experiments Features:
 Note: If you don't need any experimental feature, just provide `{}` for `config.experiment`
 
 `config.experiment.downloadWebPicture` optional: Stella will download Web Page in your content to ensure that pictures are always presented in the same way.
+
 `config.experiment.downloadWebPicture.enable` bool: Whether to turn on this feature.
+
 `config.experiment.downloadWebPicture.excludeUrlRegx` string[]: The list of regular expression indicates links to ignore.
 
-### (Optional) Copyright
+### (Optional) Copyright:
 `copyright.author` string optional: Author of site.
+
 `copyright.creativeCommons` string optional: [Creative Commons](https://creativecommons.org/). You can choose your option in https://creativecommons.org/choose/.
 
 ### (Required) Routes Configure:
-Note that `routeName` just can only be the value includes [
-  'about', 'passages', 'snippets'
-] 
+Note that `routeName` just can only be the value includes 'about', 'passages', 'snippets'
+
 `routeConfigurations.${routeName}.title` string: title of `routeName` route.
 
 ### (Optional) Page Descriptions (to support SEO):
-Note that `pageName` just can only be the value includes [
-  'home', 'about', 'passages', 'snippets'
-] 
+Note that `pageName` just can only be the value includes 'home', 'about', 'passages', 'snippets'
 
 Here are following simple options need to be configured for the page:
 - `pageDescription.${pageName}.title` string 
@@ -72,104 +73,89 @@ Stella support following platforms:
 ## Example Config File:
 ```json
  {
-    config: {
-      disqus: {
-        shortName: "jctaoo", 
-        developmentShortName: "jctaoo-dev",
+    "config": {
+      "disqus": {
+        "shortName": "jctaoo", 
+        "developmentShortName": "jctaoo-dev"
       },
-      lang: "zh",
-      host: "http://localhost:5000", 
-      siteName: "Jctaoo.",
-      homeLargeTitle: "Jctaoo.",
-      experiment: {
-        downloadWebPicture: {
-          enable: true,
-          excludeUrlRegx: ["juejin"],
-        },
-      },
+      "lang": "zh",
+      "host": "http://localhost:5000", 
+      "siteName": "Jctaoo.",
+      "homeLargeTitle": "Jctaoo.",
+      "experiment": {
+        "downloadWebPicture": {
+          "enable": true,
+          "excludeUrlRegx": ["juejin"]
+        }
+      }
     },
-    bannerText: "Stella Demo Site",
-    copyright: {
-      author: "jctaoo",
-      creativeCommons: "by",
+    "bannerText": "Stella Demo Site",
+    "copyright": {
+      "author": "jctaoo",
+      "creativeCommons": "by"
     },
-    routeConfigurations: {
-      about: {
-        title: "关于",
+    "routeConfigurations": {
+      "about": {
+        "title": "关于"
       }, 
-      passages: {
-        title: "文章",
+      "passages": {
+        "title": "文章"
       },
-      snippets: {
-        title: "片段",
-      },
+      "snippets": {
+        "title": "片段"
+      }
     },
-    pageDescription: {
-      home: {
-        title: "主页",
-        keywords: [],
-        description: "Jctaoo的个人网站",
-        largeImage: undefined,
-        largeImageAlt: undefined,
+    "pageDescription": {
+      "home": {
+        "title": "主页",
+        "keywords": [],
+        "description": "Jctaoo的个人网站"
       },
-      passages: {
-        title: "文章列表",
-        keywords: ["文章列表"], 
-        description: "所有发布的文章列表",
-        largeImage: undefined,
-        largeImageAlt: undefined,
+      "passages": {
+        "title": "文章列表",
+        "keywords": ["文章列表"], 
+        "description": "所有发布的文章列表"
       },
-      snippets: {
-        title: "片段列表",
-        keywords: ["片段列表", "vlog"],
-        description: "所有发布的片段列表, 记录代码与日常片段",
-        largeImage: undefined,
-        largeImageAlt: undefined,
+      "snippets": {
+        "title": "片段列表",
+        "keywords": ["片段列表", "vlog"],
+        "description": "所有发布的片段列表, 记录代码与日常片段"
       },
-      about: {
-        title: "关于",
-        keywords: [, "关于", "简介", "说明"],
-        description: "关于Jctaoo的个人网站",
-        largeImage: undefined,
-        largeImageAlt: undefined,
-      },
+      "about": {
+        "title": "关于",
+        "keywords": [, "关于", "简介", "说明"],
+        "description": "关于Jctaoo的个人网站"
+      }
     },
-    medias: [
+    "medias": [
       {
-        identifier: "1", 
-        iconName: "bilibili", 
-        title: "bilibili",
-        link: undefined,
-        imageName: undefined,
+        "identifier": "1", 
+        "iconName": "bilibili", 
+        "title": "bilibili"
       },
       {
-        identifier: "2",
-        iconName: "github",
-        title: "github",
-        link: "https://github.com/jctaoo",
-        imageName: "github_qr_code.png",
+        "identifier": "2",
+        "iconName": "github",
+        "title": "github",
+        "link": "https://github.com/jctaoo",
+        "imageName": "github_qr_code.png"
       },
       {
-        identifier: "3", 
-        iconName: "mail", 
-        title: "mail",
-        link: "mailto:jctaoo@outlook.com",
-        imageName: undefined,
+        "identifier": "3", 
+        "iconName": "mail", 
+        "title": "mail",
+        "link": "mailto:jctaoo@outlook.com"
       },
       {
-        identifier: "4",
-        iconName: "twitter",
-        title: "twitter",
-        link: undefined,
-        imageName: undefined,
+        "identifier": "4",
+        "iconName": "twitter",
+        "title": "twitter"
       },
       {
-        identifier: "5",
-        iconName: "wechat",
-        title: "wechat",
-        link: undefined,
-        imageName: undefined,
-      },
-    ],
+        "identifier": "5",
+        "iconName": "wechat",
+        "title": "wechat"
+      }
+    ]
   }
 ```
