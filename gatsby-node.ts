@@ -75,7 +75,6 @@ export const createResolvers = async (args: CreateResolversArgs) => {
       siteMetadata: {
         type: "SiteMetadata",
         resolve: (source: any, args: any, context: any, info: any) => {
-          console.log(siteMetadata.bannerText);
           return siteMetadata;
         },
       },
