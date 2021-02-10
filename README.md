@@ -4,7 +4,7 @@
 
 ### With Gatsby
 
-   1. **Install Gatsby cli.**
+1. **Install Gatsby cli.**
    
    using npm
    
