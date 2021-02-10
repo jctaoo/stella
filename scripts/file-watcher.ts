@@ -1,6 +1,5 @@
 import chokidar from "chokidar";
 import { promises } from "fs";
-import * as Path from "path";
 import EventEmitter from "events";
 import Queue from "./queue";
 

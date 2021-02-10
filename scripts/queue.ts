@@ -7,7 +7,7 @@ class Queue<T> {
 
   enqueue(...args: T[]) {
     const len = args.length;
-    if (len == 0) {
+    if (len === 0) {
       return;
     }
     for (const item of args) {
@@ -16,8 +16,7 @@ class Queue<T> {
   }
 
   dequeue(): T | undefined {
-    const result = this.items.shift();
-    return result;
+    return this.items.shift();
   }
 
   isEmpty() {

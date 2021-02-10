@@ -2,10 +2,10 @@
 category: Enlace
 title: "[Enlace] Enlace Get Started"
 tags:
-  - code
+- code
 identifier: enlace-get-started
 updateDates:
-  - 2020-07-15
+- 2020-07-15
 ---
 
 ```typescript

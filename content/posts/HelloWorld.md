@@ -4,7 +4,7 @@ title: Hello World, stella
 identifier: hello-world-stella
 abbr: Hello World, stella.
 updateDates:
-  - 2020-07-15
+- 2020-07-15
 topImage: "./Hello World.jpg"
 topImageAlt: "Hello World"
 ---

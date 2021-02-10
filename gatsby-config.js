@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Run TypeScript code without compiling it
  * Source-map-support mimics node's stack trace making debugging easier

@@ -11,7 +11,7 @@ import {
   BaseContentDetail,
   Tag,
 } from "../src/models/base-content";
-import { SnippetAbbr, SnippetDetail } from "../src/models/snippet-content";
+import { SnippetDetail } from "../src/models/snippet-content";
 import configureMarked from "./marked-configuration";
 import marked from "marked";
 import { DownloadManager } from "./download-manager";

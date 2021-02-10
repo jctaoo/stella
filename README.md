@@ -5,7 +5,7 @@
 
 ### With Gatsby
 
-1. **Install Gatsby cli.**
+1. Install Gatsby cli.
    
    using npm
    
@@ -19,7 +19,7 @@
    yarn global add gatsby-cli
    ```
 
-2. **Create a Gatsby site.**
+2. Create a Gatsby site.
 
    Use the Gatsby CLI to create a new site, specifying the blog starter.
 
@@ -28,7 +28,7 @@
     gatsby new my-blog https://github.com/jctaoo/stella
     ```
 
-3. **Start developing.**
+3. Start developing.
 
    Navigate into your new site’s directory and start it up.
 
@@ -40,7 +40,7 @@
     npm run start
     ```
 
-3. **Open the source code and start editing!**
+3. Open the source code and start editing!
 
    Your site is now running at `http://localhost:8000`!
 
