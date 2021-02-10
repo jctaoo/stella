@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React  from "react";
 import "./navigation-bar.scss";
 import NavigationLink from "./navigation-link";
 import MediaInformation from "../media-information/media-information";
@@ -32,7 +32,7 @@ export default function NavigationBar() {
     : siteMetadata.config.siteName;
 
   const bannerText = siteMetadata.bannerText;
-  console.log(siteMetadata);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

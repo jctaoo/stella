@@ -48,7 +48,6 @@ function ListTitle({
     }
   }
 
-  console.log(tagFilter);
   return (
     <span
       className={`passage-list-title ${

@@ -25,8 +25,8 @@ function MediaInformation({ className = "" }: { className?: String }) {
 
   return (
     <ul className={`contact-list ${className}`}>
-      {medias.map((item) => (
-        <li className="contact-list-item ">
+      {medias.map((item, idx) => (
+        <li className="contact-list-item " key={idx}>
           <a
             href={`${item.link}`}
             key={item.identifier}

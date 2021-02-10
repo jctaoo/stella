@@ -35,7 +35,6 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
     }
     return flag;
   });
-  console.log(snippets);
 
   const description = useSiteMetadata().pageDescription?.snippets;
 
