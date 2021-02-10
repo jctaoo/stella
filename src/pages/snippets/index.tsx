@@ -7,10 +7,14 @@ import { SnippetDetail } from "../../models/snippet-content";
 import { NodeData, getNodesFromNodeData } from "../../models/node-data";
 import SEO from "../../components/SEO/SEO";
 import useSiteMetadata from "../../hooks/use-site-metadata";
-import PassageDetail, {
+import PassageDetailView, {
   PassageDetailViewMode,
 } from "../../components/passage-detail/passage-detail";
-import { useFilter, ListEnvironment } from "../../componsitions/filter";
+import {
+  useFilter,
+  ListEnvironment,
+  jumpToSnippetsPage,
+} from "../../componsitions/filter";
 import ListTitle from "../../components/list-title/list-title";
 
 interface SnippetsPageData {
@@ -45,11 +49,15 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
         <div className="snippet-list">
           {snippets.map((item) => {
             return (
-              <PassageDetail
+              <PassageDetailView
                 className="snippet-item"
                 passage={item}
                 mode={PassageDetailViewMode.Partial}
                 key={item.item.identifier}
+                onClickCategory={(_, category) =>
+                  jumpToSnippetsPage({ category })
+                }
+                onClickTag={(_, tag) => jumpToSnippetsPage({ tag: tag.title })}
               />
             );
           })}

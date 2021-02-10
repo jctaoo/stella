@@ -1,6 +1,6 @@
 import React from "react";
 import "./PassagePage.scss";
-import { graphql, PageProps, useStaticQuery } from "gatsby";
+import { graphql, PageProps } from "gatsby";
 import { PassageDetail } from "../../models/passage-content";
 import PassageDetailView from "../../components/passage-detail/passage-detail";
 import Config from "../../models/config";
@@ -9,6 +9,7 @@ import { Redirect } from "@reach/router";
 import { NodeData, getNodesFromNodeData } from "../../models/node-data";
 import SEO from "../../components/SEO/SEO";
 import PageDescription from "../../models/page-description";
+import { jumpToPassagePage } from "../../componsitions/filter";
 
 interface PassagePageData {
   allPassageDetail: NodeData<PassageDetail>;
@@ -36,7 +37,12 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
   ) : (
     <BasePage id="passage-page">
       <SEO description={description} />
-      <PassageDetailView passage={currentPassage} disqusConfig={config} />
+      <PassageDetailView
+        passage={currentPassage}
+        disqusConfig={config}
+        onClickCategory={(_, category) => jumpToPassagePage({ category })}
+        onClickTag={(_, tag) => jumpToPassagePage({ tag: tag.title })}
+      />
     </BasePage>
   );
 }

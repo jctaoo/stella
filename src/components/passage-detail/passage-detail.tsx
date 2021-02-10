@@ -3,7 +3,7 @@ import PassageTitle from "../passage-title/passage-title";
 import PassageAbout from "../passage-about/passage-about";
 import { DiscussionEmbed } from "disqus-react";
 import "./passage-detail.scss";
-import { BaseContentDetail } from "../../models/base-content";
+import { About, BaseContentDetail, Tag } from "../../models/base-content";
 import { DisqusConfig } from "../../models/config";
 import { navigate } from "gatsby";
 import { useLocation } from "@reach/router";
@@ -22,11 +22,15 @@ function PassageDetail({
   mode = PassageDetailViewMode.Full,
   className,
   showFooter = true,
+  onClickCategory = () => {},
+  onClickTag = () => {},
 }: {
   passage: BaseContentDetail;
   disqusConfig?: DisqusConfig;
   mode?: PassageDetailViewMode;
   showFooter?: Boolean;
+  onClickCategory: (about: About, category?: string) => void;
+  onClickTag: (about: About, tag: Tag) => void;
 } & HTMLAttributes<any>) {
   const onPassageContainerClick = (e: MouseEvent<HTMLElement>) => {
     const isLink = (e: HTMLElement) =>
@@ -77,7 +81,11 @@ function PassageDetail({
       )}
       <div className="passage-title-container">
         {!!passage.circleImage && mode === PassageDetailViewMode.Full ? (
-          <img src={passage.circleImage} className="passage-circle-image" />
+          <img
+            alt={"头像"}
+            src={passage.circleImage}
+            className="passage-circle-image"
+          />
         ) : (
           <></>
         )}
@@ -86,7 +94,11 @@ function PassageDetail({
           {PassageDetailViewMode.Full !== mode ? (
             <></>
           ) : (
-            <PassageAbout {...passage.item.about} />
+            <PassageAbout
+              about={passage.item.about}
+              onCategoryClick={onClickCategory}
+              onTagClick={onClickTag}
+            />
           )}
         </div>
       </div>
@@ -105,7 +117,11 @@ function PassageDetail({
       {PassageDetailViewMode.Full === mode ? (
         <></>
       ) : (
-        <PassageAbout {...passage.item.about} />
+        <PassageAbout
+          about={passage.item.about}
+          onCategoryClick={onClickCategory}
+          onTagClick={onClickTag}
+        />
       )}
       {!!disqusShortName ? (
         <div className="passage-comment-container">

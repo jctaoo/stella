@@ -4,6 +4,7 @@ import "./passage-item.scss";
 import PassageTitle from "../passage-title/passage-title";
 import { PassageAbbr } from "../../models/passage-content";
 import { navigate } from "gatsby";
+import { jumpToPassagePage } from "../../componsitions/filter";
 
 function PassageItem({ passage }: { passage: PassageAbbr }) {
   const goToPassage = async (id: string) => {
@@ -21,7 +22,11 @@ function PassageItem({ passage }: { passage: PassageAbbr }) {
       <span className="passage-item-abbreviation">
         <p className="passage-item-abbreviation-text">{passage.abbr}...</p>
       </span>
-      <PassageAbout {...passage.about} />
+      <PassageAbout
+        about={passage.about}
+        onTagClick={(_, tag) => jumpToPassagePage({ tag: tag.title })}
+        onCategoryClick={(_, category) => jumpToPassagePage({ category })}
+      />
     </span>
   );
 }
