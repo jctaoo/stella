@@ -31,7 +31,7 @@ export default {
         },
       },
     },
-    bannerText: "Hello Worlds",
+    bannerText: "Stella Demo Site",
     copyright: {
       author: "jctaoo",
       creativeCommons: "by",

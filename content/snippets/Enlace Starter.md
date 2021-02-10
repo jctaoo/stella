@@ -2,8 +2,7 @@
 category: Enlace
 title: "[Enlace] Enlace Get Started"
 tags:
-  - t11
-  - t22
+  - code
 identifier: enlace-get-started
 updateDates:
   - 2020-07-15

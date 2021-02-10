@@ -1,11 +1,11 @@
 ---
-category: chore
+category: Text
 title: Hello World, stella
-identifier: enlace-documentation
+identifier: hello-world-stella
 abbr: Hello World, stella.
 updateDates:
   - 2020-07-15
-topImage: "./helloworld.jpeg"
+topImage: "./Hello World.jpg"
 topImageAlt: "Hello World"
 ---
 
