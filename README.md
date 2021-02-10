@@ -4,19 +4,19 @@
 
 ### With Gatsby
 
-    1. **Install Gatsby cli.**
-    
-    using npm
-    
-    ```shell
-    npm install -g gatsby-cli
-    ```
-    
-    or using yarn
-    
-    ```shell
-    yarn global add gatsby-cli
-    ```
+   1. **Install Gatsby cli.**
+   
+   using npm
+   
+   ```shell
+   npm install -g gatsby-cli
+   ```
+   
+   or using yarn
+   
+   ```shell
+   yarn global add gatsby-cli
+   ```
 
 2. **Create a Gatsby site.**
 
