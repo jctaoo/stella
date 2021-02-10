@@ -1,6 +1,6 @@
 import React from "react";
 import "./media-information.scss";
-import Popover from "antd/lib/popover";
+import { Popover } from "antd";
 import { graphql, useStaticQuery } from "gatsby";
 import SocialMedia from "../../models/social-media";
 
@@ -26,22 +26,24 @@ function MediaInformation({ className = "" }: { className?: String }) {
   return (
     <ul className={`contact-list ${className}`}>
       {medias.map((item) => (
-        <a
-          href={`${item.link}`}
-          className="contact-list-item "
-          key={item.identifier}
-        >
-          {!!item.imageName ? (
-            <Popover
-              placement={"bottom"}
-              content={<img src={item.imageName} alt="" />}
-            >
+        <li className="contact-list-item ">
+          <a
+            href={`${item.link}`}
+            key={item.identifier}
+            aria-label={item.title}
+          >
+            {!!item.imageName ? (
+              <Popover
+                placement={"bottom"}
+                content={<img src={item.imageName} alt="" />}
+              >
+                <span className={`icon-${item.iconName}`} />
+              </Popover>
+            ) : (
               <span className={`icon-${item.iconName}`} />
-            </Popover>
-          ) : (
-            <span className={`icon-${item.iconName}`} />
-          )}
-        </a>
+            )}
+          </a>
+        </li>
       ))}
     </ul>
   );

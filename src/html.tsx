@@ -2,7 +2,6 @@ import React, { HTMLAttributes } from "react";
 
 import "./styles/index.scss";
 import "./styles/font.scss";
-import "antd/dist/antd.css";
 import "katex/dist/katex.min.css";
 
 interface HtmlProps {

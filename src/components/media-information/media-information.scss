@@ -23,9 +23,12 @@
     transition: $transition;
     cursor: pointer;
     user-select: none;
-    @include label-link-normal-color;
 
-    &:hover {
+    a {
+      @include label-link-normal-color;
+    }
+
+    a:hover {
       @include label-link-high-color;
     }
   }

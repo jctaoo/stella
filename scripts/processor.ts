@@ -227,13 +227,11 @@ export default class Processor {
 
     // 读取缓存的链接
     const cache = this.imageSymbolToTargetPath.get(link);
-    console.log("get cache", link, cache);
     if (!!cache) {
       return cache;
     }
 
     const cacheLink = (targetPath: string = link) => {
-      console.log("cache", link, targetPath);
       this.imageSymbolToTargetPath.set(link, targetPath);
     };
 
@@ -249,10 +247,8 @@ export default class Processor {
         included = !new RegExp(regx).test(link);
         if (!included) break;
       }
-      console.log("1downloading......", link, included);
       // download image
       if (included) {
-        console.log("downloading......", link);
         return await this.downloadManager.startTask(link, async (link) => {
           const imageName = `${UUID.v4()}.png`;
           const imageDestination = path.resolve(this.imageStaticDir, imageName);
@@ -402,10 +398,6 @@ export default class Processor {
     const extension: string | undefined = absolutePath.split(".").reverse()[0];
     const stat = await fs.promises.stat(absolutePath);
     if (!stat.isFile() || !extension || (!!extension && extension !== "md")) {
-      console.log(`
-        File "${absolutePath}" is not a file or has no extension or file's extension is
-        not .md
-      `);
       return;
     }
 

@@ -11,7 +11,7 @@ interface NavigationLinkProps {
 
 function NavigationLink(props: NavigationLinkProps) {
   return (
-    <span
+    <li
       className={`links-list-item 
           ${props.selected ? "links-list-item-selected" : ""}`}
       onClick={async () => {
@@ -25,9 +25,9 @@ function NavigationLink(props: NavigationLinkProps) {
     >
       <span className="links-list-item-label">{props.title}</span>
       <span className="links-list-item-indicator-container">
-        <span className="links-list-item-indicator"></span>
+        <span className="links-list-item-indicator"/>
       </span>
-    </span>
+    </li>
   );
 }
 

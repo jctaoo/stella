@@ -23,7 +23,7 @@ export default {
         developmentShortName: "jctaoo-dev", // !
       },
       lang: "zh", // !
-      host: "http://cix7zq.natappfree.cc", // !
+      host: "http://localhost:5000", // !
       siteName: "Jctaoo.", // !
       homeLargeTitle: "Jctaoo.",
       experiment: {
@@ -122,6 +122,7 @@ export default {
     ],
   },
   plugins: [
+    "gatsby-plugin-antd",
     {
       resolve: `gatsby-plugin-sass`,
       options: {

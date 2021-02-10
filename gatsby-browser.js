@@ -2,7 +2,6 @@ import "./src/styles/constant.scss";
 import "./src/styles/font.scss";
 import "./src/styles/index.scss";
 import "./src/styles/base.scss";
-import "antd/dist/antd.css";
 import "highlight.js/styles/atom-one-dark.css";
 import store, { Actions } from "./src/state";
 import { RouteUpdateArgs, RouteUpdateDelayedArgs } from "gatsby";

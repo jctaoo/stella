@@ -7,10 +7,6 @@ import useSiteMetadata from "../../hooks/use-site-metadata";
 
 // XQR ----> SEO
 function XQR({ description }: { description?: PageDescription }) {
-  if (!description) {
-    return <></>;
-  }
-
   const siteMetadata = useSiteMetadata();
   const siteName = siteMetadata.config.siteName;
   const locale = siteMetadata.config.lang;
@@ -18,8 +14,12 @@ function XQR({ description }: { description?: PageDescription }) {
   const href = `${siteMetadata.config.host}${pathname}`;
   const isHome = pathname === "/";
   const title = isHome
-    ? description.title
-    : description.title + " | " + siteName;
+    ? description?.title ?? ""
+    : `${siteName} | ${description?.title ?? ""}`;
+
+  if (!description) {
+    return <></>;
+  }
 
   return (
     <Helmet defer={false} defaultTitle={siteName}>
