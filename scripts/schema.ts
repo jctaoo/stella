@@ -41,6 +41,7 @@ export default `
     pageDescription: PageDescription
     medias: [SocialMedia!]!
     copyright: Copyright
+    bannerText: String
   }
   type Config {
     siteName: String!

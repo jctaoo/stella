@@ -4,9 +4,7 @@ import NavigationLink from "./navigation-link";
 import MediaInformation from "../media-information/media-information";
 import { navigate } from "gatsby";
 import { motion } from "framer-motion";
-import { graphql, useStaticQuery } from "gatsby";
-import { RouteConfiguration } from "../../models/route-configuration";
-import { Provider, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import AppState from "../../models/app-state";
 import useSiteMetadata from "../../hooks/use-site-metadata";
 import GlobalInformation from "../global-information/GlobalInformation";
@@ -33,6 +31,8 @@ export default function NavigationBar() {
     ? siteMetadata.config.homeLargeTitle
     : siteMetadata.config.siteName;
 
+  const bannerText = siteMetadata.bannerText;
+  console.log(siteMetadata);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -70,7 +70,7 @@ export default function NavigationBar() {
         </ul>
         <MediaInformation className="navigation-bar-media-info" />
       </div>
-      <GlobalInformation text={"本站点为示例站点, 网站内容来自互联网"} />
+      {!!bannerText ? <GlobalInformation text={bannerText} /> : <></>}
     </motion.div>
   );
 }

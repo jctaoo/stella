@@ -31,6 +31,7 @@ export default {
         },
       },
     },
+    bannerText: "Hello Worlds",
     copyright: {
       author: "jctaoo",
       creativeCommons: "by",

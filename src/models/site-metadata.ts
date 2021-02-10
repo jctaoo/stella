@@ -23,4 +23,5 @@ export interface SiteMetadata {
     author?: string;
     creativeCommons?: CreativeCommonsKey;
   };
+  bannerText?: string;
 }

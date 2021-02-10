@@ -5,6 +5,7 @@ const useSiteMetadata = (): SiteMetadata => {
   const data = useStaticQuery<{ siteMetadata: SiteMetadata }>(graphql`
     {
       siteMetadata {
+        bannerText
         config {
           siteName
           homeLargeTitle
