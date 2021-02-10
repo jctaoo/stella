@@ -1,5 +1,3 @@
-import * as path from "path";
-
 const siteKeywords = [
   "博客",
   "Jctaoo",
@@ -132,5 +130,11 @@ export default {
     "gatsby-plugin-typescript",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-offline",
+    {
+      resolve: "gatsby-plugin-webpack-bundle-analyser-v2",
+      options: {
+        devMode: true,
+      },
+    },
   ],
 };
