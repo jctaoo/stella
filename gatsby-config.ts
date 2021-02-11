@@ -17,12 +17,12 @@ export default {
   siteMetadata: {
     config: {
       disqus: {
-        shortName: "jctaoo", // !
-        developmentShortName: "jctaoo-dev", // !
+        shortName: "jctaoo",
+        developmentShortName: "jctaoo-dev",
       },
-      lang: "zh", // !
-      host: "http://localhost:5000", // !
-      siteName: "Jctaoo.", // !
+      lang: "zh",
+      host: "http://localhost:5000",
+      siteName: "Jctaoo.",
       homeLargeTitle: "Jctaoo.",
       experiment: {
         downloadWebPicture: {
@@ -37,45 +37,41 @@ export default {
       creativeCommons: "by",
     },
     routeConfigurations: {
-      // !
       about: {
-        // !
-        title: "关于", // !
-      }, // !
+        title: "关于",
+      },
       passages: {
-        // !
-        title: "文章", // !
-      }, // !
+        title: "文章",
+      },
       snippets: {
-        // !
-        title: "片段", // !
-      }, // !
+        title: "片段",
+      },
     },
     pageDescription: {
       home: {
-        title: "主页", // !
-        keywords: siteKeywords, // !
+        title: "主页",
+        keywords: siteKeywords,
         description: "Jctaoo的个人网站",
         largeImage: undefined,
         largeImageAlt: undefined,
       },
       passages: {
-        title: "文章列表", // !
-        keywords: [...siteKeywords, "文章列表"], // !
+        title: "文章列表",
+        keywords: [...siteKeywords, "文章列表"],
         description: "所有发布的文章列表",
         largeImage: undefined,
         largeImageAlt: undefined,
       },
       snippets: {
-        title: "片段列表", // !
-        keywords: [...siteKeywords, "片段列表", "vlog"], // !
+        title: "片段列表",
+        keywords: [...siteKeywords, "片段列表", "vlog"],
         description: "所有发布的片段列表, 记录代码与日常片段",
         largeImage: undefined,
         largeImageAlt: undefined,
       },
       about: {
-        title: "关于", // !
-        keywords: [...siteKeywords, "关于", "简介", "说明"], // !
+        title: "关于",
+        keywords: [...siteKeywords, "关于", "简介", "说明"],
         description: "关于Jctaoo的个人网站",
         largeImage: undefined,
         largeImageAlt: undefined,
@@ -84,37 +80,37 @@ export default {
     medias: [
       // !
       {
-        identifier: "1", // !
-        iconName: "bilibili", // !
-        title: "bilibili", // !
+        identifier: "1",
+        iconName: "bilibili",
+        title: "bilibili",
         link: undefined,
         imageName: undefined,
       },
       {
-        identifier: "2", // !
-        iconName: "github", // !
-        title: "github", // !
+        identifier: "2",
+        iconName: "github",
+        title: "github",
         link: "https://github.com/jctaoo",
         imageName: "github_qr_code.png",
       },
       {
-        identifier: "3", // !
-        iconName: "mail", // !
-        title: "mail", // !
+        identifier: "3",
+        iconName: "mail",
+        title: "mail",
         link: "mailto:jctaoo@outlook.com",
         imageName: undefined,
       },
       {
-        identifier: "4", // !
-        iconName: "twitter", // !
-        title: "twitter", // !
+        identifier: "4",
+        iconName: "twitter",
+        title: "twitter",
         link: undefined,
         imageName: undefined,
       },
       {
-        identifier: "5", // !
-        iconName: "wechat", // !
-        title: "wechat", // !
+        identifier: "5",
+        iconName: "wechat",
+        title: "wechat",
         link: undefined,
         imageName: undefined,
       },

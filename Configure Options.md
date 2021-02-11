@@ -1,8 +1,5 @@
 # Stella Configure Options
 
-## Overview
-You need create a file named `config.json` in the root path of your blog content repository. (for more detail, check [README.md](./README.md)) Then, place all json-format configure options inside your `config.json`.
-
 ## Explanations
 
 ### (Optional) Config for [disqus](https://disqus.com/):

@@ -23,7 +23,7 @@ yarn global dd gatsby-cli
 ```shell
 gatsby new blog https://github.com/jctaoo/stella.git
 ```
-3. Place your content in `./blog/content` and modify the field named `siteMetadata` in `./blog/gatsby-config.ts`. (For more detail, check [Gatsby Config API](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/))
+3. Place your content in `./blog/content` and modify the field named `siteMetadata` in `./blog/gatsby-config.ts`. (For all configure options, check [Gatsby Config API](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/))
 
 ## Usage (without code)
 
