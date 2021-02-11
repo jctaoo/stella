@@ -10,7 +10,7 @@ Stella has three parts, Passages, Snippets, and About.
 - Snippets: To place something short and simple such as code snippets. (emm... Snippets just like Twitter tweets)
 - About: To place your self-introduction.
 
-## Usage (with code)
+## Usage
 
 1. Install Gatsby cli:
 ```shell
@@ -25,15 +25,7 @@ gatsby new blog https://github.com/jctaoo/stella.git
 ```
 3. Place your content in `./blog/content` and modify the field named `siteMetadata` in `./blog/gatsby-config.ts`. (For all configure options, check [Gatsby Config API](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/))
 
-## Usage (without code)
-
-1. Create a directory to place your blog content.
-2. Put following directory and file in your repository:
-   - posts: (dir) Corresponding to part 'Passages'.
-   - snippets: (dir) Corresponding to part 'Snippets'.
-   - posts: (file) Corresponding to part 'about.md'.
-   - config.json: (file) check [Configure Options](./Configure%20Options.md)
-3. Place any content you want in below directory or file.
+If you don't want to install Gatsby cli globally, just clone this repository to install. (first and second steps below)
 
 ## Debug / Test your site
 
@@ -44,6 +36,8 @@ In the first way to install, you can use the following steps:
 - If you want to modify your content, just stop the above command and restart it. (Hot reload comming soon...)
 
 ## Deploying
+
+See [Gatsby Deploying and Hosting](https://www.gatsbyjs.com/docs/deploying-and-hosting/)
 
 ## License
 

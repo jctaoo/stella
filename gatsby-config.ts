@@ -21,7 +21,7 @@ export default {
         developmentShortName: "jctaoo-dev",
       },
       lang: "zh",
-      host: "http://localhost:5000",
+      host: "https://stella-demo-site.vercel.app/",
       siteName: "Jctaoo.",
       homeLargeTitle: "Jctaoo.",
       experiment: {
@@ -32,10 +32,6 @@ export default {
       },
     },
     bannerText: "Stella Demo Site",
-    copyright: {
-      author: "jctaoo",
-      creativeCommons: "by",
-    },
     routeConfigurations: {
       about: {
         title: "关于",
