@@ -23,9 +23,32 @@ yarn global dd gatsby-cli
 ```shell
 gatsby new blog https://github.com/jctaoo/stella.git
 ```
-3. Place your content in `./blog/content` and modify the field named `siteMetadata` in `./blog/gatsby-config.ts`. (For all configure options, check [Gatsby Config API](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/))
+3. Place your content in `./blog/content` and modify the field named `siteMetadata` in `./blog/gatsby-config.ts`. (For all configure options check [Configure Options](./Configure%20Options.md). Also check [Gatsby Config API](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/))
 
 If you don't want to install Gatsby cli globally, just clone this repository to install. (first and second steps below)
+
+## Passage Meta Data
+
+Stella use yaml Markdown mate data, view in [HelloWorld.md](./content/posts/HelloWorld.md)
+
+Stella supports following meta data fields:
+- category: (string optional)
+
+- tags: (string[] optional)
+
+- title: (string required)
+
+- identifier: (string optional) The unique id of passage.
+
+- topImage: (string optional) The path of large image. The image will show on the top of passage.
+
+- topImageAlt: (string optional) The alt value of topImage.
+
+- circleImage: (string optional) The path of circle image. The circle image will show beside title. It's useful when you want to show avatar.
+
+- abbr: (string optional): The short version of the passage, Stella will display it in the thumbnail passage view, if the value is not provided, Stella will automatically intercept it.
+
+- updateDates: (string[] optional) Format with 'YYYY-M-D', and in descending order of time.
 
 ## Debug / Test your site
 
