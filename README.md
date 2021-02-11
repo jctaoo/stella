@@ -1,65 +1,49 @@
 # Stella, an easy using and beautiful blog based on [Gatsby](https://github.com/gatsbyjs/gatsby)
 ![preview](./static/preview.png)
 
-## 🚀 Quick start
+## Overview
 
-### With Gatsby
+Welcome to Stella !! 🎉
 
-1. Install Gatsby cli.
-   
-   using npm
-   
-   ```shell
-   npm install -g gatsby-cli
-   ```
-   
-   or using yarn
-   
-   ```shell
-   yarn global add gatsby-cli
-   ```
+Stella has three parts, Passages, Snippets, and About.
+- Passages: To place all your passages.
+- Snippets: To place something short and simple such as code snippets. (emm... Snippets just like Twitter tweets)
+- About: To place your self-introduction.
 
-2. Create a Gatsby site.
+## Usage (with code)
 
-   Use the Gatsby CLI to create a new site, specifying the blog starter.
-
-    ```shell
-    # create a new Gatsby site using stella
-    gatsby new my-blog https://github.com/jctaoo/stella
-    ```
-
-3. Start developing.
-
-   Navigate into your new site’s directory and start it up.
-
-    ```shell
-    cd my-blog/
-    # yarn
-    yarn start 
-    # npm
-    npm run start
-    ```
-
-3. Open the source code and start editing!
-
-   Your site is now running at `http://localhost:8000`!
-
-   _Note: You'll also see a second link: _`http://localhost:8000/___graphql`_. This is a tool you can use to experiment
-   with querying your data. Learn more about using this tool in
-   the [Gatsby tutorial](https://www.gatsbyjs.com/tutorial/part-five/#introducing-graphiql)._
-
-   Open the `my-blog` directory in your code editor of choice and edit `src/pages/index.tsx`. Save your changes and the
-   browser will update in real time!
-
-### Without Gatsby
-
-Just clone this repository:
-
+1. Install Gatsby cli:
 ```shell
-git clone https://github.com/jctaoo/stella my-blog
+# npm
+npm install -g gatsby-cli
+# yarn
+yarn global dd gatsby-cli
 ```
+2. Create your site:
+```shell
+gatsby new blog https://github.com/jctaoo/stella.git
+```
+3. Place your content in `./blog/content` and modify the field named `siteMetadata` in `./blog/gatsby-config.ts`. (For more detail, check [Gatsby Config API](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/))
 
-The way to start and developing is same as "With Gatsby".
+## Usage (without code)
+
+1. Create a directory to place your blog content.
+2. Put following directory and file in your repository:
+   - posts: (dir) Corresponding to part 'Passages'.
+   - snippets: (dir) Corresponding to part 'Snippets'.
+   - posts: (file) Corresponding to part 'about.md'.
+   - config.json: (file) check [Configure Options](./Configure%20Options.md)
+3. Place any content you want in below directory or file.
+
+## Debug / Test your site
+
+Unfortunately, there isn't a good way to debug with the code-less installation way now.
+
+In the first way to install, you can use the following steps:
+- Run `yarn start` or `npm run start` to view your site.
+- If you want to modify your content, just stop the above command and restart it. (Hot reload comming soon...)
+
+## Deploying
 
 ## License
 
