@@ -24,7 +24,7 @@ export const onRouteUpdate = (args) => {
 /**
  * @param {RouteUpdateDelayedArgs} _args
  */
-export const onRouteUpdateDelayed = (_args) => {
+export const onRouteUpdateDelayed = (/*_args*/) => {
   const enableLoadingAction = Actions.createChangeLoadingStateAction({
     enable: true,
   });

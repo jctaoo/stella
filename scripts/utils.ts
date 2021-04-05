@@ -1,5 +1,6 @@
-import * as fs from "fs";
 import crypto from "crypto";
+import * as fs from "fs";
+
 import axios, { AxiosResponse } from "axios";
 
 /**
@@ -29,7 +30,7 @@ export const downloadImage = async (url: string, to: string) => {
     url: url,
     responseType: "stream",
   });
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     result.data
       .pipe(fs.createWriteStream(to))
       .on("finish", () => resolve())
@@ -52,21 +53,33 @@ export const ensureFolder = async (path: string) => {
   }
 };
 
+
 type ReplaceAsyncReplacer = (
   substring: string,
+  // std lib types use any also
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...args: any[]
 ) => Promise<string>;
+
 export async function replaceAsync(
   originalStr: string,
   searchValue: RegExp | string,
   replacer: ReplaceAsyncReplacer
 ): Promise<string> {
   const promises: Promise<string>[] = [];
+  // std lib types use any also
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   originalStr.replace(searchValue, (match: string, ...args: any[]): string => {
     const promise = replacer(match, ...args);
     promises.push(promise);
     return "";
   });
   const results = await Promise.all(promises);
+
+  // results.shift never return undefined because results 
+  // were built by the originalStr and searchValue and until 
+  // now the originalStr hasn't been modified. So the length 
+  // of results always just right.
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return originalStr.replace(searchValue, () => results.shift()!);
 }

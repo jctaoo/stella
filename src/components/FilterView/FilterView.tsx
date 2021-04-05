@@ -1,10 +1,10 @@
+import { List, Popover } from "antd";
 import React from "react";
-import { Popover, List } from "antd";
 import "./FilterView.scss";
 
 interface FilterViewProps<T> {
   content?: string;
-  showCancelButton?: Boolean;
+  showCancelButton?: boolean;
   description: string;
   cancelButtonTitle?: string;
   onCancelButtonClick?: () => void;
@@ -34,7 +34,7 @@ function FilterView<T>(props: FilterViewProps<T>) {
       <p className="passage-filter-description passage-filter-text">
         {props.description}
       </p>
-      {!!props.showCancelButton ? (
+      {props.showCancelButton ? (
         <a
           className="passage-filter-cancel"
           onClick={props.onCancelButtonClick}

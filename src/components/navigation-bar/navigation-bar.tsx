@@ -1,13 +1,15 @@
-import React  from "react";
 import "./navigation-bar.scss";
-import NavigationLink from "./navigation-link";
-import MediaInformation from "../media-information/media-information";
-import { navigate } from "gatsby";
 import { motion } from "framer-motion";
+import { navigate } from "gatsby";
+import React from "react";
 import { useSelector } from "react-redux";
-import AppState from "../../models/app-state";
+
 import useSiteMetadata from "../../hooks/use-site-metadata";
+import AppState from "../../models/app-state";
 import GlobalInformation from "../global-information/GlobalInformation";
+import MediaInformation from "../media-information/media-information";
+
+import NavigationLink from "./navigation-link";
 
 export default function NavigationBar() {
   const pathname = useSelector((state: AppState) => state.currentPathname);
@@ -27,7 +29,7 @@ export default function NavigationBar() {
 
   const isHome = pathname === "/";
 
-  const title = !!siteMetadata.config.homeLargeTitle
+  const title = siteMetadata.config.homeLargeTitle
     ? siteMetadata.config.homeLargeTitle
     : siteMetadata.config.siteName;
 
@@ -70,7 +72,7 @@ export default function NavigationBar() {
         </ul>
         <MediaInformation className="navigation-bar-media-info" />
       </div>
-      {!!bannerText ? <GlobalInformation text={bannerText} /> : <></>}
+      {bannerText ? <GlobalInformation text={bannerText} /> : <></>}
     </motion.div>
   );
 }

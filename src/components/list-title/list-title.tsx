@@ -1,5 +1,5 @@
 import React from "react";
-import FilterView from "../FilterView/FilterView";
+
 import {
   cancelCategoryFilter,
   cancelTagFilter,
@@ -11,6 +11,7 @@ import {
   useTags,
 } from "../../componsitions/filter";
 import { Tag } from "../../models/base-content";
+import FilterView from "../FilterView/FilterView";
 import "./list-title.scss";
 
 function ListTitle({
@@ -18,7 +19,7 @@ function ListTitle({
   shrink = false,
 }: {
   env: ListEnvironment;
-  shrink?: Boolean;
+  shrink?: boolean;
 }) {
   const tags = useTags(env);
   const categories = useCategories(env);
@@ -56,7 +57,7 @@ function ListTitle({
     >
       {/* 若需要隐藏 passage-list-title 则应用 passage-list-title-hide class */}
       <FilterView
-        content={!!categoryFilter ? categoryFilter : "所有"}
+        content={categoryFilter ? categoryFilter : "所有"}
         description={"分类的内容"}
         cancelButtonTitle={"取消"}
         onCancelButtonClick={() => cancelCategoryFilter(currentFilter)}
@@ -67,7 +68,7 @@ function ListTitle({
         showCancelButton={!!categoryFilter}
       />
       <FilterView
-        content={!!tagFilter ? tagFilter : "所有"}
+        content={tagFilter ? tagFilter : "所有"}
         description={"标签的内容"}
         cancelButtonTitle={"取消"}
         onCancelButtonClick={() => cancelTagFilter(currentFilter)}

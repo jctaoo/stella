@@ -1,6 +1,6 @@
+import { navigate } from "gatsby";
 import React from "react";
 import "./navigation-link.scss";
-import { navigate } from "gatsby";
 
 interface NavigationLinkProps {
   title: string;
@@ -25,7 +25,7 @@ function NavigationLink(props: NavigationLinkProps) {
     >
       <span className="links-list-item-label">{props.title}</span>
       <span className="links-list-item-indicator-container">
-        <span className="links-list-item-indicator"/>
+        <span className="links-list-item-indicator" />
       </span>
     </li>
   );

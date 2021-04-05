@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import useSiteMetadata from "../../hooks/use-site-metadata";
 import { CreativeCommons } from "../../models/creative-commons";
 import "./footer.scss";
@@ -35,7 +36,7 @@ function CreativeCommonsView({
   );
 }
 
-function CopyrightView({ author }: { author: String }) {
+function CopyrightView({ author }: { author: string }) {
   return (
     <>
       <p className="copyright-label">
@@ -49,7 +50,7 @@ function CopyrightView({ author }: { author: String }) {
 function Footer() {
   const { copyright } = useSiteMetadata();
 
-  const creativeCommons = !!copyright?.creativeCommons
+  const creativeCommons = copyright?.creativeCommons
     ? CreativeCommons[copyright.creativeCommons]
     : undefined;
 
@@ -58,7 +59,7 @@ function Footer() {
   const ccLink = `http://creativecommons.org/licenses/${ccName}/4.0/`;
 
   useEffect(() => {
-    if (!!creativeCommons) {
+    if (creativeCommons) {
       import(`../../resources/images/${creativeCommons}.png`).then(
         (ccImage) => {
           setCCImage(ccImage.default);
@@ -70,12 +71,12 @@ function Footer() {
   return (
     <>
       <div className="footer">
-        {!!copyright?.creativeCommons ? (
+        {copyright?.creativeCommons ? (
           <CreativeCommonsView ccLink={ccLink} ccImage={ccImage} />
         ) : (
           <></>
         )}
-        {!!copyright?.author ? (
+        {copyright?.author ? (
           <CopyrightView author={copyright.author} />
         ) : (
           <></>

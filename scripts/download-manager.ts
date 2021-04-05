@@ -9,7 +9,7 @@ export class DownloadManager {
   private registerResult(link: string): Promise<string> {
     return new Promise<string>((r) => {
       const resolves = this.registeredLinkToResolve.get(link);
-      if (!!resolves) {
+      if (resolves) {
         this.registeredLinkToResolve.set(link, [...resolves, r]);
       } else {
         this.registeredLinkToResolve.set(link, [r]);

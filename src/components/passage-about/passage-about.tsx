@@ -1,7 +1,8 @@
-import React from "react";
-import "./passage-about.scss";
 import moment from "moment";
+import React from "react";
+
 import { About, Tag } from "../../models/base-content";
+import "./passage-about.scss";
 
 function PassageAbout(props: {
   about: About;
@@ -20,7 +21,7 @@ function PassageAbout(props: {
           <span className="passage-information-icon icon-calendar" />
           <span className="passage-information-value">{timeStr}</span>
         </span>
-        {!!about.readTime ? (
+        {about.readTime ? (
           <span className="passage-information">
             <span className="passage-information-icon icon-timer" />
             <span className="passage-information-value">{readTimeStr}</span>

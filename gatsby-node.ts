@@ -1,17 +1,24 @@
+import * as path from "path";
+
 import {
+  CreateNodeArgs,
   CreatePagesArgs,
   CreateResolversArgs,
   CreateSchemaCustomizationArgs,
   SourceNodesArgs,
 } from "gatsby";
-import * as path from "path";
-import { PassageAbbr } from "./src/models/passage-content";
-import { NodeData } from "./src/models/node-data";
+import { FileSystemNode } from "gatsby-source-filesystem";
+
 import config from "./gatsby-config";
 import Processor from "./scripts/processor";
 import typeDefs from "./scripts/schema";
-import { SiteMetadata } from "./src/models/site-metadata";
 import { CreativeCommons } from "./src/models/creative-commons";
+import { NodeData } from "./src/models/node-data";
+import { PassageAbbr } from "./src/models/passage-content";
+import { SiteMetadata } from "./src/models/site-metadata";
+
+
+const FILE_SYSTEM_TYPE = "File";
 
 const siteMetadata: SiteMetadata = config.siteMetadata as SiteMetadata;
 
@@ -68,19 +75,26 @@ ${Object.keys(CreativeCommons)
     Query: {
       about: {
         type: "ContentDetail",
-        resolve: (source: any, args: any, context: any, info: any) => {
+        resolve: (/*source: any, args: any, context: any, info: any*/) => {
           return about;
         },
       },
       siteMetadata: {
         type: "SiteMetadata",
-        resolve: (source: any, args: any, context: any, info: any) => {
+        resolve: (/*source: any, args: any, context: any, info: any*/) => {
           return siteMetadata;
         },
       },
     },
   };
   args.createResolvers(resolvers);
+};
+
+export const onCreateNode = (args: CreateNodeArgs) => {
+  if (args.node.internal.type === FILE_SYSTEM_TYPE) {
+    const fileNode = args.node as FileSystemNode;
+    console.log(fileNode.internal.content);
+  }
 };
 
 export const createSchemaCustomization = async (

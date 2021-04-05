@@ -1,6 +1,6 @@
+import { Progress } from "antd";
 import React from "react";
 import "./top-progress-bar.scss";
-import { Progress } from "antd";
 
 function TopProgressBar({ show }: { show: boolean }) {
   return (

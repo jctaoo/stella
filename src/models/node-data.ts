@@ -1,10 +1,10 @@
-export interface NodeData<Node = object> {
+export interface NodeData<Node = Record<string, unknown>> {
   edges: {
     node: Node;
   }[];
 }
 
-export interface NodeContentData<Content = object> {
+export interface NodeContentData<Content = Record<string, unknown>> {
   edges: {
     node: {
       internal: {
@@ -14,14 +14,14 @@ export interface NodeContentData<Content = object> {
   }[];
 }
 
-export function getNodesFromNodeData<Content = object>(
+export function getNodesFromNodeData<Content = Record<string, unknown>>(
   data: NodeData<Content>
 ): Content[] {
   return data.edges.map((e) => e.node);
 }
 
-export function getContentFromNodeContentData<Content = object>(
-  data: NodeContentData<Content>
-): Content[] {
+export function getContentFromNodeContentData<
+  Content = Record<string, unknown>
+>(data: NodeContentData<Content>): Content[] {
   return data.edges.map((e) => e.node.internal.content);
 }

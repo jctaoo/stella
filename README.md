@@ -72,12 +72,14 @@ Stella supports following meta data fields
 - place a '-' behind your code line indicates the line will be removed.
 
 Following code
+
 ```typescript
 // adding codes
 +console.log("🍔");
 // removing codes
--console.log("💩")
+-console.log("💩");
 ```
+
 Will look like this
 ![code-diff](./static/code_diff.png)
 

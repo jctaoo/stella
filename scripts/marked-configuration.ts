@@ -1,7 +1,7 @@
-import marked from "marked";
-import Katex from "katex";
 import * as Highlight from "highlight.js";
 import { JSDOM } from "jsdom";
+import Katex from "katex";
+import marked from "marked";
 
 export default function configMarked() {
   marked.setOptions({
@@ -9,17 +9,17 @@ export default function configMarked() {
     gfm: true,
   });
   marked.use({
-    // @ts-ignore
     renderer: {
+      // @types/marked has unmatched types with https://marked.js.org/using_pro#use
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      listitem(text, task) {
+      listitem(text: string, task: boolean) {
         if (task) {
           return `<li class="task-list-item">${text}</li>\n`;
         }
         // use original renderer
         return false;
       },
-      // @ts-ignore
       paragraph(text: string) {
         if (text.trim().startsWith("$$") && text.trim().endsWith("$$")) {
           let raw = text.trim();
@@ -78,7 +78,7 @@ export default function configMarked() {
         const highlightedCode = Highlight.highlightAuto(newCode).value;
         const codeEle = document.createElement("code");
         codeEle.innerHTML = highlightedCode;
-        if (!!language) {
+        if (language) {
           codeEle.className = "language-" + language;
         }
         container.appendChild(codeEle);

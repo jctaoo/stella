@@ -112,6 +112,13 @@ export default {
       },
     ],
   },
+  flags: {
+    DEV_SSR: true,
+    PRESERVE_FILE_DOWNLOAD_CACHE: true,
+    PRESERVE_WEBPACK_CACHE: true,
+    FAST_DEV: true,
+    PARALLEL_SOURCING: true,
+  },
   plugins: [
     "gatsby-plugin-antd",
     {
@@ -120,15 +127,15 @@ export default {
         implementation: require("sass"),
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `content`,
+        path: `${__dirname}/content/`,
+      },
+    },
     "gatsby-plugin-typescript",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-offline",
-    {
-      resolve: "gatsby-plugin-webpack-bundle-analyser-v2",
-      options: {
-        devMode: true,
-        openAnalyzer: false,
-      },
-    },
   ],
 };

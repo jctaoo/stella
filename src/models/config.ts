@@ -1,5 +1,3 @@
-import { CreativeCommons } from "./creative-commons";
-
 interface Config {
   siteName: string;
   homeLargeTitle?: string;
@@ -8,7 +6,7 @@ interface Config {
   host: string;
   experiment: {
     downloadWebPicture?: {
-      enable: Boolean;
+      enable: boolean;
       excludeUrlRegx: string[];
     };
   };

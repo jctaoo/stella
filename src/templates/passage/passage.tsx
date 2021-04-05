@@ -1,15 +1,16 @@
-import React from "react";
-import "./PassagePage.scss";
-import { graphql, PageProps } from "gatsby";
-import { PassageDetail } from "../../models/passage-content";
-import PassageDetailView from "../../components/passage-detail/passage-detail";
-import Config from "../../models/config";
-import BasePage from "../../layout/base-page/base-page";
 import { Redirect } from "@reach/router";
-import { NodeData, getNodesFromNodeData } from "../../models/node-data";
+import { graphql, PageProps } from "gatsby";
+import React from "react";
+
 import SEO from "../../components/SEO/SEO";
-import PageDescription from "../../models/page-description";
+import PassageDetailView from "../../components/passage-detail/passage-detail";
 import { jumpToPassagePage } from "../../componsitions/filter";
+import BasePage from "../../layout/base-page/base-page";
+import Config from "../../models/config";
+import { getNodesFromNodeData, NodeData } from "../../models/node-data";
+import PageDescription from "../../models/page-description";
+import { PassageDetail } from "../../models/passage-content";
+import "./PassagePage.scss";
 
 interface PassagePageData {
   allPassageDetail: NodeData<PassageDetail>;
@@ -22,7 +23,7 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
     matchedPassages.length > 0 ? matchedPassages[0] : undefined;
   const config = props.data.siteMetadata.config.disqus;
 
-  const description: PageDescription | undefined = !!currentPassage
+  const description: PageDescription | undefined = currentPassage
     ? {
         title: currentPassage.item.title,
         keywords: currentPassage.item.about.tags.map((t) => t.title),

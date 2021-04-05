@@ -1,6 +1,8 @@
-import chokidar from "chokidar";
-import { promises } from "fs";
 import EventEmitter from "events";
+import { promises } from "fs";
+
+import chokidar from "chokidar";
+
 import Queue from "./queue";
 
 const { stat, readdir } = promises;
@@ -96,9 +98,9 @@ export class FileWatcher {
     this.locked = true;
 
     const task = this.tasks.dequeue();
-    if (!!task) {
+    if (task) {
       switch (task.type) {
-        case TaskType.add:
+        case TaskType.add: {
           const addStatus = await stat(task.path);
           if (addStatus.isDirectory()) {
             const children = await readdir(task.path);
@@ -115,10 +117,12 @@ export class FileWatcher {
             this.delegate?.startHandleFile(task.path);
           }
           break;
-        case TaskType.change:
+        }
+        case TaskType.change: {
           this.delegate?.handingFileChange(task.path);
           break;
-        case TaskType.remove:
+        }
+        case TaskType.remove: {
           const removeStatus = await stat(task.path);
           if (removeStatus.isDirectory()) {
             const children = await readdir(task.path);
@@ -135,6 +139,7 @@ export class FileWatcher {
             this.delegate?.stopHandleFile(task.path);
           }
           break;
+        }
       }
     }
 

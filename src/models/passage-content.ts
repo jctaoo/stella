@@ -1,5 +1,5 @@
 import { BaseContentAbbr, BaseContentDetail } from "./base-content";
 
-export interface PassageAbbr extends BaseContentAbbr {}
+export type PassageAbbr = BaseContentAbbr;
 
-export interface PassageDetail extends BaseContentDetail<PassageAbbr> {}
+export type PassageDetail = BaseContentDetail<PassageAbbr>;

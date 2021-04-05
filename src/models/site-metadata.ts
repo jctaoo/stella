@@ -1,7 +1,7 @@
 import Config from "./config";
-import SocialMedia from "./social-media";
-import PageDescription from "./page-description";
 import { CreativeCommons } from "./creative-commons";
+import PageDescription from "./page-description";
+import SocialMedia from "./social-media";
 
 type CreativeCommonsKey = keyof typeof CreativeCommons;
 

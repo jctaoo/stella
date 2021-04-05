@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import MediaInformation from "../media-information/media-information";
 import "./mobile-navigation-bar.scss";
-import RouteLabel from "./route-label";
+
 import { navigate } from "gatsby";
+import React from "react";
 import { useSelector } from "react-redux";
-import AppState from "../../models/app-state";
+
 import useSiteMetadata from "../../hooks/use-site-metadata";
+import AppState from "../../models/app-state";
+import MediaInformation from "../media-information/media-information";
+
+import RouteLabel from "./route-label";
 
 function MobileNavigationBar() {
   const pathname = useSelector((state: AppState) => state.currentPathname);
@@ -27,7 +30,7 @@ function MobileNavigationBar() {
     return null;
   })(pathname);
 
-  const title = !!siteMetadata.config.homeLargeTitle
+  const title = siteMetadata.config.homeLargeTitle
     ? siteMetadata.config.homeLargeTitle
     : siteMetadata.config.siteName;
 
@@ -38,7 +41,7 @@ function MobileNavigationBar() {
           <span id="mobile-navigation-bar-title-home-label" onClick={goToHome}>
             <h1>{title}</h1>
           </span>
-          {!!routeTitle ? (
+          {routeTitle ? (
             <>
               <span className="mobile-navigation-bar-title-divider" />
               <RouteLabel

@@ -1,10 +1,11 @@
-import React from "react";
-import PassageAbout from "../passage-about/passage-about";
-import "./passage-item.scss";
-import PassageTitle from "../passage-title/passage-title";
-import { PassageAbbr } from "../../models/passage-content";
 import { navigate } from "gatsby";
+import React from "react";
+
 import { jumpToPassagePage } from "../../componsitions/filter";
+import { PassageAbbr } from "../../models/passage-content";
+import PassageAbout from "../passage-about/passage-about";
+import PassageTitle from "../passage-title/passage-title";
+import "./passage-item.scss";
 
 function PassageItem({ passage }: { passage: PassageAbbr }) {
   const goToPassage = async (id: string) => {

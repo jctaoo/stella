@@ -1,13 +1,14 @@
-import React from "react";
-import "./about.scss";
-import BasePage from "../../layout/base-page/base-page";
-import { PassageDetail } from "../../models/passage-content";
-import PassageDetailView from "../../components/passage-detail/passage-detail";
-import { graphql, PageProps } from "gatsby";
-import Config from "../../models/config";
 import { Redirect } from "@reach/router";
+import { graphql, PageProps } from "gatsby";
+import React from "react";
+
 import SEO from "../../components/SEO/SEO";
+import PassageDetailView from "../../components/passage-detail/passage-detail";
 import useSiteMetadata from "../../hooks/use-site-metadata";
+import BasePage from "../../layout/base-page/base-page";
+import Config from "../../models/config";
+import { PassageDetail } from "../../models/passage-content";
+import "./about.scss";
 
 interface AboutPageData {
   about?: PassageDetail;
@@ -19,7 +20,7 @@ export default function AboutPage(props: PageProps<AboutPageData>) {
   const siteMetadata = useSiteMetadata();
   const description = siteMetadata.pageDescription?.about;
   const disqusConfig = siteMetadata.config.disqus;
-  return !!passage ? (
+  return passage ? (
     <BasePage id="about-page">
       <SEO description={description} />
       <PassageDetailView

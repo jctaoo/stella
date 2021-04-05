@@ -1,14 +1,15 @@
-import React from "react";
 import "./media-information.scss";
 import { Popover } from "antd";
 import { graphql, useStaticQuery } from "gatsby";
+import React from "react";
+
 import SocialMedia from "../../models/social-media";
 
 interface MediaInformationData {
   siteMetadata: { medias: SocialMedia[] };
 }
 
-function MediaInformation({ className = "" }: { className?: String }) {
+function MediaInformation({ className = "" }: { className?: string }) {
   const medias = useStaticQuery<MediaInformationData>(graphql`
     {
       siteMetadata {
@@ -32,7 +33,7 @@ function MediaInformation({ className = "" }: { className?: String }) {
             key={item.identifier}
             aria-label={item.title}
           >
-            {!!item.imageName ? (
+            {item.imageName ? (
               <Popover
                 placement={"bottom"}
                 content={<img src={item.imageName} alt="" />}

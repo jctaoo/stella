@@ -1,8 +1,9 @@
 import React from "react";
+
 import "./notfound.scss";
-import BasePage from "../../layout/base-page/base-page";
-import useSiteMetadata from "../../hooks/use-site-metadata";
 import SEO from "../../components/SEO/SEO";
+import useSiteMetadata from "../../hooks/use-site-metadata";
+import BasePage from "../../layout/base-page/base-page";
 
 export default function NotFoundPage() {
   const description = useSiteMetadata().pageDescription?.home;

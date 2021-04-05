@@ -2,9 +2,10 @@
  * @description 文章以及 snippets 等的过滤的逻辑
  */
 
-import QueryString from "query-string";
-import { graphql, navigate, useStaticQuery } from "gatsby";
 import { useLocation } from "@reach/router";
+import { graphql, navigate, useStaticQuery } from "gatsby";
+import QueryString from "query-string";
+
 import { Tag } from "../models/base-content";
 import {
   getContentFromNodeContentData,
@@ -113,7 +114,7 @@ export function useCategories(env?: ListEnvironment): string[] {
   const snippetCategories = getContentFromNodeContentData(
     res.allSnippetCategory
   );
-  if (!!env) {
+  if (env) {
     switch (env) {
       case ListEnvironment.passages:
         return postCategories;
@@ -131,7 +132,7 @@ export function useTags(env?: ListEnvironment): Tag[] {
   const res = useTagsAndCategories();
   const postTags = getNodesFromNodeData(res.allPostTag);
   const snippetTags = getNodesFromNodeData(res.allSnippetTag);
-  if (!!env) {
+  if (env) {
     switch (env) {
       case ListEnvironment.passages:
         return postTags;
@@ -148,7 +149,7 @@ export function useTags(env?: ListEnvironment): Tag[] {
 export function useFilter(): [string | undefined, string | undefined] {
   const location = useLocation();
 
-  let params = QueryString.parse(location.search);
+  const params = QueryString.parse(location.search);
 
   let tagFilter: string | undefined;
   let categoryFilter: string | undefined;

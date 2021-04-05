@@ -1,13 +1,13 @@
+import { AnimatePresence } from "framer-motion";
 import React, { ReactElement } from "react";
 import "./app-container.scss";
-import { AnimatePresence } from "framer-motion";
+import { Provider, useSelector } from "react-redux";
+
 import MobileNavigationBar from "../../components/mobile-navigation-bar/mobile-navigation-bar";
 import NavigationBar from "../../components/navigation-bar/navigation-bar";
-import { Provider, useSelector } from "react-redux";
-import store from "../../state";
 import TopProgressBar from "../../components/top-progress-bar/top-progress-bar";
 import AppState from "../../models/app-state";
-import GlobalInformation from "../../components/global-information/GlobalInformation";
+import store from "../../state";
 
 function AppContainer({ children }: { children: ReactElement }) {
   const TopProgress = () => {

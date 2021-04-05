@@ -1,5 +1,5 @@
-import React, { HTMLAttributes, ReactNode } from "react";
 import { motion } from "framer-motion";
+import React, { HTMLAttributes, ReactNode } from "react";
 import "./base-page.scss";
 
 function BasePage({

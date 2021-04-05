@@ -4,4 +4,4 @@ export interface SnippetAbbr extends BaseContentAbbr {
   codeRaw?: string;
 }
 
-export interface SnippetDetail extends BaseContentDetail<SnippetAbbr> {}
+export type SnippetDetail = BaseContentDetail<SnippetAbbr>;

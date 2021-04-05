@@ -1,7 +1,8 @@
-import { createStore, applyMiddleware, Action } from "redux";
+import { Action, applyMiddleware, createStore } from "redux";
+import { Reducer } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import { Reducer } from "redux";
+
 import AppState from "./models/app-state";
 
 // #==================== action ====================#
@@ -33,13 +34,13 @@ export class Actions {
   }
 }
 
-export interface ChangePathnameAction extends Action<Symbol> {
-  type: Symbol;
+export interface ChangePathnameAction extends Action<symbol> {
+  type: symbol;
   destination: string;
 }
 
-export interface ChangeLoadingStateAction extends Action<Symbol> {
-  type: Symbol;
+export interface ChangeLoadingStateAction extends Action<symbol> {
+  type: symbol;
   enable: boolean;
 }
 
@@ -52,7 +53,7 @@ const initialState: AppState = {
   isLoading: false,
 };
 
-const appReducer: Reducer<AppState, Action<Symbol>> = (
+const appReducer: Reducer<AppState, Action<symbol>> = (
   state = initialState,
   action
 ): AppState => {

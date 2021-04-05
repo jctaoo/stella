@@ -1,21 +1,22 @@
+import { graphql, PageProps } from "gatsby";
 import React from "react";
 import "./snippets.scss";
 import "./snippets.scss";
-import { graphql, PageProps } from "gatsby";
-import BasePage from "../../layout/base-page/base-page";
-import { SnippetDetail } from "../../models/snippet-content";
-import { NodeData, getNodesFromNodeData } from "../../models/node-data";
+
 import SEO from "../../components/SEO/SEO";
-import useSiteMetadata from "../../hooks/use-site-metadata";
+import ListTitle from "../../components/list-title/list-title";
 import PassageDetailView, {
   PassageDetailViewMode,
 } from "../../components/passage-detail/passage-detail";
 import {
-  useFilter,
-  ListEnvironment,
   jumpToSnippetsPage,
+  ListEnvironment,
+  useFilter,
 } from "../../componsitions/filter";
-import ListTitle from "../../components/list-title/list-title";
+import useSiteMetadata from "../../hooks/use-site-metadata";
+import BasePage from "../../layout/base-page/base-page";
+import { getNodesFromNodeData, NodeData } from "../../models/node-data";
+import { SnippetDetail } from "../../models/snippet-content";
 
 interface SnippetsPageData {
   allSnippet: NodeData<SnippetDetail>;
@@ -27,10 +28,10 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
   let snippets = getNodesFromNodeData(props.data.allSnippet);
   snippets = snippets.filter((item) => {
     let flag = true;
-    if (!!tag) {
+    if (tag) {
       flag = item.item.about.tags.map((t) => t.title).includes(tag);
     }
-    if (!!category) {
+    if (category) {
       flag = item.item.about.category === category;
     }
     return flag;

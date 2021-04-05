@@ -1,19 +1,19 @@
+import { graphql, PageProps } from "gatsby";
 import React from "react";
 import "./passages.scss";
-import { graphql, PageProps } from "gatsby";
-import { Tag } from "../../models/base-content";
-import BasePage from "../../layout/base-page/base-page";
+
+import SEO from "../../components/SEO/SEO";
+import ListTitle from "../../components/list-title/list-title";
 import PassageItem from "../../components/passage-item/passage-item";
-import { PassageAbbr } from "../../models/passage-content";
+import { ListEnvironment, useFilter } from "../../componsitions/filter";
+import useSiteMetadata from "../../hooks/use-site-metadata";
+import BasePage from "../../layout/base-page/base-page";
 import {
   getNodesFromNodeData,
   NodeContentData,
   NodeData,
 } from "../../models/node-data";
-import SEO from "../../components/SEO/SEO";
-import useSiteMetadata from "../../hooks/use-site-metadata";
-import { useFilter, ListEnvironment } from "../../componsitions/filter";
-import ListTitle from "../../components/list-title/list-title";
+import { PassageAbbr } from "../../models/passage-content";
 
 interface PassageListPageData {
   allPassage: NodeData<PassageAbbr>;
@@ -26,10 +26,10 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
   let passages = getNodesFromNodeData(props.data.allPassage);
   passages = passages.filter((item) => {
     let flag = true;
-    if (!!tag) {
+    if (tag) {
       flag = item.about.tags.map((t) => t.title).includes(tag);
     }
-    if (!!category) {
+    if (category) {
       flag = item.about.category === category;
     }
     return flag;

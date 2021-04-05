@@ -5,11 +5,11 @@ import "./styles/font.scss";
 import "katex/dist/katex.min.css";
 
 interface HtmlProps {
-  htmlAttributes: HTMLAttributes<any>;
-  bodyAttributes: HTMLAttributes<any>;
-  headComponents: any[];
-  preBodyComponents: any[];
-  postBodyComponents: any[];
+  htmlAttributes: HTMLAttributes<unknown>;
+  bodyAttributes: HTMLAttributes<unknown>;
+  headComponents: unknown[];
+  preBodyComponents: unknown[];
+  postBodyComponents: unknown[];
   body: string;
 }
 

@@ -1,15 +1,17 @@
-import React, { HTMLAttributes, MouseEvent } from "react";
-import PassageTitle from "../passage-title/passage-title";
-import PassageAbout from "../passage-about/passage-about";
+import { useLocation } from "@reach/router";
 import { DiscussionEmbed } from "disqus-react";
-import "./passage-detail.scss";
+import { navigate } from "gatsby";
+import React, { MouseEvent } from "react";
+
+import { AppEnv, useEnv } from "../../hooks/useEnv";
 import { About, BaseContentDetail, Tag } from "../../models/base-content";
 import { DisqusConfig } from "../../models/config";
-import { navigate } from "gatsby";
-import { useLocation } from "@reach/router";
-import { AppEnv, useEnv } from "../../hooks/useEnv";
-import Footer from "../footer/footer";
+import { Props } from "../../types";
 import { openLink } from "../../utils";
+import Footer from "../footer/footer";
+import PassageAbout from "../passage-about/passage-about";
+import PassageTitle from "../passage-title/passage-title";
+import "./passage-detail.scss";
 
 export enum PassageDetailViewMode {
   Full,
@@ -24,14 +26,14 @@ function PassageDetail({
   showFooter = true,
   onClickCategory = () => {},
   onClickTag = () => {},
-}: {
+}: Props<{
   passage: BaseContentDetail;
   disqusConfig?: DisqusConfig;
   mode?: PassageDetailViewMode;
-  showFooter?: Boolean;
+  showFooter?: boolean;
   onClickCategory: (about: About, category?: string) => void;
   onClickTag: (about: About, tag: Tag) => void;
-} & HTMLAttributes<any>) {
+}>) {
   const onPassageContainerClick = (e: MouseEvent<HTMLElement>) => {
     const isLink = (e: HTMLElement) =>
       e.className.includes("passage-inner-link") &&
@@ -43,7 +45,7 @@ function PassageDetail({
       !isLink(currentElement) &&
       !currentElement.isEqualNode(e.currentTarget)
     ) {
-      if (!!currentElement.parentElement) {
+      if (currentElement.parentElement) {
         currentElement = currentElement.parentElement;
       } else {
         return;
@@ -123,7 +125,7 @@ function PassageDetail({
           onTagClick={onClickTag}
         />
       )}
-      {!!disqusShortName ? (
+      {disqusShortName ? (
         <div className="passage-comment-container">
           <DiscussionEmbed
             shortname={disqusShortName}

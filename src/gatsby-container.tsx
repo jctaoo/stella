@@ -1,5 +1,6 @@
-import React, { ReactElement } from "react";
 import { WrapPageElementNodeArgs, WrapRootElementBrowserArgs } from "gatsby";
+import React, { ReactElement } from "react";
+
 import AppContainer from "./layout/app-container/app-container";
 
 export const wrapRootElement = (

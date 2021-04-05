@@ -1,20 +1,23 @@
-import { MarkdownInfo } from "../src/models/markdown-info";
-import * as Utils from "./utils";
 import * as fs from "fs";
-import * as fsExtra from "fs-extra";
 import * as path from "path";
+
+import * as fsExtra from "fs-extra";
+import marked from "marked";
 import * as UUID from "uuid";
 import YAML from "yaml";
-import { PassageAbbr, PassageDetail } from "../src/models/passage-content";
+
 import {
   BaseContentAbbr,
   BaseContentDetail,
   Tag,
 } from "../src/models/base-content";
+import { MarkdownInfo } from "../src/models/markdown-info";
+import { PassageAbbr, PassageDetail } from "../src/models/passage-content";
 import { SnippetDetail } from "../src/models/snippet-content";
-import configureMarked from "./marked-configuration";
-import marked from "marked";
+
 import { DownloadManager } from "./download-manager";
+import configureMarked from "./marked-configuration";
+import * as Utils from "./utils";
 
 interface MarkdownProcessResult {
   information: MarkdownInfo;
@@ -38,7 +41,7 @@ interface SnippetsProcessResult {
 
 interface ExperimentFeature {
   downloadWebPicture: {
-    enable: Boolean;
+    enable: boolean;
     excludeUrlRegx: string[];
   };
 }
@@ -99,15 +102,15 @@ export default class Processor {
     const children = await fs.promises.readdir(this.postsDir);
 
     let tags: Tag[] = [];
-    let categories: string[] = [];
-    let abbrs: PassageAbbr[] = [];
-    let details: PassageDetail[] = [];
+    const categories: string[] = [];
+    const abbrs: PassageAbbr[] = [];
+    const details: PassageDetail[] = [];
 
     for (const childPath of children) {
       const result = await this.processMarkdown(
         path.resolve(this.postsDir, childPath)
       );
-      if (!!result) {
+      if (result) {
         tags = tags.concat(result.abbr.about.tags ?? []);
         categories.push(result.abbr.about.category ?? "");
         abbrs.push(result.abbr);
@@ -133,20 +136,20 @@ export default class Processor {
     const children = await fs.promises.readdir(this.snippetsDir);
 
     let tags: Tag[] = [];
-    let categories: string[] = [];
-    let details: SnippetDetail[] = [];
+    const categories: string[] = [];
+    const details: SnippetDetail[] = [];
 
     for (const childPath of children) {
       const result = await this.processMarkdown(
         path.resolve(this.snippetsDir, childPath)
       );
-      if (!!result) {
+      if (result) {
         // details
         const codeMatchResult = result.markdown.match(this.codeSnippetRegx);
-        const codeRaw = !!codeMatchResult
+        const codeRaw = codeMatchResult
           ? marked(codeMatchResult[0])
           : undefined;
-        const abbr = !!codeMatchResult
+        const abbr = codeMatchResult
           ? result.markdown.slice(
               (codeMatchResult.index ?? 0) + codeMatchResult[0].length
             )
@@ -211,7 +214,7 @@ export default class Processor {
   ): string {
     const extension = fileAbsolutePath.split(".").reverse()[0];
     const name = path.basename(fileAbsolutePath, extension);
-    return userIdentifier ?? (!!userTitle ? Utils.toMD5(userTitle) : name);
+    return userIdentifier ?? (userTitle ? Utils.toMD5(userTitle) : name);
   }
 
   /**
@@ -227,7 +230,7 @@ export default class Processor {
 
     // 读取缓存的链接
     const cache = this.imageSymbolToTargetPath.get(link);
-    if (!!cache) {
+    if (cache) {
       return cache;
     }
 
@@ -309,8 +312,8 @@ export default class Processor {
       const titleMatch = /title:\S(.*)/.exec(content);
       const identifier = Processor.normalizeIdentifier(
         filePath,
-        !!identifierMatch ? identifierMatch[1] : undefined,
-        !!titleMatch ? titleMatch[1] : undefined
+        identifierMatch ? identifierMatch[1] : undefined,
+        titleMatch ? titleMatch[1] : undefined
       );
       return "/passage/" + identifier;
     }
@@ -340,9 +343,11 @@ export default class Processor {
       async (
         _matchString: string,
         imageName: string,
-        imageLink: string,
+        imageLink: string
+        /* 
         _index: number,
         _input: string
+        */
       ): Promise<string> => {
         const normalizedImageLink = await this.normalizeImageLink(
           imageLink,
@@ -417,7 +422,7 @@ export default class Processor {
     // 匹配 yaml 内容
     // [0]: yaml string
     const yamlMatchResult = content.match(this.markdownYamlRegx);
-    if (!!yamlMatchResult) {
+    if (yamlMatchResult) {
       markdownInformation = YAML.parse(yamlMatchResult[1]);
       markdown = content.slice(
         (yamlMatchResult?.index ?? 0) + yamlMatchResult[0].length
@@ -450,14 +455,14 @@ export default class Processor {
     const detail: BaseContentDetail = {
       item: abbr,
       content: marked(markdown),
-      topImage: !!markdownInformation.topImage
+      topImage: markdownInformation.topImage
         ? await this.normalizeImageLink(
             markdownInformation.topImage,
             absolutePath
           )
         : "",
       topImageAlt: markdownInformation.topImageAlt,
-      circleImage: !!markdownInformation.circleImage
+      circleImage: markdownInformation.circleImage
         ? await this.normalizeImageLink(
             markdownInformation.circleImage,
             absolutePath
