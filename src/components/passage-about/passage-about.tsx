@@ -1,8 +1,9 @@
-import moment from "moment";
 import React from "react";
 
 import { About, Tag } from "../../models/base-content";
 import "./passage-about.scss";
+
+import dayjs from "dayjs";
 
 function PassageAbout(props: {
   about: About;
@@ -11,8 +12,8 @@ function PassageAbout(props: {
 }) {
   const { about } = props;
   const lastUpdateTime = about.updateTimes[about.updateTimes.length - 1];
-  const timeStr = moment(lastUpdateTime).format("YYYY/M/D");
-  const readTimeStr = moment.duration(about.readTime).minutes() + "min";
+  const timeStr = dayjs(lastUpdateTime).format("YYYY/M/D");
+  const readTimeStr = dayjs.duration(about.readTime ?? 0).minutes() + "min";
 
   return (
     <span className="passage-about">
