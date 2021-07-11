@@ -1,5 +1,5 @@
 import { Redirect } from "@reach/router";
-import { graphql, PageProps } from "gatsby";
+import { graphql, PageProps, useStaticQuery } from "gatsby";
 import React from "react";
 
 import SEO from "../../components/SEO/SEO";
@@ -10,50 +10,54 @@ import Config from "../../models/config";
 import { PassageDetail } from "../../models/passage-content";
 import "./about.scss";
 
-interface AboutPageData {
-  about?: PassageDetail;
-  siteMetadata: { config: Config };
+function useAbout(): PassageDetail | undefined {
+  const result = useStaticQuery<{ about?: PassageDetail }>(graphql`
+    {
+      about {
+        item {
+          identifier
+          title
+          abbr
+          about {
+            updateTimes
+            tags {
+              id
+              title
+            }
+            category
+            readTime
+          }
+        }
+        content
+        topImage
+        circleImage
+      }
+    }
+  `);
+  return result.about;
 }
 
-export default function AboutPage(props: PageProps<AboutPageData>) {
-  const passage = props.data.about;
+export default function AboutPage() {
+  const passage = useAbout();
+
+  if (!passage) {
+    return <Redirect noThrow to={"/404"} />;
+  }
+
   const siteMetadata = useSiteMetadata();
   const description = siteMetadata.pageDescription?.about;
   const disqusConfig = siteMetadata.config.disqus;
-  return passage ? (
+
+  return (
     <BasePage id="about-page">
       <SEO description={description} />
       <PassageDetailView
         passage={passage}
         disqusConfig={disqusConfig}
         showFooter={false}
+        onClickCategory={() => {}}
+        onClickTag={() => {}}
       />
     </BasePage>
-  ) : (
-    <Redirect noThrow to={"/404"} />
   );
 }
-
-export const query = graphql`
-  {
-    about {
-      item {
-        identifier
-        title
-        abbr
-        about {
-          updateTimes
-          tags {
-            id
-            title
-          }
-          category
-          readTime
-        }
-      }
-      content
-      topImage
-      circleImage
-    }
-  }
-`;

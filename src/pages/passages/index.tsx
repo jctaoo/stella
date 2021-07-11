@@ -54,7 +54,7 @@ export default function PassageListPage(props: PageProps<PassageListPageData>) {
 
 export const query = graphql`
   {
-    allPassage {
+    allPassage(sort: {fields: orderDate, order: DESC}) {
       edges {
         node {
           title

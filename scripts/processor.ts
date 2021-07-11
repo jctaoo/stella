@@ -18,6 +18,8 @@ import { SnippetDetail } from "../src/models/snippet-content";
 import { DownloadManager } from "./download-manager";
 import configureMarked from "./marked-configuration";
 import * as Utils from "./utils";
+import { FileSystemNode } from "gatsby-source-filesystem";
+import { Node, Actions } from "gatsby";
 
 interface MarkdownProcessResult {
   information: MarkdownInfo;
@@ -26,17 +28,10 @@ interface MarkdownProcessResult {
   detail: BaseContentDetail;
 }
 
-interface PostsProcessResult {
-  tags: Tag[];
-  categories: string[];
-  details: PassageDetail[];
-  abbrs: PassageAbbr[];
-}
-
 interface SnippetsProcessResult {
   tags: Tag[];
-  categories: string[];
-  details: SnippetDetail[];
+  category: string;
+  detail: SnippetDetail;
 }
 
 interface ExperimentFeature {
@@ -53,13 +48,13 @@ export default class Processor {
       imageStaticDir,
       postsDir,
       snippetsDir,
-      aboutDir,
+      aboutPath,
     }: {
       publicDir: string;
       imageStaticDir: string;
       postsDir: string;
       snippetsDir: string;
-      aboutDir: string;
+      aboutPath: string;
     },
     experimentFeatures: ExperimentFeature
   ) {
@@ -67,7 +62,7 @@ export default class Processor {
     this.imageStaticDir = imageStaticDir;
     this.postsDir = postsDir;
     this.snippetsDir = snippetsDir;
-    this.aboutDir = aboutDir;
+    this.aboutPath = aboutPath;
     this.experimentFeatures = experimentFeatures;
     configureMarked();
   }
@@ -80,7 +75,7 @@ export default class Processor {
   private readonly imageStaticDir: string;
   private readonly postsDir: string;
   private readonly snippetsDir: string;
-  private readonly aboutDir: string;
+  private readonly aboutPath: string;
 
   private readonly markdownImageRegx = /!\[([^\]]+)]\(([^)]+)\)/g;
   private readonly markdownLinkRegx = /\[(.*?)]\((.*?)\)/g;
@@ -91,94 +86,152 @@ export default class Processor {
   private imageSymbolToTargetPath: Map<string, string> = new Map();
   private readonly downloadManager = new DownloadManager();
 
+  private postTags: Set<Tag> = new Set();
+  private postCategories: Set<string> = new Set();
+
   // ==================== 处理流程 ====================
 
-  public async processAbout(): Promise<PassageDetail | undefined> {
-    const result = await this.processMarkdown(this.aboutDir);
-    return result?.detail;
-  }
-
-  public async processPosts(): Promise<PostsProcessResult> {
-    const children = await fs.promises.readdir(this.postsDir);
-
-    let tags: Tag[] = [];
-    const categories: string[] = [];
-    const abbrs: PassageAbbr[] = [];
-    const details: PassageDetail[] = [];
-
-    for (const childPath of children) {
-      const result = await this.processMarkdown(
-        path.resolve(this.postsDir, childPath)
-      );
-      if (result) {
-        tags = tags.concat(result.abbr.about.tags ?? []);
-        categories.push(result.abbr.about.category ?? "");
-        abbrs.push(result.abbr);
-        details.push(result.detail);
-      }
+  public async transformFileNode(
+    node: FileSystemNode,
+    createNewNode: Actions["createNode"],
+    createNodeId: (input: string) => string,
+    createContentDigest: (input: string | object) => string
+  ): Promise<void> {
+    if (node.extension !== "md") {
+      return;
     }
 
-    abbrs.sort((lhs, rhs) => {
-      return (
-        rhs.about.updateTimes[0].getTime() - lhs.about.updateTimes[0].getTime()
-      );
-    });
-
-    return {
-      tags: Array.from(new Set(tags)),
-      categories: Array.from(new Set(categories)).filter((c) => c !== ""),
-      abbrs,
-      details,
-    };
-  }
-
-  public async processSnippets(): Promise<SnippetsProcessResult> {
-    const children = await fs.promises.readdir(this.snippetsDir);
-
-    let tags: Tag[] = [];
-    const categories: string[] = [];
-    const details: SnippetDetail[] = [];
-
-    for (const childPath of children) {
-      const result = await this.processMarkdown(
-        path.resolve(this.snippetsDir, childPath)
-      );
+    if (node.absolutePath.includes(this.aboutPath)) {
+      const result = await this.processMarkdown(node.absolutePath);
       if (result) {
-        // details
-        const codeMatchResult = result.markdown.match(this.codeSnippetRegx);
-        const codeRaw = codeMatchResult
-          ? marked(codeMatchResult[0])
-          : undefined;
-        const abbr = codeMatchResult
-          ? result.markdown.slice(
-              (codeMatchResult.index ?? 0) + codeMatchResult[0].length
-            )
-          : result.markdown;
-        const detail: SnippetDetail = {
-          content: (`<p>${abbr}</p>` ?? "") + "\n" + (codeRaw ?? ""),
-          item: { ...result.abbr, abbr, codeRaw },
-          topImage: undefined,
-          circleImage: undefined,
-        };
-        details.push(detail);
-        // tags & categories
-        tags = tags.concat(result.abbr.about.tags ?? []);
-        categories.push(result.abbr.about.category ?? "");
+        createNewNode({
+          ...result.detail,
+          id: createNodeId(result.detail.item.identifier + "detail"),
+          internal: {
+            type: "About",
+            contentDigest: createContentDigest(result.detail),
+          },
+        });
       }
+      return;
     }
 
-    details.sort((lhs, rhs) => {
-      return (
-        rhs.item.about.updateTimes[0].getTime() -
-        lhs.item.about.updateTimes[0].getTime()
-      );
-    });
+    const normalizedDir = path.join(node.dir, "/");
 
-    return {
-      tags: Array.from(new Set(tags)),
-      categories: Array.from(new Set(categories)).filter((c) => c !== ""),
-      details: details,
-    };
+    if (normalizedDir.includes(this.postsDir)) {
+      const result = await this.processMarkdown(node.absolutePath);
+      if (result) {
+        createNewNode({
+          ...result.abbr,
+          orderDate: result.abbr.about.updateTimes[0],
+          id: createNodeId(result.abbr.identifier + "passage"),
+          internal: {
+            type: "Passage",
+            contentDigest: createContentDigest(result.abbr),
+          },
+        });
+        createNewNode({
+          ...result.detail,
+          id: createNodeId(result.detail.item.identifier + "detail"),
+          internal: {
+            type: "PassageDetail",
+            contentDigest: createContentDigest(result.detail),
+          },
+        });
+
+        const tags = result.abbr.about.tags ?? [];
+        for (const tag of tags) {
+          if (!this.postTags.has(tag)) {
+            this.postTags.add(tag);
+            createNewNode({
+              ...tag,
+              id: createNodeId(tag.id),
+              internal: {
+                type: "PostTag",
+                contentDigest: createContentDigest(tag),
+              },
+            });
+          }
+
+          const category = result.abbr.about.category ?? "";
+          if (!this.postCategories.has(category)) {
+            this.postCategories.add(category);
+            createNewNode({
+              id: createNodeId(category),
+              internal: {
+                type: "PostCategory",
+                contentDigest: createContentDigest(category),
+                content: category,
+              },
+            });
+          }
+        }
+
+
+      }
+    } else if (normalizedDir.includes(this.snippetsDir)) {
+      const result = await this.processSnippet(node.absolutePath);
+      if (result) {
+        createNewNode({
+          ...result.detail,
+          orderDate: result.detail.item.about.updateTimes[0],
+          id: createNodeId(result.detail.item.identifier + "detail"),
+          internal: {
+            type: "Snippet",
+            contentDigest: createContentDigest(result.detail),
+          },
+        });
+        result.tags.forEach((tag) => {
+          createNewNode({
+            ...tag,
+            id: createNodeId(tag.id),
+            internal: {
+              type: "SnippetTag",
+              contentDigest: createContentDigest(tag),
+            },
+          });
+        })
+        createNewNode({
+          id: createNodeId(result.category),
+          internal: {
+            type: "SnippetCategory",
+            contentDigest: createContentDigest(result.category),
+            content: result.category,
+          },
+        });
+      }
+    }
+  }
+
+  private async processSnippet(absolutePath: string): Promise<SnippetsProcessResult | undefined> {
+    const result = await this.processMarkdown(absolutePath);
+
+    if (result) {
+      // details
+      const codeMatchResult = result.markdown.match(this.codeSnippetRegx);
+      const codeRaw = codeMatchResult
+        ? marked(codeMatchResult[0])
+        : undefined;
+      const abbr = codeMatchResult
+        ? result.markdown.slice(
+          (codeMatchResult.index ?? 0) + codeMatchResult[0].length
+        )
+        : result.markdown;
+      const detail: SnippetDetail = {
+        content: (`<p>${abbr}</p>` ?? "") + "\n" + (codeRaw ?? ""),
+        item: { ...result.abbr, abbr, codeRaw },
+        topImage: undefined,
+        circleImage: undefined,
+      };
+
+      return {
+        tags: result.abbr.about.tags ?? [],
+        category: result.abbr.about.category ?? "",
+        detail: detail,
+      };
+    }
+
+    return;
   }
 
   // ==================== 预处理流程 ====================
@@ -344,7 +397,7 @@ export default class Processor {
         _matchString: string,
         imageName: string,
         imageLink: string
-        /* 
+        /*
         _index: number,
         _input: string
         */

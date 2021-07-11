@@ -69,7 +69,7 @@ export default function SnippetPage(props: PageProps<SnippetsPageData>) {
 
 export const query = graphql`
   {
-    allSnippet {
+    allSnippet(sort: {fields: orderDate, order: DESC}) {
       edges {
         node {
           content

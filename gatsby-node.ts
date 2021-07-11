@@ -4,8 +4,7 @@ import {
   CreateNodeArgs,
   CreatePagesArgs,
   CreateResolversArgs,
-  CreateSchemaCustomizationArgs,
-  SourceNodesArgs,
+  CreateSchemaCustomizationArgs
 } from "gatsby";
 import { FileSystemNode } from "gatsby-source-filesystem";
 
@@ -16,7 +15,6 @@ import { CreativeCommons } from "./src/models/creative-commons";
 import { NodeData } from "./src/models/node-data";
 import { PassageAbbr } from "./src/models/passage-content";
 import { SiteMetadata } from "./src/models/site-metadata";
-
 
 const FILE_SYSTEM_TYPE = "File";
 
@@ -32,7 +30,7 @@ const processor = new Processor(
     imageStaticDir: path.resolve(__dirname, "public", "static", "images"),
     postsDir: path.resolve(__dirname, "content", "posts"),
     snippetsDir: path.resolve(__dirname, "content", "snippets"),
-    aboutDir: path.resolve(__dirname, "content", "about.md"),
+    aboutPath: path.resolve(__dirname, "content", "about.md"),
   },
   {
     downloadWebPicture: {
@@ -44,8 +42,6 @@ const processor = new Processor(
 );
 
 export const createResolvers = async (args: CreateResolversArgs) => {
-  const about = await processor.processAbout();
-
   if (
     !!siteMetadata.copyright?.creativeCommons &&
     !Object.keys(CreativeCommons).includes(
@@ -73,12 +69,6 @@ ${Object.keys(CreativeCommons)
 
   const resolvers = {
     Query: {
-      about: {
-        type: "ContentDetail",
-        resolve: (/*source: any, args: any, context: any, info: any*/) => {
-          return about;
-        },
-      },
       siteMetadata: {
         type: "SiteMetadata",
         resolve: (/*source: any, args: any, context: any, info: any*/) => {
@@ -90,102 +80,26 @@ ${Object.keys(CreativeCommons)
   args.createResolvers(resolvers);
 };
 
-export const onCreateNode = (args: CreateNodeArgs) => {
+export const onCreateNode = async (args: CreateNodeArgs) => {
   if (args.node.internal.type === FILE_SYSTEM_TYPE) {
-    const fileNode = args.node as FileSystemNode;
-    console.log(fileNode.internal.content);
+    await processor.transformFileNode(
+      args.node as FileSystemNode,
+      args.actions.createNode,
+      args.createNodeId,
+      args.createContentDigest
+    );
   }
 };
+
+export const onPreBootstrap = async () => {
+  await processor.clearAndEnsureImageFolder();
+}
 
 export const createSchemaCustomization = async (
   args: CreateSchemaCustomizationArgs
 ) => {
   const { createTypes } = args.actions;
   createTypes(typeDefs);
-};
-
-export const sourceNodes = async (args: SourceNodesArgs) => {
-  await processor.clearAndEnsureImageFolder();
-
-  // 添加 posts
-  const posts = await processor.processPosts();
-
-  posts.abbrs.forEach((abbr) => {
-    args.actions.createNode({
-      ...abbr,
-      id: args.createNodeId(abbr.identifier + "passage"),
-      internal: {
-        type: "Passage",
-        contentDigest: args.createContentDigest(abbr),
-      },
-    });
-  });
-  posts.details.forEach((detail) => {
-    args.actions.createNode({
-      ...detail,
-      id: args.createNodeId(detail.item.identifier + "detail"),
-      internal: {
-        type: "PassageDetail",
-        contentDigest: args.createContentDigest(detail),
-      },
-    });
-  });
-
-  // 添加 snippets
-  const snippets = await processor.processSnippets();
-
-  snippets.details.forEach((detail) => {
-    args.actions.createNode({
-      ...detail,
-      id: args.createNodeId(detail.item.identifier + "detail"),
-      internal: {
-        type: "Snippet",
-        contentDigest: args.createContentDigest(detail),
-      },
-    });
-  });
-
-  // 添加 tag & category
-  posts.tags.forEach((tag) => {
-    args.actions.createNode({
-      ...tag,
-      id: args.createNodeId(tag.id),
-      internal: {
-        type: "PostTag",
-        contentDigest: args.createContentDigest(tag),
-      },
-    });
-  });
-  posts.categories.forEach((category) => {
-    args.actions.createNode({
-      id: args.createNodeId(category),
-      internal: {
-        type: "PostCategory",
-        contentDigest: args.createContentDigest(category),
-        content: category,
-      },
-    });
-  });
-  snippets.tags.forEach((tag) => {
-    args.actions.createNode({
-      ...tag,
-      id: args.createNodeId(tag.id),
-      internal: {
-        type: "SnippetTag",
-        contentDigest: args.createContentDigest(tag),
-      },
-    });
-  });
-  snippets.categories.forEach((category) => {
-    args.actions.createNode({
-      id: args.createNodeId(category),
-      internal: {
-        type: "SnippetCategory",
-        contentDigest: args.createContentDigest(category),
-        content: category,
-      },
-    });
-  });
 };
 
 export const createPages = async (args: CreatePagesArgs) => {

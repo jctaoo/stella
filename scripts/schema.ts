@@ -1,4 +1,68 @@
 export default `
+  type Tag {
+    id: String
+    title: String
+  }
+  type ContentAbout {
+    updateTimes: [Date!]!
+    tags: [Tag!]!
+    category: String
+    readTime: Int
+  }
+  type Passage implements Node {
+    identifier: String!
+    title: String!
+    abbr: String!
+    about: ContentAbout!
+    orderDate: Date!
+  }
+  type PassageDetail implements Node {
+    item: Passage!
+    content: String!
+    topImage: String
+    topImageAlt: String
+    circleImage: String
+  }
+  type PostTag implements Node {
+    id: String!
+    title: String!
+  }
+  type CategoryInternal {
+    content: String!
+  }
+  type PostCategory implements Node {
+    internal: CategoryInternal!
+  }
+  type SnippetContentAbbr {
+    identifier: String!
+    title: String!
+    abbr: String
+    about: ContentAbout!
+    codeRaw: String
+  }
+  type Snippet implements Node {
+    item: SnippetContentAbbr!
+    content: String!
+    topImage: String
+    topImageAlt: String
+    circleImage: String
+    orderDate: Date!
+  }
+   type SnippetTag implements Node {
+    id: String!
+    title: String!
+  }
+  type SnippetCategory implements Node {
+    internal: CategoryInternal!
+  }
+  type About implements Node {
+    item: Passage!
+    content: String!
+    topImage: String
+    topImageAlt: String
+    circleImage: String
+  }
+  
   enum CreativeCommons {
     by
     byNc
@@ -6,30 +70,6 @@ export default `
     byNcSa
     byNd
     bySa
-  }
-  type ContentDetail {
-    item: ContentAbbr!
-    content: String!
-    topImage: String
-    topImageAlt: String
-    circleImage: String
-  }
-  type ContentAbbr {
-    identifier: String!
-    title: String!
-    abbr: String
-    about: About!
-    codeRaw: String
-  }
-  type About {
-    updateTimes: [Date!]!
-    tags: [Tag!]!
-    category: String
-    readTime: Int
-  }
-  type Tag {
-    id: String
-    title: String
   }
   type Copyright {
     author: String
