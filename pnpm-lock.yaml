@@ -13,6 +13,8 @@ specifiers:
   '@types/react-helmet': ^6.1.0
   '@types/react-redux': ^7.1.16
   '@types/react-router-dom': ^5.1.7
+  '@types/redux': ^3.6.0
+  '@types/redux-thunk': ^2.1.0
   '@types/styled-components': ^5.1.9
   '@types/uuid': ^8.3.0
   '@typescript-eslint/eslint-plugin': ^4.0.1
@@ -101,6 +103,8 @@ devDependencies:
   '@types/react-helmet': 6.1.2
   '@types/react-redux': 7.1.17
   '@types/react-router-dom': 5.1.8
+  '@types/redux': 3.6.0
+  '@types/redux-thunk': 2.1.0
   '@types/styled-components': 5.1.11
   '@types/uuid': 8.3.1
   '@typescript-eslint/eslint-plugin': 4.28.2_efc80aa0929eae592f4b606ad08785dc
@@ -3834,6 +3838,20 @@ packages:
       '@types/node': 14.17.5
       safe-buffer: 5.2.1
     dev: false
+
+  /@types/redux-thunk/2.1.0:
+    resolution: {integrity: sha1-vCtulylhgxr7gqm/TwZybjUflBY=}
+    deprecated: This is a stub types definition for Redux Thunk (https://github.com/gaearon/redux-thunk). Redux Thunk provides its own type definitions, so you don't need @types/redux-thunk installed!
+    dependencies:
+      redux-thunk: 2.3.0
+    dev: true
+
+  /@types/redux/3.6.0:
+    resolution: {integrity: sha1-8evh5UEVGAcuT9/KXHbhbnTBOZo=}
+    deprecated: This is a stub types definition for Redux (https://github.com/reactjs/redux). Redux provides its own type definitions, so you don't need @types/redux installed!
+    dependencies:
+      redux: 4.1.0
+    dev: true
 
   /@types/resolve/0.0.8:
     resolution: {integrity: sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==}
@@ -15077,7 +15095,6 @@ packages:
 
   /redux-thunk/2.3.0:
     resolution: {integrity: sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==}
-    dev: false
 
   /redux/4.1.0:
     resolution: {integrity: sha512-uI2dQN43zqLWCt6B/BMGRMY6db7TTY4qeHHfGeKb3EOhmOKjU3KdWvNLJyqaHRksv/ErdNH7cFZWg9jXtewy4g==}
