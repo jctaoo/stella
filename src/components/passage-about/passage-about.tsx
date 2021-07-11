@@ -4,6 +4,7 @@ import { About, Tag } from "../../models/base-content";
 import "./passage-about.scss";
 
 import dayjs from "dayjs";
+import 'dayjs/plugin/duration'
 
 function PassageAbout(props: {
   about: About;
