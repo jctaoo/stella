@@ -152,22 +152,21 @@ export default class Processor {
               },
             });
           }
-
-          const category = result.abbr.about.category ?? "";
-          if (!this.postCategories.has(category)) {
-            this.postCategories.add(category);
-            createNewNode({
-              id: createNodeId(category),
-              internal: {
-                type: "PostCategory",
-                contentDigest: createContentDigest(category),
-                content: category,
-              },
-            });
-          }
         }
 
-
+        const category = result.abbr.about.category ?? "";
+        console.log("[C]", category)
+        if (!this.postCategories.has(category)) {
+          this.postCategories.add(category);
+          createNewNode({
+            id: createNodeId(category),
+            internal: {
+              type: "PostCategory",
+              contentDigest: createContentDigest(category),
+              content: category,
+            },
+          });
+        }
       }
     } else if (normalizedDir.includes(this.snippetsDir)) {
       const result = await this.processSnippet(node.absolutePath);
