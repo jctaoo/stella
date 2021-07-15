@@ -1,6 +1,7 @@
 # Stella, an easy using and beautiful blog based on [Gatsby](https://github.com/gatsbyjs/gatsby)
 
 ![preview](./static/preview.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjctaoo%2Fstella.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjctaoo%2Fstella?ref=badge_shield)
 
 ## Overview
 
@@ -105,3 +106,6 @@ See [Gatsby Deploying and Hosting](https://www.gatsbyjs.com/docs/deploying-and-h
 Copyright (c) 2021 jctaoo
 
 [LICENSE](https://github.com/jctaoo/stella/blob/master/LICENSE) file
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjctaoo%2Fstella.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjctaoo%2Fstella?ref=badge_large)
