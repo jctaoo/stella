@@ -13,6 +13,8 @@ import PassageAbout from "../passage-about/passage-about";
 import PassageTitle from "../passage-title/passage-title";
 import "./passage-detail.scss";
 
+import { GatsbyImage } from "gatsby-plugin-image";
+
 export enum PassageDetailViewMode {
   Full,
   Partial,
@@ -73,10 +75,10 @@ function PassageDetail({
   return (
     <div className={`passage-container ${className ? className : ""}`}>
       {!!passage.topImage && mode === PassageDetailViewMode.Full ? (
-        <img
-          src={passage.topImage}
-          alt={passage.topImageAlt}
+        <GatsbyImage
           className="passage-top-image"
+          image={passage.topImage}
+          alt={passage.topImageAlt ?? ""}
         />
       ) : (
         <></>
@@ -125,7 +127,7 @@ function PassageDetail({
           onTagClick={onClickTag}
         />
       )}
-      {disqusShortName ? (
+      {/* {disqusShortName ? (
         <div className="passage-comment-container">
           <DiscussionEmbed
             shortname={disqusShortName}
@@ -138,7 +140,7 @@ function PassageDetail({
         </div>
       ) : (
         <></>
-      )}
+      )} */}
       {mode === PassageDetailViewMode.Full && !!showFooter ? <Footer /> : <></>}
     </div>
   );

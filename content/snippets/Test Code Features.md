@@ -8,11 +8,12 @@ updateDates:
   - 2020-07-15
 ---
 
+Show stella features for showing code.
+
 ```typescript
 // adding codes
-+console.log("🍔");
+console.log("🍔");
 // removing codes
--console.log("💩")
+console.log("💩")
 ```
 
-Show stella features for showing code.

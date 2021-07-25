@@ -29,7 +29,9 @@ function useAbout(): PassageDetail | undefined {
           }
         }
         content
-        topImage
+        topImage {
+          ...ImageDataFragment
+        }
         circleImage
       }
     }

@@ -54,7 +54,9 @@ export const query = graphql`
       edges {
         node {
           content
-          topImage
+          topImage {
+            ...ImageDataFragment
+          }
           topImageAlt
           circleImage
           item {

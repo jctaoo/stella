@@ -135,6 +135,56 @@ export default {
         path: `${__dirname}/content/`,
       },
     },
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        formats: ["auto", "webp", "avif"],
+        defaults: {},
+        placeholder: `dominantColor`, // or BLURRED
+        width: 625,
+        failOnError: true,
+        base64Width: 20, // TODO:
+        forceBase64Format: `png`, // valid formats: png,jpg,webp
+        useMozJpeg: process.env.GATSBY_JPEG_ENCODER === `MOZJPEG`,
+        stripMetadata: true,
+        jpegProgressive: true,
+        defaultQuality: 50,
+      },
+    },
+    "gatsby-transformer-sharp",
+    "gatsby-plugin-image",
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        footnotes: true,
+        gfm: true,
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 512,
+              linkImagesToOriginal: false,
+            },
+          },
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+              inlineCodeMarker: null,
+              aliases: {},
+              showLineNumbers: true,
+              noInlineHighlight: false,
+              prompt: {
+                user: "root",
+                host: "localhost",
+                global: false,
+              },
+              escapeEntities: {},
+            },
+          },
+        ],
+      },
+    },
     "gatsby-plugin-typescript",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-offline",

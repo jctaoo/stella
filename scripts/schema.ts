@@ -16,10 +16,39 @@ export default `
     about: ContentAbout!
     orderDate: Date!
   }
+  
+  
+  type ImageDataImagesFallBack {
+    src: String!
+    sizes: String
+    srcSet: String
+  }
+  type ImageDataImagesSource {
+    sizes: String
+    srcSet: String!
+    media: String
+    type: String
+  }
+  type ImageDataImages {
+    fallback: ImageDataImagesFallBack
+    sources: [ImageDataImagesSource!]
+  }
+  type ImageDataPlaceholder {
+    fallback: String!
+  }
+  type ImageData {
+    layout: String!
+    width: Float!
+    height: Float!
+    backgroundColor: String
+    images: ImageDataImages!
+    placeholder: ImageDataPlaceholder
+  } 
+  
   type PassageDetail implements Node {
     item: Passage!
     content: String!
-    topImage: String
+    topImage: ImageData
     topImageAlt: String
     circleImage: String
   }
@@ -43,7 +72,7 @@ export default `
   type Snippet implements Node {
     item: SnippetContentAbbr!
     content: String!
-    topImage: String
+    topImage: ImageData
     topImageAlt: String
     circleImage: String
     orderDate: Date!
@@ -58,7 +87,7 @@ export default `
   type About implements Node {
     item: Passage!
     content: String!
-    topImage: String
+    topImage: ImageData
     topImageAlt: String
     circleImage: String
   }

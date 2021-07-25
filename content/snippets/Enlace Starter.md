@@ -5,8 +5,10 @@ tags:
 - code
 identifier: enlace-get-started
 updateDates:
-- 2020-07-15
+  - 2020-07-05
 ---
+
+description here .....
 
 ```typescript
 @MainApplication
@@ -17,5 +19,3 @@ class DemoApplication extends Application {
   }
 }
 ```
-
-description here .....

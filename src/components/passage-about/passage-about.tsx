@@ -1,10 +1,8 @@
+import dayjs from "dayjs";
 import React from "react";
 
 import { About, Tag } from "../../models/base-content";
 import "./passage-about.scss";
-
-import dayjs from "dayjs";
-import 'dayjs/plugin/duration'
 
 function PassageAbout(props: {
   about: About;
@@ -12,9 +10,11 @@ function PassageAbout(props: {
   onTagClick: (about: About, tag: Tag) => void;
 }) {
   const { about } = props;
+  // TODO 发布时间 or 更新时间
   const lastUpdateTime = about.updateTimes[about.updateTimes.length - 1];
+
   const timeStr = dayjs(lastUpdateTime).format("YYYY/M/D");
-  const readTimeStr = dayjs.duration(about.readTime ?? 0).minutes() + "min";
+  const readTimeStr = (about.readTime ?? 0) + "min";
 
   return (
     <span className="passage-about">

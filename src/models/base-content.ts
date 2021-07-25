@@ -1,3 +1,5 @@
+import { IGatsbyImageData } from "gatsby-plugin-image";
+
 export interface BaseContentAbbr {
   identifier: string;
   title: string;
@@ -6,7 +8,7 @@ export interface BaseContentAbbr {
 }
 
 export interface About {
-  updateTimes: Date[];
+  updateTimes: string[];
   tags: Tag[];
   category?: string;
   readTime?: number;
@@ -17,12 +19,14 @@ export interface Tag {
   title: string;
 }
 
+export type ImageData = IGatsbyImageData
+
 export interface BaseContentDetail<
   Abbr extends BaseContentAbbr = BaseContentAbbr
 > {
   item: Abbr;
   content: string;
-  topImage?: string;
+  topImage?: ImageData;
   topImageAlt?: string;
   circleImage?: string;
 }

@@ -1,0 +1,220 @@
+@import "./constant";
+
+$base-text-size: 16px;
+$background-color: #23292f; // TODO: Add to theme
+$color: #e0e4e8;
+$line-color: #999;
+
+$line-number-width: 20px;
+$padding-left-right: 20px;
+
+@mixin general-code-style {
+  color: $color;
+  font-size: $base-text-size;
+  font-family: $code-font;
+  line-height: 24px;
+  text-shadow: none;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 4;
+  hyphens: none;
+
+  @media print {
+    pre[class*="language-"],
+    code[class*="language-"] {
+      text-shadow: none;
+    }
+  }
+}
+
+// TODO:
+@mixin selection-code-style {
+  text-shadow: none;
+  background: #1cb5b5;
+}
+
+@mixin code-tokens {
+  .namespace {
+    opacity: 0.7;
+  }
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #68737e;
+  }
+  .token.punctuation {
+    color: #e0e4e8;
+  }
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: #67b9ff;
+  }
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: #93ccff;
+  }
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    color: #ff6b80;
+    background: transparent;
+  }
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    color: #ff6b80;
+  }
+  .token.function {
+    color: #ff6b80;
+  }
+  .token.regex,
+  .token.important,
+  .token.variable {
+    color: #67b9ff;
+  }
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+  .token.italic {
+    font-style: italic;
+  }
+  .token.entity {
+    cursor: help;
+  }
+}
+
+@mixin command-line-prompt {
+  pre[class*="language-"] code[class*="language-"] .command-line-prompt {
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    float: left;
+    margin-right: 10px;
+
+    & > span:before {
+      color: #949494; // TODO: add to theme
+      font-weight: bold;
+      display: block;
+      font-family: $code-font;
+      font-size: $base-text-size;
+    }
+
+    & > span[data-user]:before {
+      content: attr(data-user) "@" attr(data-host) " $" !important;
+    }
+  }
+}
+
+@mixin highlight-line {
+  pre[class*="language-"] .gatsby-highlight-code-line {
+    display: block;
+    background: #334d66;
+    border-left: #4f94de solid 5px; // TODO: add to theme
+    height: 24px;
+
+    $transform-width: -$padding-left-right;
+
+    transform: translateX($transform-width);
+    padding-left: -$transform-width;
+    padding-right: -$transform-width;
+    width: calc(100% + #{(-$transform-width) * 2});
+  }
+
+  pre[class*="language-"].line-numbers {
+    padding: 16px $padding-left-right * 2 + $line-number-width !important;
+  }
+
+  pre[class*="language-"].line-numbers .gatsby-highlight-code-line {
+    $transform-width: -$padding-left-right * 2 - $line-number-width;
+
+    transform: translateX($transform-width);
+    padding-left: -$transform-width;
+    padding-right: -$transform-width;
+    width: calc(100% + #{(-$transform-width) * 2});
+  }
+}
+
+@mixin line-numbers {
+  pre[class*="language-"] {
+    &.line-numbers {
+      position: relative;
+
+      & .line-numbers-rows {
+        user-select: none;
+
+        position: absolute;
+        top: 16px;
+        left: $padding-left-right !important;
+
+        pointer-events: none;
+        width: $line-number-width;
+        display: block;
+
+        & > span {
+          display: block;
+          counter-increment: linenumber;
+        }
+
+        & > span:before {
+          content: counter(linenumber);
+
+          @include general-code-style;
+          font-weight: bold;
+          color: $line-color;
+          display: block;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+@mixin code-highlight {
+  @include highlight-line;
+  @include line-numbers;
+  @include command-line-prompt;
+
+  div.gatsby-highlight {
+    pre[class*="language-"] {
+      padding: 16px 20px;
+      background-color: $background-color;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+
+      code[class*="language-"] {
+        @include general-code-style;
+        @include code-tokens;
+        width: 100%;
+
+        &::selection {
+          @include selection-code-style;
+        }
+
+        & * {
+          @include general-code-style;
+
+          &::selection {
+            @include selection-code-style;
+          }
+        }
+      }
+    }
+  }
+}
