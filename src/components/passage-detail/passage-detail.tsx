@@ -1,11 +1,10 @@
 import { useLocation } from "@reach/router";
-import { DiscussionEmbed } from "disqus-react";
 import { navigate } from "gatsby";
+import { GatsbyImage } from "gatsby-plugin-image";
 import React, { MouseEvent } from "react";
 
 import { AppEnv, useEnv } from "../../hooks/useEnv";
 import { About, BaseContentDetail, Tag } from "../../models/base-content";
-import { DisqusConfig } from "../../models/config";
 import { Props } from "../../types";
 import { openLink } from "../../utils";
 import Footer from "../footer/footer";
@@ -13,7 +12,6 @@ import PassageAbout from "../passage-about/passage-about";
 import PassageTitle from "../passage-title/passage-title";
 import "./passage-detail.scss";
 
-import { GatsbyImage } from "gatsby-plugin-image";
 
 export enum PassageDetailViewMode {
   Full,
@@ -22,7 +20,6 @@ export enum PassageDetailViewMode {
 
 function PassageDetail({
   passage,
-  disqusConfig,
   mode = PassageDetailViewMode.Full,
   className,
   showFooter = true,
@@ -30,7 +27,6 @@ function PassageDetail({
   onClickTag = () => {},
 }: Props<{
   passage: BaseContentDetail;
-  disqusConfig?: DisqusConfig;
   mode?: PassageDetailViewMode;
   showFooter?: boolean;
   onClickCategory: (about: About, category?: string) => void;
@@ -65,12 +61,6 @@ function PassageDetail({
       }
     }
   };
-
-  const url = useLocation().href;
-  const disqusShortName =
-    useEnv() === AppEnv.dev
-      ? disqusConfig?.developmentShortName
-      : disqusConfig?.shortName;
 
   return (
     <div className={`passage-container ${className ? className : ""}`}>
@@ -127,20 +117,6 @@ function PassageDetail({
           onTagClick={onClickTag}
         />
       )}
-      {/* {disqusShortName ? (
-        <div className="passage-comment-container">
-          <DiscussionEmbed
-            shortname={disqusShortName}
-            config={{
-              url: url,
-              identifier: passage.item.identifier,
-              title: passage.item.title,
-            }}
-          />
-        </div>
-      ) : (
-        <></>
-      )} */}
       {mode === PassageDetailViewMode.Full && !!showFooter ? <Footer /> : <></>}
     </div>
   );

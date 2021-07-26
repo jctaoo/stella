@@ -4,4 +4,10 @@
 
 #about-page {
   @include passage-liked-page;
+
+  & .passage-container {
+    & .passage-content-container {
+      padding-bottom: 239px;
+    }
+  }
 }

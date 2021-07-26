@@ -17,7 +17,7 @@ export function checkCreateComments(
 ${Object.keys(CreativeCommons)
   .map(
     (key) =>
-      `\t$'{key}' (代表 ${
+      `\t${key} (代表 ${
         CreativeCommons[key as keyof typeof CreativeCommons]
       } 协议)`
   )

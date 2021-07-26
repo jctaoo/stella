@@ -23,7 +23,6 @@ specifiers:
   antd: ^4.15.0
   chokidar: ^3.5.1
   dayjs: ^1.10.6
-  disqus-react: ^1.0.11
   eslint: ^7.8.0
   eslint-config-prettier: ^6.11.0
   eslint-plugin-eslint-comments: ^3.2.0
@@ -69,7 +68,6 @@ dependencies:
   antd: 4.16.6_react-dom@17.0.2+react@17.0.2
   chokidar: 3.5.2
   dayjs: 1.10.6
-  disqus-react: 1.1.1_react-dom@17.0.2+react@17.0.2
   framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
   gatsby: 3.9.0_a36a824f9ef06fdfe954c865ae5cdf3b
   gatsby-plugin-image: 1.10.1_caf0709b9de86ba973ef2b39480fd3e7
@@ -7857,16 +7855,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-type: 4.0.0
-
-  /disqus-react/1.1.1_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-Ob6/3l3WQb682RLplStVZsvRbGnD2DdppmwmHZ3PO7JNyLZfdldKGXnotm0ZhdTCX6DM8oE4Bpr08cSymBIdzg==}
-    peerDependencies:
-      react: ^15.6.1 || ^16.0.0 || ^17.0.0
-      react-dom: ^15.6.1 || ^16.0.0 || ^17.0.0
-    dependencies:
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    dev: false
 
   /dns-equal/1.0.0:
     resolution: {integrity: sha1-s55/HabrCnW6nBcySzR1PEfgZU0=}

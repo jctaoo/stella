@@ -21,7 +21,6 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
   const matchedPassages = getNodesFromNodeData(props.data.allPassageDetail);
   const currentPassage =
     matchedPassages.length > 0 ? matchedPassages[0] : undefined;
-  const config = props.data.siteMetadata.config.disqus;
 
   const description: PageDescription | undefined = currentPassage
     ? {
@@ -40,7 +39,6 @@ export default function PassagePage(props: PageProps<PassagePageData>) {
       <SEO description={description} />
       <PassageDetailView
         passage={currentPassage}
-        disqusConfig={config}
         onClickCategory={(_, category) => jumpToPassagePage({ category })}
         onClickTag={(_, tag) => jumpToPassagePage({ tag: tag.title })}
       />
@@ -73,14 +71,6 @@ export const query = graphql`
               }
             }
           }
-        }
-      }
-    }
-    siteMetadata {
-      config {
-        disqus {
-          shortName
-          developmentShortName
         }
       }
     }

@@ -113,13 +113,8 @@ type SiteMetadata {
 type Config {
   siteName: String!
   homeLargeTitle: String
-  disqus: DisqusConfig
   lang: String!
   host: String!
-}
-type DisqusConfig {
-  shortName: String!
-  developmentShortName: String!
 }
 type RouteConfiguration {
   about: RouteConfigurationItem!

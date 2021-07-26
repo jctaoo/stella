@@ -138,4 +138,3 @@ Toast.default.update(item: item) { item in
 Copyright (c) 2020 Tao Juncheng
 
 [LICENSE](/LICENSE) file
-{"mode":"full","isActive":false}

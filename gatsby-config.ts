@@ -15,11 +15,11 @@ const siteKeywords = [
 
 export default {
   siteMetadata: {
+    copyright: {
+      author: "jctaoo",
+      creativeCommons: "byNcSa"
+    },
     config: {
-      disqus: {
-        shortName: "jctaoo",
-        developmentShortName: "jctaoo-dev",
-      },
       lang: "zh",
       host: "https://stella-demo-site.vercel.app/",
       siteName: "Jctaoo.",

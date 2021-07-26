@@ -48,14 +48,12 @@ export default function AboutPage() {
 
   const siteMetadata = useSiteMetadata();
   const description = siteMetadata.pageDescription?.about;
-  const disqusConfig = siteMetadata.config.disqus;
 
   return (
     <BasePage id="about-page">
       <SEO description={description} />
       <PassageDetailView
         passage={passage}
-        disqusConfig={disqusConfig}
         showFooter={false}
         onClickCategory={() => {}}
         onClickTag={() => {}}
