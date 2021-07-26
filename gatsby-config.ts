@@ -113,7 +113,6 @@ export default {
     ],
   },
   flags: {
-    DEV_SSR: true,
     PRESERVE_FILE_DOWNLOAD_CACHE: true,
     PRESERVE_WEBPACK_CACHE: true,
     FAST_DEV: true,
