@@ -10,7 +10,7 @@ import config from "./gatsby-config";
 import { checkCreateComments } from "./scripts/checkCreateCommons";
 import Processor from "./scripts/processor";
 import { RemarkNode } from "./scripts/remarkNode";
-import typeDefs from "./scripts/schema";
+import { localGql } from "./scripts/utils";
 import { NodeData } from "./src/models/node-data";
 import { PassageAbbr } from "./src/models/passage-content";
 import { SiteMetadata } from "./src/models/site-metadata";
@@ -51,57 +51,14 @@ export const createSchemaCustomization = async (
   args: CreateSchemaCustomizationArgs
 ) => {
   const { createTypes } = args.actions;
-  createTypes(typeDefs);
+  createTypes(await localGql("./logicType.gql"));
 };
 
 export const createPages = async (args: CreatePagesArgs) => {
   // There are some fields in the gatsby remark plugin that are only lazily loaded at this point
-  const allRemarks = await args.graphql<AllRemarkData>(`
-    {
-      allMarkdownRemark {
-        nodes {
-          timeToRead
-          parent {
-            id
-          }
-        }
-        edges {
-          node {
-            excerpt(format: PLAIN, truncate: true)
-            frontmatter {
-              title
-              abbr
-              category
-              identifier
-              tags
-              topImageAlt
-              updateDates
-              topImage {
-                childImageSharp {
-                  gatsbyImageData
-                }
-              }
-            }
-            wordCount {
-              paragraphs
-              words
-              sentences
-            }
-            fileAbsolutePath
-            headings {
-              depth
-              value
-            }
-            html
-            id
-            rawMarkdownBody
-            tableOfContents
-            timeToRead
-          }
-        }
-      }
-    }
-  `);
+  const allRemarks = await args.graphql<AllRemarkData>(
+    await localGql("./fetchAllRemark.gql")
+  );
   allRemarks.data?.allMarkdownRemark.edges.forEach((item) => {
     processor.transformRemarkNode(
       item.node,

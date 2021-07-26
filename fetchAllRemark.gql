@@ -1,0 +1,44 @@
+{
+  allMarkdownRemark {
+    nodes {
+      timeToRead
+      parent {
+        id
+      }
+    }
+    edges {
+      node {
+        excerpt(format: PLAIN, truncate: true)
+        frontmatter {
+          title
+          abbr
+          category
+          identifier
+          tags
+          topImageAlt
+          updateDates
+          topImage {
+            childImageSharp {
+              gatsbyImageData
+            }
+          }
+        }
+        wordCount {
+          paragraphs
+          words
+          sentences
+        }
+        fileAbsolutePath
+        headings {
+          depth
+          value
+        }
+        html
+        id
+        rawMarkdownBody
+        tableOfContents
+        timeToRead
+      }
+    }
+  }
+}
