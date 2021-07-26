@@ -11,6 +11,16 @@ topImageAlt: "Hello World"
 
 # "Hello, World!" program
 
+
+$$
+\begin{aligned}
+\dot{x} & = \sigma(y-x) \\
+\dot{y} & = \rho x - y - xz \\
+\dot{z} & = -\beta z + xy
+\end{aligned}
+$$
+
+
 > from [wikipedia](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program)
 
 "Hello World" redirects here. For other uses, see Hello World (disambiguation).

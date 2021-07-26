@@ -4,6 +4,8 @@ import "./src/styles/index.scss";
 import "./src/styles/base.scss";
 import store, { Actions } from "./src/state";
 
+import "katex/dist/katex.min.css";
+
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
