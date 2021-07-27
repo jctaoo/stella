@@ -119,7 +119,6 @@ export default {
     PARALLEL_SOURCING: true,
   },
   plugins: [
-    "gatsby-plugin-pnpm",
     "gatsby-plugin-antd",
     {
       resolve: `gatsby-plugin-sass`,

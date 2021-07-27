@@ -286,3 +286,4 @@ fabric.properties
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,webstorm,visualstudiocode,node,react,yarn
+.vercel

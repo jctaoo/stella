@@ -8787,13 +8787,6 @@ gatsby-plugin-page-creator@^3.2.0:
     globby "^11.0.2"
     lodash "^4.17.21"
 
-gatsby-plugin-pnpm@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.npmjs.org/gatsby-plugin-pnpm/-/gatsby-plugin-pnpm-1.2.6.tgz#4a23b7fe0045314bd375f316887edccb0a3382b1"
-  integrity sha512-DW4D5tPppR1ITI6yc5JPojli2FTV+9COOCjwvYvFGh9CDDQiwnDTAU2eyPHkarKfgPMku65CqrROE4nvhV7LqA==
-  dependencies:
-    lodash.uniq "^4.5.0"
-
 gatsby-plugin-react-helmet@^4.2.0:
   version "4.2.0"
   resolved "https://registry.npmjs.org/gatsby-plugin-react-helmet/-/gatsby-plugin-react-helmet-4.2.0.tgz#406a8500576fe13674b317041a91b73189b5c58f"
