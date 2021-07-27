@@ -51,6 +51,7 @@ export const createSchemaCustomization = async (
   args: CreateSchemaCustomizationArgs
 ) => {
   const { createTypes } = args.actions;
+  createTypes(await localGql("./processorType.gql"));
   createTypes(await localGql("./logicType.gql"));
 };
 
