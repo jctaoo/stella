@@ -26,7 +26,7 @@
     "highlight.js": "^10.7.2",
     "jsdom": "^16.5.2",
     "katex": "^0.13.13",
-    "marked": "^2.0.1",
+    "marked": "^4.0.10",
     "prettier": "^2.2.1",
     "prismjs": "^1.24.1",
     "query-string": "^7.0.0",
