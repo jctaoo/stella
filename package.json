@@ -21,7 +21,7 @@
     "gatsby-remark-katex": "^5.7.0",
     "gatsby-remark-prismjs": "^5.7.0",
     "gatsby-source-filesystem": "^3.9.0",
-    "gatsby-transformer-remark": "^4.7.0",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^3.10.0",
     "highlight.js": "^10.7.2",
     "jsdom": "^16.5.2",
