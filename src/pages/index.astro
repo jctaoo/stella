@@ -1,16 +1,5 @@
 ---
-import "../styles/global.css";
-// Component Imports
-import {Button} from "@/components/ui/button";
-import confetti from "canvas-confetti";
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
-
-const handleClick = () => {
-	alert("Button clicked");
-  confetti();
-};
+import "@/styles/global.css";
 ---
 
 <html lang="en">
@@ -23,9 +12,5 @@ const handleClick = () => {
   </head>
 
   <body>
-    <div class="grid place-items-center h-screen content-center">
-      <Button client:load onClick={handleClick}>Tailwind Button in Astro!</Button>
-      <a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-    </div>
   </body>
 </html>
