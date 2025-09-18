@@ -8,6 +8,7 @@ import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 
 import { remarkModifiedTime } from "./plugin/remark-modified-time";
+import { remarkReadingTime } from "./plugin/remark-reading-time";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,6 +19,8 @@ export default defineConfig({
     remarkPlugins: [
       // @ts-expect-error
       [remarkModifiedTime, { fallbackToFs: true }],
+      // @ts-expect-error
+      remarkReadingTime,
     ],
   },
   integrations: [react(), mdx()],
