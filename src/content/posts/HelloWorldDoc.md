@@ -6,7 +6,7 @@ topImage: "./Hello World.jpg"
 topImageAlt: "Hello World"
 ---
 
-# "Hello, World!" program update
+# "Hello, World!" program update update
 
 $$
 \begin{aligned}
