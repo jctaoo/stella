@@ -1,16 +1,95 @@
 ---
-import "@/styles/global.css";
+import MainLayout from "@/layouts/main.astro";
+import { getCollection } from "astro:content";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+const byDateDesc = (
+  a: { data: { updateDates?: (string | Date)[] } },
+  b: { data: { updateDates?: (string | Date)[] } },
+) => {
+  const ad = a.data.updateDates?.[0] ? new Date(a.data.updateDates[0]).getTime() : 0;
+  const bd = b.data.updateDates?.[0] ? new Date(b.data.updateDates[0]).getTime() : 0;
+  return bd - ad;
+};
+
+const posts = (await getCollection("posts")).sort(byDateDesc).slice(0, 3);
+const snippets = (await getCollection("snippets")).sort(byDateDesc).slice(0, 3);
+const pageTitle = "Home";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro + TailwindCSS</title>
-  </head>
+<MainLayout content={{ title: pageTitle }}>
+  <main class="container mx-auto max-w-5xl p-6 space-y-10">
+    <section class="flex flex-col items-start gap-6 pt-8">
+      <h1 class="text-4xl font-bold tracking-tight">stella</h1>
+      <p class="text-muted-foreground max-w-prose">
+        A minimal Astro site migrated from Gatsby, using TailwindCSS, React, and shadcn/ui.
+      </p>
+      <div class="flex items-center gap-3">
+        <a href="/posts" class="contents">
+          <Button>Browse Posts</Button>
+        </a>
+        <a href="/snippets" class="contents">
+          <Button variant="secondary">View Snippets</Button>
+        </a>
+      </div>
+    </section>
 
-  <body>
-  </body>
-</html>
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold tracking-tight">Latest Posts</h2>
+        <a href="/posts" class="text-sm text-primary underline-offset-4 hover:underline">See all</a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          posts.map((post) => (
+            <a href={`/posts/${post.slug}/`} class="contents">
+              <Card className="hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <div class="flex items-center gap-2">
+                    {post.data.category && <Badge variant="secondary">{post.data.category}</Badge>}
+                  </div>
+                  <CardTitle className="mt-2">{post.data.title}</CardTitle>
+                  {post.data.abbr && <CardDescription>{post.data.abbr}</CardDescription>}
+                </CardHeader>
+                <CardContent>
+                  <div class="text-sm text-muted-foreground">
+                    {post.data.updateDates?.[0] && new Date(post.data.updateDates[0]).toLocaleDateString()}
+                  </div>
+                </CardContent>
+              </Card>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold tracking-tight">Latest Snippets</h2>
+        <a href="/snippets" class="text-sm text-primary underline-offset-4 hover:underline">See all</a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          snippets.map((snip) => (
+            <a href={`/snippets/${snip.slug}/`} class="contents">
+              <Card className="hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <CardTitle className="mt-2">{snip.data.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div class="flex flex-wrap gap-2">
+                    {snip.data.tags?.map((t) => (
+                      <Badge variant="secondary">{t}</Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</MainLayout>

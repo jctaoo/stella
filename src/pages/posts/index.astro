@@ -1,0 +1,37 @@
+---
+import MainLayout from "@/layouts/main.astro";
+import { getCollection } from "astro:content";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+const posts = await getCollection("posts");
+const pageTitle = "Posts";
+---
+
+<MainLayout content={{ title: pageTitle }}>
+  <main class="container mx-auto max-w-4xl p-6 space-y-6">
+    <h1 class="text-3xl font-bold tracking-tight">{pageTitle}</h1>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {
+        posts.map((post) => (
+          <a href={`/posts/${post.slug}/`} class="contents">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div class="flex items-center gap-2">
+                  {post.data.category && <Badge variant="secondary">{post.data.category}</Badge>}
+                </div>
+                <CardTitle className="mt-2">{post.data.title}</CardTitle>
+                {post.data.abbr && <CardDescription>{post.data.abbr}</CardDescription>}
+              </CardHeader>
+              <CardContent className="">
+                <div class="text-sm text-muted-foreground">
+                  {post.data.updateDates?.[0] && new Date(post.data.updateDates[0]).toLocaleDateString()}
+                </div>
+              </CardContent>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</MainLayout>

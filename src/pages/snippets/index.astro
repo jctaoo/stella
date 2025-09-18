@@ -1,0 +1,37 @@
+---
+import MainLayout from "@/layouts/main.astro";
+import { getCollection } from "astro:content";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+const snippets = await getCollection("snippets");
+const pageTitle = "Snippets";
+---
+
+<MainLayout content={{ title: pageTitle }}>
+  <main class="container mx-auto max-w-4xl p-6 space-y-6">
+    <h1 class="text-3xl font-bold tracking-tight">{pageTitle}</h1>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {
+        snippets.map((snip) => (
+          <a href={`/snippets/${snip.slug}/`} class="contents">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="mt-2">{snip.data.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div class="flex flex-wrap gap-2">
+                  {snip.data.tags?.map((t) => (
+                    <Badge variant="secondary">{t}</Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</MainLayout>
+
+

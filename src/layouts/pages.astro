@@ -1,0 +1,19 @@
+---
+import MainLayout from "@/layouts/main.astro";
+
+type Props = {
+  frontmatter: {
+    title: string;
+    updateDates: string[];
+  };
+};
+
+const { frontmatter } = Astro.props;
+const pageTitle = frontmatter.title;
+---
+
+<MainLayout content={{ title: pageTitle }}>
+  <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
+    <slot />
+  </article>
+</MainLayout>

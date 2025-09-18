@@ -1,0 +1,36 @@
+---
+import MainLayout from "../../layouts/main.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Badge } from "../../components/ui/badge";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<"posts">;
+
+const post = Astro.props;
+
+const pageTitle = post.data.title;
+const { Content } = await post.render();
+---
+
+<MainLayout content={{ title: pageTitle }}>
+  <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
+    <header class="mb-6">
+      <div class="flex items-center gap-2">
+        {post.data.category && <Badge variant="secondary">{post.data.category}</Badge>}
+      </div>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight">{post.data.title}</h1>
+      <p class="text-sm text-muted-foreground">
+        {post.data.updateDates?.[0] && new Date(post.data.updateDates[0]).toLocaleDateString()}
+      </p>
+    </header>
+    <div>
+      <Content />
+    </div>
+  </article>
+</MainLayout>

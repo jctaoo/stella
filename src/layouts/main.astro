@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 const { content } = Astro.props;
+import SiteNav from "@/components/site-nav";
 ---
 
 <html lang="en">
@@ -11,6 +12,7 @@ const { content } = Astro.props;
     <title>{content.title}</title>
   </head>
   <body>
+    <SiteNav client:load />
     <slot />
   </body>
 </html>
