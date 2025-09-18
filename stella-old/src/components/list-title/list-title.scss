@@ -1,0 +1,56 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.passage-list-title {
+  overflow: hidden;
+  width: 100%;
+
+  display: flex;
+  opacity: 1;
+  flex-direction: row;
+  align-items: center;
+  user-select: none;
+  margin-bottom: 30px;
+  transition: $transition;
+
+  @media (max-width: $middle) {
+    align-items: start;
+    margin-left: 0;
+    flex-direction: column;
+    & > * {
+      margin-right: 0;
+      margin-bottom: 16px;
+    }
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+  @media (max-width: $small) {
+    margin-top: 10px;
+    margin-bottom: 0;
+    margin-left: 0;
+    align-items: start;
+    flex-direction: column;
+    & > * {
+      margin-right: 0;
+      margin-bottom: 16px;
+    }
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  & > * {
+    margin-right: 32px;
+  }
+}
+
+.passage-list-title.passage-list-title-shrink {
+  max-width: 1095px;
+}
+
+.passage-list-title.passage-list-title-hide {
+  opacity: 0;
+  height: 0;
+  margin-bottom: 0;
+}

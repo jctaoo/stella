@@ -1,0 +1,219 @@
+@import "./constant";
+@import "./theme";
+
+$base-text-size: 16px;
+
+@mixin markdown-style {
+  margin-top: 49px;
+  width: 100%;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $font;
+    margin-bottom: 16px;
+    margin-top: 35px;
+    @include label-color;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 40px;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+
+  h3 {
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  h4 {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 19px;
+  }
+
+  h5 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17.5px;
+  }
+
+  h6 {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 14px;
+  }
+
+  blockquote {
+    margin-bottom: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    @include lighten-high-background-border(border-left, 6px, solid);
+
+    p {
+      @include label-secondary-color;
+    }
+
+    blockquote {
+      margin-left: 16px;
+    }
+  }
+
+  p {
+    font-family: $font;
+    font-weight: normal;
+    font-size: $base-text-size;
+    margin-bottom: 16px;
+    line-height: 26px;
+    @include label-color;
+  }
+
+  li.task-list-item {
+    &:before {
+      display: none;
+      margin-left: 0;
+    }
+
+    input[type="checkbox"] {
+      // wtf ??
+      -webkit-appearance: checkbox;
+      margin-right: 3px;
+    }
+  }
+
+  li {
+    font-family: $font;
+    font-weight: normal;
+    font-size: $base-text-size;
+    line-height: 26px;
+    margin-top: 5px;
+    @include label-color;
+  }
+
+  a {
+    font-family: $font;
+    font-weight: normal;
+    font-size: $base-text-size;
+    line-height: 26px;
+    @include link-color;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  ul > li:nth-child(1),
+  ol > li:nth-child(1) {
+    margin-top: 0;
+  }
+
+  & > *:not(pre) > code {
+    padding: 4px 8px;
+    font-family: $code-font;
+    line-height: 20px;
+    border-radius: 6px;
+    @include lighten-high-text-background;
+    color: #5b5b5b; // TODO: add to theme
+    font-weight: bold;
+  }
+
+  img {
+    border-radius: 4px;
+    cursor: pointer;
+    transition: $transition;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  ul ul,
+  ol ol {
+    padding-left: 16px;
+  }
+
+  ul li:before {
+    content: "\1F95E";
+    display: inline-flex;
+    color: transparent;
+    height: 10px;
+    width: 10px;
+    border-radius: 3.5px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    @include indicator-high-color;
+    @include label-color-border(border, 1.4px, solid);
+  }
+
+  & > ol {
+    margin-left: 15px;
+  }
+
+  ol {
+    li {
+      list-style-type: decimal;
+
+      li {
+        list-style-type: lower-alpha;
+
+        li {
+          list-style-type: lower-roman;
+        }
+      }
+    }
+  }
+
+  hr {
+    height: 5px;
+    border: none;
+    border-radius: 2.5px;
+    @include lighten-high-background;
+  }
+
+  table {
+    border-collapse: collapse;
+    text-align: center;
+    font-family: $font;
+    font-weight: normal;
+    font-size: $base-text-size;
+    line-height: 26px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    @include lighten-high-background-border(border, 1px, solid);
+    @include label-color;
+
+    th {
+      font-weight: 600;
+      padding: 8px 32px;
+      @include lighten-high-background-border(border, 1px, solid);
+    }
+
+    td {
+      padding: 8px 32px;
+      @include lighten-high-background-border(border, 1px, solid);
+    }
+
+    tr.body-odd-row {
+      @include lighten-high-row-background;
+    }
+  }
+
+  span.katex {
+    font-size: $base-text-size * 1.5;
+    display: block;
+    text-align: center;
+    margin-bottom: 16px;
+    margin-top: 35px;
+    @include label-color;
+  }
+}

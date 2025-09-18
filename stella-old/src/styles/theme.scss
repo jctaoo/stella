@@ -1,0 +1,181 @@
+@import "constant";
+
+$themes: (
+  light: (
+    background: white,
+    popover-background: rgba(247, 247, 247, 0.8),
+    popover-selected: #aaa,
+    label-link-normal-color: #5e5e67,
+    label-link-high-color: black,
+    label-color: black,
+    label-secondary-color: rgba(60, 60, 67, 0.6),
+    label-tertiary-color: rgba(60, 60, 67, 0.3),
+    link-color: rgb(0, 118, 255),
+    lighten-high-background: rgb(219, 217, 217),
+    lighten-high-text-background: rgb(236, 233, 233),
+    lighten-high-row-background: rgb(248, 245, 245),
+    indicator-normal-color: #ada0a0,
+    indicator-high-color: #ffd54f,
+    transparent-text-color: rgba(97, 97, 97, 0.04),
+  ),
+  dark: (
+    background: #1c1c1c,
+    popover-background: rgba(22, 22, 22, 0.8),
+    popover-selected: #353535,
+    label-link-normal-color: rgba(235, 235, 245, 0.6),
+    label-link-high-color: white,
+    label-color: white,
+    label-secondary-color: rgba(235, 235, 245, 0.6),
+    label-tertiary-color: rgba(235, 235, 245, 0.3),
+    link-color: rgb(113, 180, 253),
+    lighten-high-background: rgba(142, 142, 147, 0.28),
+    lighten-high-text-background: rgba(142, 142, 147, 0.28),
+    lighten-high-row-background: rgba(142, 142, 147, 0.28),
+    indicator-normal-color: #646464,
+    indicator-high-color: #3f51b5,
+    transparent-text-color: rgba(97, 97, 97, 0.24),
+  ),
+  deep-dark: (
+    background: black,
+    popover-background: rgba(22, 22, 22, 0.8),
+    popover-selected: #353535,
+    label-link-normal-color: rgba(235, 235, 245, 0.6),
+    label-link-high-color: white,
+    label-color: white,
+    label-secondary-color: rgba(235, 235, 245, 0.6),
+    label-tertiary-color: rgba(235, 235, 245, 0.3),
+    link-color: rgb(113, 180, 253),
+    lighten-high-background: rgba(142, 142, 147, 0.28),
+    lighten-high-text-background: rgba(142, 142, 147, 0.28),
+    lighten-high-row-background: rgba(142, 142, 147, 0.28),
+    indicator-normal-color: #646464,
+    indicator-high-color: #3f51b5,
+    transparent-text-color: rgba(97, 97, 97, 0.24),
+  ),
+);
+
+$theme-map: null;
+$auto-theme: true;
+
+@mixin themefy {
+  @if ($auto-theme) {
+    @media (prefers-color-scheme: dark) {
+      $theme-map: map-get($themes, "dark") !global;
+      body & {
+        @content;
+      }
+    }
+    @media (prefers-color-scheme: light) {
+      $theme-map: map-get($themes, "light") !global;
+      body & {
+        @content;
+      }
+    }
+  } @else {
+    @each $theme-name, $theme-map in $themes {
+      $theme-map: $theme-map !global;
+      body[data-theme="#{$theme-name}"] & {
+        @content;
+      }
+    }
+  }
+}
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+@mixin background {
+  @include themefy {
+    background-color: themed("background");
+  }
+}
+@mixin popover-background {
+  @include themefy {
+    background-color: themed("popover-background");
+  }
+}
+@mixin popover-selected {
+  @include themefy {
+    background-color: themed("popover-selected");
+  }
+}
+@mixin label-link-normal-color {
+  @include themefy {
+    color: themed("label-link-normal-color");
+  }
+}
+@mixin label-link-high-color {
+  @include themefy {
+    color: themed("label-link-high-color");
+  }
+}
+@mixin label-color {
+  @include themefy {
+    color: themed("label-color");
+  }
+}
+@mixin label-color-border($border-key, $width, $style) {
+  @include themefy {
+    #{$border-key}: $width themed("label-color") $style;
+  }
+}
+@mixin label-color-background {
+  @include themefy {
+    background-color: themed("label-color");
+  }
+}
+@mixin label-secondary-color() {
+  @include themefy {
+    color: themed("label-secondary-color");
+  }
+}
+@mixin label-secondary-color-underline {
+  @include themefy {
+    text-decoration: underline themed("label-secondary-color") solid;
+  }
+}
+@mixin label-tertiary-color {
+  @include themefy {
+    color: themed("label-tertiary-color");
+  }
+}
+@mixin link-color {
+  @include themefy {
+    color: themed("link-color");
+  }
+}
+@mixin lighten-high-background-border($border-key, $width, $style) {
+  @include themefy {
+    #{$border-key}: $width themed("lighten-high-background") $style;
+  }
+}
+@mixin lighten-high-background {
+  @include themefy {
+    background-color: themed("lighten-high-background");
+  }
+}
+@mixin lighten-high-text-background {
+  @include themefy {
+    background-color: themed("lighten-high-text-background");
+  }
+}
+@mixin lighten-high-row-background {
+  @include themefy {
+    background-color: themed("lighten-high-row-background");
+  }
+}
+@mixin indicator-normal-color {
+  @include themefy {
+    background-color: themed("indicator-normal-color");
+  }
+}
+@mixin indicator-high-color {
+  @include themefy {
+    background-color: themed("indicator-high-color");
+  }
+}
+@mixin transparent-text-color {
+  @include themefy {
+    color: themed("transparent-text-color");
+  }
+}

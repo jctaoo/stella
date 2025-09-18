@@ -1,0 +1,35 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.contact-list {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  .contact-list-item:nth-child(1) {
+    margin-left: 0 !important;
+  }
+
+  .contact-list-item {
+    @media (max-width: $small) {
+      margin-left: 26px;
+    }
+
+    margin-left: 19.5px;
+    width: 19.5px;
+    height: auto;
+    font-size: 18px;
+    transition: $transition;
+    cursor: pointer;
+    user-select: none;
+
+    a {
+      @include label-link-normal-color;
+    }
+
+    a:hover {
+      @include label-link-high-color;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+type MarkdownRemarkFrontmatter {  
+  title: String
+  abbr: String
+  category: String
+  identifier: String
+  tags: [String!]
+  topImageAlt: String
+  updateDates: [Date!]
+  topImage: File @fileByRelativePath
+}
+type MarkdownRemark {
+  frontmatter: MarkdownRemarkFrontmatter
+  fileAbsolutePath: String
+  rawMarkdownBody: String
+}

@@ -1,0 +1,20 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+#passage-list-page {
+  padding-left: 65px;
+  padding-right: 65px;
+  padding-top: 102px;
+  @media (max-width: $small) {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .passage-list-container {
+    .passage-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(0, 466px));
+      justify-content: center;
+    }
+  }
+}

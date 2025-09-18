@@ -1,0 +1,55 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+#not-found-page {
+  @media (max-width: $small) {
+    padding-top: $mobile-navigation-bar-height;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  #not-found-page-content {
+    height: 100%;
+    padding-left: 78px;
+
+    #not-found-page-explanation {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      height: 100%;
+
+      h1 {
+        font-family: $font;
+        font-size: 21px;
+        font-weight: bold;
+        margin: 0;
+        @include label-color;
+      }
+
+      p {
+        font-family: $font;
+        font-size: 16.5px;
+        font-weight: normal;
+        margin: 0;
+        @include label-secondary-color;
+      }
+    }
+  }
+
+  #not-found-page-background {
+    position: fixed;
+    bottom: -170px;
+    right: -30px;
+
+    #not-found-page-background-label-text {
+      font-size: 375px;
+      line-height: 525px;
+      margin: 0;
+      font-family: $font;
+      font-weight: bold;
+      @include transparent-text-color;
+    }
+  }
+}

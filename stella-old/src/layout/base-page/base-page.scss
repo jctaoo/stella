@@ -1,0 +1,19 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.base-page {
+  flex: 1;
+  position: relative;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  @media (max-width: $middle) {
+    padding-left: 26px !important;
+    padding-right: 26px !important;
+  }
+  @media (max-width: $small) {
+    padding-left: 13px !important;
+    padding-right: 13px !important;
+    padding-top: $mobile-navigation-bar-height + 10px !important;
+  }
+}

@@ -1,0 +1,24 @@
+@import "constant";
+@import "theme";
+
+.root {
+  margin: 0;
+  font-family: $font;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+
+  @media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar {
+      background-color: rgba(142, 142, 147, 0.28);
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(87, 87, 90, 0.6);
+      border-radius: 10px;
+    }
+  }
+
+  #gatsby-focus-wrapper {
+    display: contents;
+  }
+}

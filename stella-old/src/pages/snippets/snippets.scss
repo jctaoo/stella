@@ -1,0 +1,36 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+#snippet-page {
+  padding-left: 65px;
+  padding-right: 65px;
+  padding-top: 102px;
+  @media (max-width: $small) {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .snippet-list-container {
+    .snippet-list-header-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .snippet-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-left: 22px;
+      padding-right: 22px;
+
+      .snippet-item {
+        margin-top: 22px;
+        width: 100%;
+      }
+      .snippet-item:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}

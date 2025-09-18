@@ -1,0 +1,65 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.passage-about {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .passage-about-information {
+    display: flex;
+    flex-direction: row;
+
+    .passage-information {
+      &:nth-child(1) {
+        margin-left: 0 !important;
+      }
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-left: 18px;
+
+      .passage-information-icon {
+        @include label-secondary-color;
+      }
+      .passage-information-value {
+        margin-left: 5px;
+        font-family: $font;
+        font-weight: bold;
+        font-size: 17px;
+        line-height: 22px;
+        margin-bottom: 0;
+        cursor: pointer;
+        @include label-secondary-color;
+      }
+    }
+  }
+
+  .passage-about-tags {
+    display: flex;
+    flex-direction: row;
+    margin-left: 18px;
+
+    .passage-tag {
+      &:nth-child(1) {
+        margin-left: 0 !important;
+      }
+      cursor: pointer;
+      font-family: $font;
+      font-weight: bold;
+      font-size: 17px;
+      line-height: 22px;
+      margin-bottom: 0;
+      margin-left: 18px;
+      @include label-secondary-color-underline;
+      @include label-secondary-color;
+    }
+  }
+}

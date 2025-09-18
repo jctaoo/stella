@@ -1,0 +1,23 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+#global-information {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #faebd7;
+  z-index: 999;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+    padding: 0;
+    font: $font;
+  }
+}

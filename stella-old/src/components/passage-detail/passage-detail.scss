@@ -1,0 +1,68 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+@import "../../styles/markdown";
+@import "../../styles/github-markdown-css";
+@import "../../styles/code-highlight.scss";
+
+.passage-container {
+  max-width: 995px;
+  width: 100%;
+
+  .passage-top-image {
+    width: 100%;
+    height: 436px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 38px;
+    cursor: pointer;
+    transition: $transition;
+    user-select: none;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  .passage-title-container {
+    display: flex;
+    flex-direction: row;
+
+    .passage-circle-image {
+      width: 98.25px;
+      height: 98.25px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 25px;
+      user-select: none;
+      cursor: pointer;
+    }
+  }
+
+  .partial {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li {
+      @include label-secondary-color;
+    }
+    p {
+      font-size: 20px !important;
+      margin-bottom: 10px !important;
+    }
+  }
+
+  .passage-content-container {
+    // @include markdown-code-style;
+    @include code-highlight;
+    @include github-markdown-css;
+    @include markdown-style;
+  }
+
+  .passage-comment-container {
+    margin-top: 70px;
+  }
+}

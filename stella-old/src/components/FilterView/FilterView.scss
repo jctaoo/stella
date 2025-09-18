@@ -1,0 +1,81 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.ant-popover-content {
+  .ant-popover-arrow {
+    display: none;
+  }
+
+  .ant-popover-inner {
+    border-radius: 6px !important;
+    .ant-popover-inner-content {
+      @include popover-background;
+
+      padding: 5px !important;
+      .navigation-link-popover {
+        width: 200px;
+        height: 200px;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        .navigation-link-popover-item {
+          user-select: none;
+          border-bottom: none;
+          transition: $transition;
+          padding: 12px 16px;
+          border-radius: 6px;
+          margin-bottom: 3px;
+          &:hover {
+            @include lighten-high-text-background;
+          }
+          h4,
+          span {
+            margin-bottom: 0;
+            font-family: $font;
+            font-weight: normal;
+            font-size: 17px;
+            @include label-color;
+          }
+        }
+        .navigation-link-popover-item.navigation-link-popover-item-selected {
+          @include lighten-high-background;
+        }
+        .navigation-link-popover-item:last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.passage-filter-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  user-select: none;
+
+  .passage-filter-text {
+    @include label-secondary-color;
+    font-family: $font;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  .passage-filter-content {
+    @include lighten-high-text-background;
+    border-radius: 7px;
+    padding: 3.5px 14px;
+    margin-right: 9px;
+  }
+
+  .passage-filter-description {
+    margin-right: 9px;
+  }
+
+  .passage-filter-cancel {
+    @include link-color;
+  }
+}

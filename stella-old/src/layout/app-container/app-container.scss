@@ -1,0 +1,10 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+#home-page {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  @include background;
+  overflow: hidden;
+}

@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "strict": true,
+    "noEmit": true,
+    "target": "es2018",
+    "jsx": "react",
+    "allowJs": true,
+    "lib": ["dom", "es2015", "es2017"],
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true
+  },
+  "exclude": ["./node_modules", "./public", "./.cache"],
+  "include": [
+    "./src/**/*",
+    "./gatsby-config.ts",
+    "./gatsby-node.ts",
+    "./scripts/**/*",
+    "./plugins/**/*.ts"
+  ]
+}

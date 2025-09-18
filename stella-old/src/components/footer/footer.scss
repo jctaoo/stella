@@ -1,0 +1,52 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  margin-top: 30px;
+
+  .creative-commons-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    @include label-secondary-color;
+
+    .cc-image {
+      width: 51px;
+      height: 18px;
+      margin-bottom: 7px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .cc-label {
+      text-align: center;
+      margin-bottom: 0;
+      font-size: 12px;
+
+      .cc-link {
+        @include link-color;
+      }
+    }
+  }
+
+  .copyright-label {
+    @include label-secondary-color;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .powered-label {
+    @include label-secondary-color;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+}

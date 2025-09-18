@@ -1,0 +1,18 @@
+@import "../../styles/constant";
+@import "../../styles/theme";
+
+#top-progress-bar {
+  z-index: 999;
+  position: fixed;
+  width: 100vw;
+  transition: $transition;
+  top: -10px;
+}
+
+.top-progress-bar-hide {
+  opacity: 0;
+}
+
+#top-progress-bar > div > div > div > div {
+  @include indicator-high-color;
+}
