@@ -2,13 +2,11 @@
 category: Text
 title: Hello World, stella
 abbr: Hello World, stella.
-updateDates:
-  - 2020-07-15
 topImage: "./Hello World.jpg"
 topImageAlt: "Hello World"
 ---
 
-# "Hello, World!" program
+# "Hello, World!" program update
 
 $$
 \begin{aligned}

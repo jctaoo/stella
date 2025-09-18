@@ -4,8 +4,6 @@ title: YuiToast, a Lightweight iOS toast framework
 tags:
   - iOS
 abbr: "Features: Display toast (Can contain small pictures) in one;line code. Modify the toast content appeared on the screen easily. "
-updateDates:
-  - 2021-01-01
 ---
 
 # YuiToast
