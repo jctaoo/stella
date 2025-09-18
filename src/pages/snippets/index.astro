@@ -1,14 +1,9 @@
 ---
-function getLastModified(snip: { id: string; render(): Render[".md"]; slug: string; body: string; collection: "snippets"; data: InferEntrySchema<"snippets">; rendered?: RenderedContent; filePath?: string; }): unknown {
-throw new Error("Function not implemented.");
-}
-
 import MainLayout from "@/layouts/main.astro";
 import { getCollection, type CollectionEntry, type InferEntrySchema, type Render, type RenderedContent } from "astro:content";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { GitTime } from "@plugins/remark-modified-time";
-import dayjs from "dayjs";
+import { getLastModified } from "@/utils/lastModified";
 
 const snippets = await getCollection("snippets");
 const pageTitle = "Snippets";
