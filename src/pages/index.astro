@@ -1,21 +1,19 @@
 ---
 import MainLayout from "@/layouts/main.astro";
-import { getCollection } from "astro:content";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { getCollection, type CollectionEntry, type CollectionKey } from "astro:content";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getLastModified, getLastModifiedDate } from "@/utils/lastModified";
 
-const byDateDesc = (
-  a: { data: { updateDates?: (string | Date)[] } },
-  b: { data: { updateDates?: (string | Date)[] } },
-) => {
-  const ad = a.data.updateDates?.[0] ? new Date(a.data.updateDates[0]).getTime() : 0;
-  const bd = b.data.updateDates?.[0] ? new Date(b.data.updateDates[0]).getTime() : 0;
-  return bd - ad;
+const sortCollection = <C extends CollectionKey>(a: CollectionEntry<C>, b: CollectionEntry<C>) => {
+  const ad = getLastModifiedDate(a);
+  const bd = getLastModifiedDate(b);
+  return bd.diff(ad);
 };
 
-const posts = (await getCollection("posts")).sort(byDateDesc).slice(0, 3);
-const snippets = (await getCollection("snippets")).sort(byDateDesc).slice(0, 3);
+const posts = (await getCollection("posts")).sort(sortCollection).slice(0, 3);
+const snippets = (await getCollection("snippets")).sort(sortCollection).slice(0, 3);
 const pageTitle = "Home";
 ---
 
@@ -51,13 +49,11 @@ const pageTitle = "Home";
                     {post.data.category && <Badge variant="secondary">{post.data.category}</Badge>}
                   </div>
                   <CardTitle className="mt-2">{post.data.title}</CardTitle>
-                  {post.data.abbr && <CardDescription>{post.data.abbr}</CardDescription>}
                 </CardHeader>
-                <CardContent>
-                  <div class="text-sm text-muted-foreground">
-                    {post.data.updateDates?.[0] && new Date(post.data.updateDates[0]).toLocaleDateString()}
-                  </div>
-                </CardContent>
+                <CardContent>{post.data.abbr}</CardContent>
+                <CardFooter>
+                  <div class="text-sm text-muted-foreground">{getLastModified(post)}</div>
+                </CardFooter>
               </Card>
             </a>
           ))
@@ -77,14 +73,17 @@ const pageTitle = "Home";
               <Card className="hover:shadow-md transition-shadow">
                 <CardHeader>
                   <CardTitle className="mt-2">{snip.data.title}</CardTitle>
+                  <CardDescription>
+                    <div class="flex flex-wrap gap-2">
+                      {snip.data.tags?.map((t) => (
+                        <Badge variant="secondary">{t}</Badge>
+                      ))}
+                    </div>
+                  </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div class="flex flex-wrap gap-2">
-                    {snip.data.tags?.map((t) => (
-                      <Badge variant="secondary">{t}</Badge>
-                    ))}
-                  </div>
-                </CardContent>
+                <CardFooter>
+                  <div class="text-sm text-muted-foreground">{getLastModified(snip)}</div>
+                </CardFooter>
               </Card>
             </a>
           ))

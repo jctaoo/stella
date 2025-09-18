@@ -2,6 +2,8 @@
 import MainLayout from "../../layouts/main.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Badge } from "../../components/ui/badge";
+import type { GitTime } from "@plugins/remark-modified-time";
+import dayjs from "dayjs";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -15,7 +17,11 @@ type Props = CollectionEntry<"posts">;
 const post = Astro.props;
 
 const pageTitle = post.data.title;
-const { Content } = await post.render();
+const { Content, remarkPluginFrontmatter } = await post.render();
+
+const gitTimes = remarkPluginFrontmatter.gitTimes as GitTime;
+
+const lastModified = dayjs(gitTimes.updatedAt).format("YYYY/MM/DD HH:mm");
 ---
 
 <MainLayout content={{ title: pageTitle }}>
@@ -26,7 +32,7 @@ const { Content } = await post.render();
       </div>
       <h1 class="mt-2 text-3xl font-bold tracking-tight">{post.data.title}</h1>
       <p class="text-sm text-muted-foreground">
-        {post.data.updateDates?.[0] && new Date(post.data.updateDates[0]).toLocaleDateString()}
+        {lastModified}
       </p>
     </header>
     <div>

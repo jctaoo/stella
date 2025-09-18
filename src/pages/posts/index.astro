@@ -1,8 +1,11 @@
 ---
 import MainLayout from "@/layouts/main.astro";
-import { getCollection } from "astro:content";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import type { GitTime } from "@plugins/remark-modified-time";
+import dayjs from "dayjs";
+import { getLastModified } from "@/utils/lastModified";
 
 const posts = await getCollection("posts");
 const pageTitle = "Posts";
@@ -21,13 +24,15 @@ const pageTitle = "Posts";
                   {post.data.category && <Badge variant="secondary">{post.data.category}</Badge>}
                 </div>
                 <CardTitle className="mt-2">{post.data.title}</CardTitle>
-                {post.data.abbr && <CardDescription>{post.data.abbr}</CardDescription>}
               </CardHeader>
               <CardContent className="">
-                <div class="text-sm text-muted-foreground">
-                  {post.data.updateDates?.[0] && new Date(post.data.updateDates[0]).toLocaleDateString()}
-                </div>
+                {post.data.abbr}
               </CardContent>
+              <CardFooter>
+                <div class="text-sm text-muted-foreground">
+                  {getLastModified(post)}
+                </div>
+              </CardFooter>
             </Card>
           </a>
         ))
