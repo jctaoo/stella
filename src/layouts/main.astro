@@ -5,6 +5,9 @@ import SidebarNav from "@/components/sidebar-nav";
 
 // Determine if we're on the home page
 const isHomePage = Astro.url.pathname === "/";
+
+// get current route
+const currentRoute = Astro.url.pathname;
 ---
 
 <html lang="en">
@@ -16,7 +19,7 @@ const isHomePage = Astro.url.pathname === "/";
   </head>
   <body class="overflow-hidden">
     <div class="flex h-screen">
-      <SidebarNav isHome={isHomePage} client:load />
+      <SidebarNav isHome={isHomePage} currentRoute={currentRoute} client:load />
       <main class="flex-1 overflow-y-auto md:ml-0">
         <slot />
       </main>
