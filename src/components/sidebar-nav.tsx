@@ -25,7 +25,8 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
     <div
       className={cn([
         className,
-        isHome ? "md:w-1/2" : "md:w-50",
+        isHome ? "md:w-1/2" : "md:w-60",
+        "transition-all duration-150",
         "md:relative h-screen",
         "bg-background",
         !isHome && "border-r border-border",
@@ -37,7 +38,7 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
         <div className="flex flex-col items-start space-y-1">
           <a href="/">
             <h1
-              className={`font-semibold tracking-wide transition-all duration-300 ${
+              className={`font-semibold tracking-wide transition-all duration-150 ${
                 isHome ? "text-5xl" : "text-3xl"
               } text-foreground hover:text-primary`}
             >

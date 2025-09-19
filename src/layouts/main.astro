@@ -1,7 +1,12 @@
 ---
-import "../styles/global.css";
-const { content } = Astro.props;
+import CommonHeader, { type Props as CommonHeaderProps } from "@/components/common-header.astro";
 import SidebarNav from "@/components/sidebar-nav";
+import "@/styles/global.css";
+
+type Props = {
+  header: CommonHeaderProps;
+};
+const { header } = Astro.props;
 
 // Determine if we're on the home page
 const isHomePage = Astro.url.pathname === "/";
@@ -12,15 +17,19 @@ const currentRoute = Astro.url.pathname;
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{content.title}</title>
+    <CommonHeader title={header.title} description={header.description} />
   </head>
   <body class="overflow-hidden">
     <div class="flex h-screen">
-      <SidebarNav isHome={isHomePage} currentRoute={currentRoute} client:load />
-      <main class="flex-1 overflow-y-auto md:ml-0">
+      <SidebarNav
+        isHome={isHomePage}
+        currentRoute={currentRoute}
+        client:load
+        transition:name="slide"
+        transition:persist
+        transition:animate="none"
+      />
+      <main class="flex-1 overflow-y-auto md:ml-0" transition:name="main" transition:animate="none">
         <slot />
       </main>
     </div>

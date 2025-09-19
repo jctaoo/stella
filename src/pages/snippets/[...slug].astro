@@ -23,7 +23,7 @@ const lastModified = dayjs(gitTimes.updatedAt).format("YYYY/MM/DD HH:mm");
 const pageTitle = snippet.data.title;
 ---
 
-<MainLayout content={{ title: pageTitle }}>
+<MainLayout header={{ title: pageTitle }}>
   <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
     <header class="mb-6">
       <div class="flex items-center gap-2 flex-wrap">
