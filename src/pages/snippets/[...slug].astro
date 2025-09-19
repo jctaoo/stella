@@ -18,9 +18,9 @@ const snippet = Astro.props;
 const { Content, remarkPluginFrontmatter } = await snippet.render();
 const gitTimes = remarkPluginFrontmatter.gitTimes as GitTime;
 
-const { title: pageTitle, tags } = snippet.data;
+const { title: pageTitle, tags, category } = snippet.data;
 ---
 
-<ArticleLayout frontmatter={{ title: pageTitle, gitTimes, tags }}>
+<ArticleLayout frontmatter={{ title: pageTitle, gitTimes, tags, badge: category }}>
   <Content />
 </ArticleLayout>

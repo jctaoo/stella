@@ -15,13 +15,13 @@ type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
 
-const { title: pageTitle, tags } = post.data;
+const { title: pageTitle, tags, category } = post.data;
 const { Content, remarkPluginFrontmatter } = await post.render();
 
 const gitTimes = remarkPluginFrontmatter.gitTimes as GitTime;
 const readingTime = remarkPluginFrontmatter.readingTime as ReadingTime;
 ---
 
-<ArticleLayout frontmatter={{ title: pageTitle, gitTimes, readingTime, tags }}>
+<ArticleLayout frontmatter={{ title: pageTitle, gitTimes, readingTime, tags, badge: category }}>
   <Content />
 </ArticleLayout>
