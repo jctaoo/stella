@@ -1,7 +1,10 @@
 ---
 import "../styles/global.css";
 const { content } = Astro.props;
-import SiteNav from "@/components/site-nav";
+import SidebarNav from "@/components/sidebar-nav";
+
+// Determine if we're on the home page
+const isHomePage = Astro.url.pathname === "/";
 ---
 
 <html lang="en">
@@ -11,8 +14,12 @@ import SiteNav from "@/components/site-nav";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{content.title}</title>
   </head>
-  <body>
-    <SiteNav client:load />
-    <slot />
+  <body class="overflow-hidden">
+    <div class="flex h-screen">
+      <SidebarNav isHome={isHomePage} client:load />
+      <main class="flex-1 overflow-y-auto md:ml-0">
+        <slot />
+      </main>
+    </div>
   </body>
 </html>

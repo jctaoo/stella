@@ -1,10 +1,7 @@
 ---
 import MainLayout from "@/layouts/main.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { GitTime } from "@plugins/remark-modified-time";
-import dayjs from "dayjs";
 import { getLastModified } from "@/utils/lastModified";
 
 const posts = await getCollection("posts");
@@ -12,31 +9,45 @@ const pageTitle = "Posts";
 ---
 
 <MainLayout content={{ title: pageTitle }}>
-  <main class="container mx-auto max-w-4xl p-6 space-y-6">
-    <h1 class="text-3xl font-bold tracking-tight">{pageTitle}</h1>
-    <div class="grid gap-4 sm:grid-cols-2">
-      {
-        posts.map((post) => (
-          <a href={`/posts/${post.slug}/`} class="contents">
-            <Card className="hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div class="flex items-center gap-2">
-                  {post.data.category && <Badge variant="secondary">{post.data.category}</Badge>}
-                </div>
-                <CardTitle className="mt-2">{post.data.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="">
-                {post.data.abbr}
-              </CardContent>
-              <CardFooter>
-                <div class="text-sm text-muted-foreground">
+  <div class="min-h-screen bg-background">
+    <div class="container mx-auto max-w-4xl p-6 md:p-12 space-y-8 pt-16 md:pt-12">
+      <header class="space-y-2">
+        <h1 class="text-4xl font-light tracking-wide text-foreground">文章</h1>
+        <p class="text-muted-foreground">分享技术思考与实践经验</p>
+      </header>
+      
+      <div class="space-y-6">
+        {
+          posts.map((post) => (
+            <article class="group">
+              <a href={`/posts/${post.slug}/`} class="block space-y-3 p-6 rounded-lg hover:bg-muted/50 transition-colors">
+                <header class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    {post.data.category && (
+                      <Badge variant="secondary" className="text-xs">
+                        {post.data.category}
+                      </Badge>
+                    )}
+                  </div>
+                  <h2 class="text-xl font-medium text-foreground group-hover:text-primary transition-colors">
+                    {post.data.title}
+                  </h2>
+                </header>
+                
+                {post.data.abbr && (
+                  <p class="text-muted-foreground text-sm leading-relaxed">
+                    {post.data.abbr}
+                  </p>
+                )}
+                
+                <footer class="text-xs text-muted-foreground">
                   {getLastModified(post)}
-                </div>
-              </CardFooter>
-            </Card>
-          </a>
-        ))
-      }
+                </footer>
+              </a>
+            </article>
+          ))
+        }
+      </div>
     </div>
-  </main>
+  </div>
 </MainLayout>
