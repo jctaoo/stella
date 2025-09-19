@@ -1,0 +1,36 @@
+---
+import MainLayout from "@/layouts/main.astro";
+import { formatLastModified } from "@/utils/lastModified";
+import type { GitTime } from "@plugins/remark-modified-time";
+import type { ReadingTime } from "@plugins/remark-reading-time";
+
+type Props = {
+  frontmatter: {
+    title: string;
+    gitTimes: GitTime;
+    readingTime?: ReadingTime;
+    tags?: string[];
+  };
+};
+
+const { frontmatter } = Astro.props;
+const pageTitle = frontmatter.title;
+
+const gitTimes = frontmatter.gitTimes;
+const readingTime = frontmatter.readingTime;
+const lastModified = formatLastModified(gitTimes);
+---
+
+<MainLayout header={{ title: pageTitle }}>
+  <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
+    <header class="mb-6">
+      <h1 class="mt-2 text-3xl font-bold tracking-tight">{pageTitle}</h1>
+      <p class="text-sm text-muted-foreground">
+        {lastModified} {readingTime?.text}
+      </p>
+    </header>
+    <div>
+      <slot />
+    </div>
+  </article>
+</MainLayout>

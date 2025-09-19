@@ -1,10 +1,8 @@
 ---
-import MainLayout from "../../layouts/main.astro";
+import ArticleLayout from "@/layouts/article.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
-import { Badge } from "../../components/ui/badge";
 import type { GitTime } from "@plugins/remark-modified-time";
 import type { ReadingTime } from "@plugins/remark-reading-time";
-import dayjs from "dayjs";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -17,28 +15,13 @@ type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
 
-const pageTitle = post.data.title;
+const { title: pageTitle, tags } = post.data;
 const { Content, remarkPluginFrontmatter } = await post.render();
 
 const gitTimes = remarkPluginFrontmatter.gitTimes as GitTime;
 const readingTime = remarkPluginFrontmatter.readingTime as ReadingTime;
-
-const lastModified = dayjs(gitTimes.updatedAt).format("YYYY/MM/DD HH:mm");
 ---
 
-<MainLayout header={{ title: pageTitle }}>
-  <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
-    <header class="mb-6">
-      <div class="flex items-center gap-2">
-        {post.data.category && <Badge variant="secondary">{post.data.category}</Badge>}
-      </div>
-      <h1 class="mt-2 text-3xl font-bold tracking-tight">{post.data.title}</h1>
-      <p class="text-sm text-muted-foreground">
-        {lastModified} • {readingTime?.text}
-      </p>
-    </header>
-    <div>
-      <Content />
-    </div>
-  </article>
-</MainLayout>
+<ArticleLayout frontmatter={{ title: pageTitle, gitTimes, readingTime, tags }}>
+  <Content />
+</ArticleLayout>

@@ -1,7 +1,6 @@
 ---
-import MainLayout from "../../layouts/main.astro";
+import ArticleLayout from "@/layouts/article.astro";
 import { getCollection, render, type CollectionEntry } from "astro:content";
-import { Badge } from "../../components/ui/badge";
 import type { GitTime } from "@plugins/remark-modified-time";
 import dayjs from "dayjs";
 
@@ -19,23 +18,9 @@ const snippet = Astro.props;
 const { Content, remarkPluginFrontmatter } = await snippet.render();
 const gitTimes = remarkPluginFrontmatter.gitTimes as GitTime;
 
-const lastModified = dayjs(gitTimes.updatedAt).format("YYYY/MM/DD HH:mm");
-const pageTitle = snippet.data.title;
+const { title: pageTitle, tags } = snippet.data;
 ---
 
-<MainLayout header={{ title: pageTitle }}>
-  <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
-    <header class="mb-6">
-      <div class="flex items-center gap-2 flex-wrap">
-        {snippet.data.tags?.map((t) => <Badge variant="secondary">{t}</Badge>)}
-      </div>
-      <h1 class="mt-2 text-3xl font-bold tracking-tight">{snippet.data.title}</h1>
-      <p class="text-sm text-muted-foreground">
-        {lastModified}
-      </p>
-    </header>
-    <div>
-      <Content />
-    </div>
-  </article>
-</MainLayout>
+<ArticleLayout frontmatter={{ title: pageTitle, gitTimes, tags }}>
+  <Content />
+</ArticleLayout>
