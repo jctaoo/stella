@@ -3,6 +3,9 @@ import MainLayout from "@/layouts/main.astro";
 import { formatLastModified } from "@/utils/lastModified";
 import type { GitTime } from "@plugins/remark-modified-time";
 import type { ReadingTime } from "@plugins/remark-reading-time";
+import { Badge } from "@/components/ui/badge";
+import { CalendarClock, Timer, Tag } from "lucide-react";
+import IndicatorText from "@/components/indicator-text";
 
 type Props = {
   frontmatter: {
@@ -10,24 +13,53 @@ type Props = {
     gitTimes: GitTime;
     readingTime?: ReadingTime;
     tags?: string[];
+    badge?: string;
   };
 };
 
 const { frontmatter } = Astro.props;
 const pageTitle = frontmatter.title;
 
-const gitTimes = frontmatter.gitTimes;
-const readingTime = frontmatter.readingTime;
+const { gitTimes, readingTime, tags, badge } = frontmatter;
 const lastModified = formatLastModified(gitTimes);
 ---
 
 <MainLayout header={{ title: pageTitle }}>
   <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
-    <header class="mb-6">
-      <h1 class="mt-2 text-3xl font-bold tracking-tight">{pageTitle}</h1>
-      <p class="text-sm text-muted-foreground">
-        {lastModified} {readingTime?.text}
-      </p>
+    <header class="mb-6 flex flex-col gap-2">
+      <div class="flex items-center gap-2">
+        {badge && <Badge variant="outline">{badge}</Badge>}
+      </div>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight">
+        <IndicatorText active interactiveIndicator>{pageTitle}</IndicatorText>
+      </h1>
+      <div class="text-sm text-muted-foreground flex items-center gap-3 flex-wrap">
+        <!-- 最后修改时间 -->
+        <span class="inline-flex items-center gap-1">
+          <CalendarClock className="size-3" />
+          {lastModified}
+        </span>
+
+        <!-- 阅读时间 -->
+        {
+          readingTime?.text && (
+            <span class="inline-flex items-center gap-1">
+              <Timer className="size-3" />
+              {readingTime.text}
+            </span>
+          )
+        }
+
+        <!-- 标签 -->
+        {
+          tags?.map((tag) => (
+            <Badge variant="secondary">
+              <Tag className="size-3" />
+              {tag}
+            </Badge>
+          ))
+        }
+      </div>
     </header>
     <div>
       <slot />

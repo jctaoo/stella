@@ -25,7 +25,7 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
     <div
       className={cn([
         className,
-        isHome ? "md:w-1/2" : "md:w-60",
+        isHome ? "md:w-1/2" : "md:w-80",
         "transition-all duration-150",
         "md:relative h-screen",
         "bg-background",

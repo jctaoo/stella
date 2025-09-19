@@ -5,16 +5,24 @@ interface IndicatorTextProps {
   active?: boolean;
   className?: string;
   size?: "sm" | "md" | "lg" | "xl";
+
+  interactiveIndicator?: boolean;
 }
 
-function IndicatorText({ children, active = false, className, size = "lg" }: IndicatorTextProps) {
+function IndicatorText({
+  children,
+  active = false,
+  className,
+  size = "lg",
+  interactiveIndicator: interactive = false,
+}: IndicatorTextProps) {
   const sizeClasses = {
     sm: "text-base",
     md: "text-lg",
     lg: "text-xl",
     xl: "text-2xl",
   };
-  
+
   const indicatorNormalHeightClasses = {
     sm: "h-[3px] max-sm:h-[3px]",
     md: "h-[5px] max-sm:h-[3px]",
@@ -23,24 +31,24 @@ function IndicatorText({ children, active = false, className, size = "lg" }: Ind
   };
 
   const indicatorActiveHeightClasses = {
-    sm: ["h-[11px]", "group-hover:h-[11px]"],
-    md: ["h-[13px]", "group-hover:h-[13px]"],
-    lg: ["h-[15px]", "group-hover:h-[15px]"],
-    xl: ["h-[19px]", "group-hover:h-[19px]"],
+    sm: [interactive ? "h-[6px]" : "h-[11px]", "group-hover:h-[11px]"],
+    md: [interactive ? "h-[8px]" : "h-[13px]", "group-hover:h-[13px]"],
+    lg: [interactive ? "h-[10px]" : "h-[15px]", "group-hover:h-[15px]"],
+    xl: [interactive ? "h-[12px]" : "h-[19px]", "group-hover:h-[19px]"],
   };
 
   return (
     <div
       className={cn(
         // Base styles
-        "flex flex-col group relative",
+        "inline-block group relative",
         className,
       )}
     >
       <span
         className={cn(
           sizeClasses[size],
-          "font-bold select-none transition-all duration-150 ease-out z-10",
+          "font-bold select-none transition-all duration-150 ease-out z-10 relative",
           // Default state colors (light mode)
           "text-zinc-600",
           // Dark mode colors
@@ -51,15 +59,17 @@ function IndicatorText({ children, active = false, className, size = "lg" }: Ind
           // Active state
           active && "text-black",
           active && "dark:text-white",
+          interactive && "cursor-pointer",
         )}
       >
         {children}
       </span>
+
       <span
         className={cn(
           // Base indicator styles
           indicatorNormalHeightClasses[size],
-          "absolute bottom-0 left-0 right-0",
+          "absolute bottom-0 left-0 right-0 z-0",
           "block transition-all duration-150 ease-out",
           // Default state colors (light mode)
           "bg-zinc-400",
@@ -74,8 +84,7 @@ function IndicatorText({ children, active = false, className, size = "lg" }: Ind
           // Active state colors (dark mode)
           active && "dark:bg-indigo-600",
         )}
-      >
-      </span>
+      ></span>
     </div>
   );
 }
