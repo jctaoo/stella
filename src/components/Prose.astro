@@ -26,12 +26,19 @@
   @reference "../styles/global.css";
 
   *:not(pre) > code {
-    padding: 4px 8px;
-    line-height: 20px;
-    border-radius: 6px;
+    padding: 2px 8px;
+    margin: 0 2px;
+    line-height: 1.2em;
+    border-radius: 0.5em;
     color: #5b5b5b;
     font-weight: bold;
+    /* TODO: using theme color */
     background-color: rgb(236, 233, 233);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(55, 53, 53);
+      color: #e0e4e8;
+    }
   }
 
   ul li:before {
