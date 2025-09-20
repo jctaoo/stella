@@ -1,0 +1,62 @@
+---
+
+---
+
+<div
+  class:list={[
+    "prose prose-stone dark:prose-invert prose-sm max-w-none",
+    // 修改 heading
+    "prose-headings:border-b prose-headings:border-border prose-headings:pb-2 prose-headings:mb-2",
+    // 修改hr的间距
+    "prose-hr:mt-4 prose-hr:mb-4",
+    // 第一段 ul 不要有缩进以使用自定义的 marker
+    "[&>ul]:pl-0 prose-ul:list-none",
+    // Custom link
+    "prose-a:text-blue-500",
+    // Custom blockquote border
+    "prose-blockquote:border-l-[6px] prose-blockquote:text-muted-foreground",
+    // Disable inline code quote
+    "prose-code:before:content-none prose-code:after:content-none",
+  ]}
+>
+  <slot />
+</div>
+
+<style is:global>
+  @reference "../styles/global.css";
+
+  *:not(pre) > code {
+    padding: 4px 8px;
+    line-height: 20px;
+    border-radius: 6px;
+    color: #5b5b5b;
+    font-weight: bold;
+    background-color: rgb(236, 233, 233);
+  }
+
+  ul li:before {
+    content: "\1F95E";
+    display: inline-flex;
+    color: transparent;
+    height: 10px;
+    width: 10px;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    @apply bg-amber-300 dark:bg-indigo-600;
+    @apply border-[1px] border-foreground/50;
+  }
+
+  li.task-list-item {
+    &:before {
+      display: none;
+      margin-left: 0;
+    }
+
+    input[type="checkbox"] {
+      -webkit-appearance: checkbox;
+      margin-right: 3px;
+    }
+  }
+</style>

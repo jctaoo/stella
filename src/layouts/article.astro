@@ -4,8 +4,10 @@ import { formatLastModified } from "@/utils/lastModified";
 import type { GitTime } from "@plugins/remark-modified-time";
 import type { ReadingTime } from "@plugins/remark-reading-time";
 import { Badge } from "@/components/ui/badge";
+import Prose from "@/components/Prose.astro";
 import { CalendarClock, Timer, Tag } from "lucide-react";
 import IndicatorText from "@/components/indicator-text";
+import Footer from "@/components/footer";
 
 type Props = {
   frontmatter: {
@@ -22,11 +24,15 @@ const pageTitle = frontmatter.title;
 
 const { gitTimes, readingTime, tags, badge } = frontmatter;
 const lastModified = formatLastModified(gitTimes);
+
+// TODO: support config
+const author = "jctaoo";
+const creativeCommons = "byNcSa";
 ---
 
 <MainLayout header={{ title: pageTitle }}>
-  <article class="container mx-auto max-w-3xl p-6 prose prose-neutral dark:prose-invert">
-    <header class="mb-6 flex flex-col gap-2">
+  <article class="container mx-auto max-w-3xl p-6 flex flex-col gap-6">
+    <header class="flex flex-col gap-2">
       <div class="flex items-center gap-2">
         {badge && <Badge variant="outline">{badge}</Badge>}
       </div>
@@ -61,8 +67,11 @@ const lastModified = formatLastModified(gitTimes);
         }
       </div>
     </header>
-    <div>
+
+    <Prose>
       <slot />
-    </div>
+    </Prose>
+    
+    <Footer client:visible author={author} creativeCommons={creativeCommons} />
   </article>
 </MainLayout>

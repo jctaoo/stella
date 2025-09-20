@@ -2,6 +2,8 @@
 
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 import react from "@astrojs/react";
 
@@ -21,7 +23,9 @@ export default defineConfig({
       [remarkModifiedTime, { fallbackToFs: true }],
       // @ts-expect-error
       remarkReadingTime,
+      remarkMath,
     ],
+    rehypePlugins: [rehypeKatex],
   },
   integrations: [react(), mdx()],
 });

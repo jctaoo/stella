@@ -1,6 +1,4 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Mail } from "lucide-react";
 import { SiGithub, SiX, SiRss } from "@icons-pack/react-simple-icons";

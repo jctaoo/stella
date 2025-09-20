@@ -1,6 +1,7 @@
 ---
-import CommonHeader, { type Props as CommonHeaderProps } from "@/components/common-header.astro";
+import CommonHeader, { type Props as CommonHeaderProps } from "@/components/CommonHeader.astro";
 import SidebarNav from "@/components/sidebar-nav";
+import Footer from "@/components/footer";
 import "@/styles/global.css";
 
 type Props = {
@@ -30,7 +31,11 @@ const currentRoute = Astro.url.pathname;
         transition:animate="none"
       />
       <main class="flex-1 overflow-y-auto md:ml-0" transition:name="main" transition:animate="none">
-        <slot />
+        <div class="min-h-full flex flex-col">
+          <div class="flex-1">
+            <slot />
+          </div>
+        </div>
       </main>
     </div>
   </body>
