@@ -16,12 +16,12 @@ const isHomePage = Astro.url.pathname === "/";
 const currentRoute = Astro.url.pathname;
 ---
 
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <CommonHeader title={header.title} description={header.description} />
-  </head>
+  </head> 
   <body class="overflow-hidden">
-    <div class="flex h-screen">
+    <div class="flex h-screen ">
       <SidebarNav
         isHome={isHomePage}
         currentRoute={currentRoute}
