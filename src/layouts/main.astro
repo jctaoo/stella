@@ -22,9 +22,9 @@ const currentRoute = Astro.url.pathname;
   <head>
     <CommonHeader title={header.title} description={header.description} />
     <TopLoaderVT />
-  </head> 
+  </head>
   <body class="overflow-hidden">
-    <div class="flex h-screen ">
+    <div class="flex h-screen">
       <SidebarNav
         isHome={isHomePage}
         currentRoute={currentRoute}
@@ -34,10 +34,8 @@ const currentRoute = Astro.url.pathname;
         transition:animate="none"
       />
       <main class="flex-1 overflow-y-auto md:ml-0" transition:name="main" transition:animate="none">
-        <div class="min-h-full flex flex-col">
-          <div class="flex-1">
-            <slot />
-          </div>
+        <div class="h-full">
+          <slot />
         </div>
       </main>
     </div>

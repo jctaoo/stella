@@ -31,7 +31,7 @@ const creativeCommons = "byNcSa";
 ---
 
 <MainLayout header={{ title: pageTitle }}>
-  <article class="container mx-auto max-w-3xl p-6 flex flex-col gap-6">
+  <article class="min-h-full container mx-auto max-w-3xl p-6 flex flex-col gap-6">
     <header class="flex flex-col gap-2">
       <div class="flex items-center gap-2">
         {badge && <Badge variant="outline">{badge}</Badge>}
@@ -71,7 +71,9 @@ const creativeCommons = "byNcSa";
     <Prose>
       <slot />
     </Prose>
-    
-    <Footer client:visible author={author} creativeCommons={creativeCommons} />
+
+    <div class="mt-auto">
+      <Footer client:visible author={author} creativeCommons={creativeCommons} />
+    </div>
   </article>
 </MainLayout>
