@@ -19,3 +19,34 @@ const { title, description } = Astro.props;
 {description && <meta name="description" content={description} />}
 
 <ClientRouter />
+
+<script is:inline>
+  /**
+   * Inline script cannot use import
+   * @returns "light" | "dark"
+   */
+  function getNormalizedTheme() {
+    const localStorageTheme = localStorage?.getItem("theme") ?? "";
+    if (["dark", "light"].includes(localStorageTheme)) {
+      return localStorageTheme;
+    }
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+    return "light";
+  }
+
+  function applyCurrentTheme() {
+    const theme = getNormalizedTheme();
+    if (theme === "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+  }
+
+  document.addEventListener("astro:after-swap", () => {
+    applyCurrentTheme();
+  });
+  applyCurrentTheme();
+</script>

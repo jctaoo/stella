@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Mail } from "lucide-react";
+import { Mail, Moon, Sun } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { SiGithub, SiX, SiRss } from "@icons-pack/react-simple-icons";
 import IndicatorText from "@/components/indicator-text";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import confetti from "canvas-confetti";
+import { getNormalizedTheme } from "@/utils/theme";
 
 interface SidebarNavProps {
   isHome?: boolean;
@@ -15,6 +17,7 @@ interface SidebarNavProps {
 
 export default function SidebarNav({ isHome = false, className = "", currentRoute = "" }: SidebarNavProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const [isDark, setIsDark] = useState<boolean>(false);
   const socialLinks = [
     { icon: SiGithub, href: "https://github.com", label: "GitHub" },
     { icon: Mail, href: "mailto:example@email.com", label: "Email" },
@@ -23,8 +26,8 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
   ];
 
   useEffect(() => {
-    const hasShownConfetti = localStorage.getItem('hasShownConfetti');
-    
+    const hasShownConfetti = localStorage.getItem("hasShownConfetti");
+
     if (!hasShownConfetti && titleRef.current) {
       const titleRect = titleRef.current.getBoundingClientRect();
       const x = titleRect.left + titleRect.width / 2;
@@ -37,8 +40,25 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
         spread: 100,
         origin: origin,
       });
-      
-      localStorage.setItem('hasShownConfetti', 'true');
+
+      localStorage.setItem("hasShownConfetti", "true");
+    }
+  }, []);
+
+  useEffect(() => {
+    const isDarkNow = getNormalizedTheme() === "dark";
+    setIsDark(isDarkNow);
+  }, []);
+
+  const setTheme = useCallback((nextIsDark: boolean) => {
+    const root = document.documentElement;
+    setIsDark(nextIsDark);
+    if (nextIsDark) {
+      localStorage.setItem("theme", "dark");
+      root.classList.add("dark");
+    } else {
+      localStorage.setItem("theme", "light");
+      root.classList.remove("dark");
     }
   }, []);
 
@@ -49,11 +69,13 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
         isHome ? "md:w-1/2" : "md:w-80",
         "transition-all duration-150",
         "md:relative h-screen",
-        "bg-background",
         !isHome && "border-r border-border",
-        "w-80 md:flex",
+        "flex flex-col",
       ])}
     >
+      {/* spacer */}
+      <div className="flex-1"></div>
+
       <div className="flex flex-col space-y-5 mt-16 md:mt-0 justify-center mx-auto">
         {/* Blog Title */}
         <div className="flex flex-col items-start space-y-1">
@@ -108,6 +130,20 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
               ))}
             </div>
           </TooltipProvider>
+        </div>
+      </div>
+
+      {/* spacer */}
+      <div className="flex-1"></div>
+
+      {/* Theme Toggle at Bottom */}
+      <div className="px-4 py-4">
+        <div className="flex items-center space-x-5">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+            <span>{isDark ? "暗黑模式" : "亮色模式"}</span>
+          </div>
+          <Switch checked={isDark} onCheckedChange={setTheme} aria-label="切换暗黑模式" />
         </div>
       </div>
     </div>
