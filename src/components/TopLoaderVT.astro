@@ -1,0 +1,45 @@
+---
+import "nprogress/nprogress.css";
+---
+<style is:global>
+  @reference "@/styles/global.css";
+
+  #nprogress .bar {
+    @apply bg-amber-300 dark:bg-indigo-600;
+  }
+</style>
+
+<script>
+  import NProgress from "nprogress";
+  NProgress.configure({ showSpinner: false, trickleSpeed: 50 });
+
+  const start = () => NProgress.start();
+  const set30 = () => NProgress.set(0.3);
+  const set70 = () => NProgress.set(0.7);
+  const set90 = () => NProgress.set(0.9);
+  const done = () => NProgress.done();
+
+  declare global {
+    interface Window {
+      __topLoaderVTInitialized: boolean;
+    }
+  }
+
+  // Avoid duplicate listeners on client navigations
+  if (!window.__topLoaderVTInitialized) {
+    window.__topLoaderVTInitialized = true;
+
+    // Astro Client Router lifecycle events
+    document.addEventListener?.("astro:before-preparation", start);
+    document.addEventListener?.("astro:after-preparation", set30);
+    document.addEventListener?.("astro:before-swap", set70);
+    document.addEventListener?.("astro:after-swap", set90);
+    document.addEventListener?.("astro:page-load", done);
+
+    // Fallback for full page navigations
+    window.addEventListener("beforeunload", start);
+    window.addEventListener("load", done);
+  }
+</script>
+
+

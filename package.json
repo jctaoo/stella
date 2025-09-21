@@ -37,6 +37,7 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.543.0",
     "mdast-util-to-string": "^4.0.0",
+    "nprogress": "^0.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "reading-time": "^1.5.0",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.18",
     "@types/lodash": "^4.17.20",
+    "@types/nprogress": "^0.2.3",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "tw-animate-css": "^1.3.8",
