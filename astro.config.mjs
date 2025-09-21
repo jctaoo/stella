@@ -12,11 +12,14 @@ import mdx from "@astrojs/mdx";
 import { remarkModifiedTime } from "./plugin/remark-modified-time";
 import { remarkReadingTime } from "./plugin/remark-reading-time";
 
+import vercel from "@astrojs/vercel";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+
   markdown: {
     remarkPlugins: [
       // @ts-expect-error
@@ -27,5 +30,7 @@ export default defineConfig({
     ],
     rehypePlugins: [rehypeKatex],
   },
+
   integrations: [react(), mdx()],
+  adapter: vercel(),
 });
