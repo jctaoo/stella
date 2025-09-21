@@ -1,6 +1,7 @@
 ---
 import "nprogress/nprogress.css";
 ---
+
 <style is:global>
   @reference "@/styles/global.css";
 
@@ -11,7 +12,21 @@ import "nprogress/nprogress.css";
 
 <script>
   import NProgress from "nprogress";
-  NProgress.configure({ showSpinner: false, trickleSpeed: 50 });
+  NProgress.configure({
+    showSpinner: false,
+    trickleSpeed: 50,
+
+    template: `
+      <div class="bar" role="progressbar">
+        <div class="peg"></div>
+      </div>
+      <div class="spinner">
+        <div class="spinner-icon"></div>
+      </div>
+    `,
+    barSelector: '#nprogress .bar',
+    spinnerSelector: '#nprogress .spinner',
+  });
 
   const start = () => NProgress.start();
   const set30 = () => NProgress.set(0.3);
@@ -41,5 +56,3 @@ import "nprogress/nprogress.css";
     window.addEventListener("load", done);
   }
 </script>
-
-
