@@ -14,10 +14,15 @@ import { remarkReadingTime } from "./plugin/remark-reading-time";
 
 import vercel from "@astrojs/vercel";
 
+import Sonda from 'sonda/astro'; 
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      sourcemap: true,
+    },
   },
 
   markdown: {
@@ -31,6 +36,6 @@ export default defineConfig({
     rehypePlugins: [rehypeKatex],
   },
 
-  integrations: [react(), mdx()],
+  integrations: [react(), mdx(), Sonda({ server: true })],
   adapter: vercel(),
 });
