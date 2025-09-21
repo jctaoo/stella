@@ -71,18 +71,12 @@ function IndicatorText({
           indicatorNormalHeightClasses[size],
           "absolute bottom-0 left-0 right-0 z-0",
           "block transition-all duration-150 ease-out",
-          // Default state colors (light mode)
-          "bg-zinc-400",
-          // Dark mode colors
-          "dark:bg-zinc-600",
           // Hover state
           indicatorActiveHeightClasses[size][1],
           // Active state
           active && indicatorActiveHeightClasses[size][0],
           // Active state colors (light mode)
-          active && "bg-amber-300",
-          // Active state colors (dark mode)
-          active && "dark:bg-indigo-600",
+          active && "bg-primary",
         )}
       ></span>
     </div>
