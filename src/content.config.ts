@@ -18,6 +18,7 @@ const snippets = defineCollection({
   schema: z.object({
     category: z.string().optional(),
     title: z.string(),
+    description: z.string().optional(),
     tags: z.array(z.string()).optional(),
   }),
 });

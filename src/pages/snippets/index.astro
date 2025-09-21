@@ -7,6 +7,8 @@ import { getLastModified } from "@/utils/lastModified";
 import { z } from "astro:schema";
 import { isLooseEqual } from "@/utils/string";
 import ContentFilterButton from "@/components/content-filter-button";
+import IndicatorText from "@/components/indicator-text";
+import { Tag } from "lucide-react";
 
 export const prerender = false;
 const paramsSchema = z.object({
@@ -44,8 +46,6 @@ const allTags = Array.from(
   <div class="min-h-screen bg-background">
     <div class="container mx-auto max-w-4xl p-6 md:p-12 space-y-8 pt-16 md:pt-12">
       <header class="space-y-2">
-        <h1 class="text-4xl font-light tracking-wide text-foreground">片段</h1>
-        <p class="text-muted-foreground">代码片段与小工具</p>
         <div class="pt-2">
           <ContentFilterButton
             client:load
@@ -61,25 +61,33 @@ const allTags = Array.from(
         {
           snippets.map((snip) => (
             <article class="group">
-              <a href={`/snippets/${snip.slug}/`} class="block space-y-3 p-6 rounded-lg hover:bg-muted/50 transition-colors">
-                <header class="space-y-3">
+              <a href={`/snippets/${snip.slug}/`} class="block space-y-3 p-6 -mx-6 rounded-lg hover:bg-muted/50 transition-colors">
+                <header class="space-y-2">
+                  <div class="flex items-center gap-2">
+                    {snip.data.category && (
+                      <Badge variant="secondary" className="text-xs">
+                        {snip.data.category}
+                      </Badge>
+                    )}
+                  </div>
                   <h2 class="text-xl font-medium text-foreground group-hover:text-primary transition-colors">
-                    {snip.data.title}
+                    <IndicatorText active interactiveIndicator>{snip.data.title}</IndicatorText>
                   </h2>
-                  
-                  {snip.data.tags && snip.data.tags.length > 0 && (
-                    <div class="flex flex-wrap gap-2">
-                      {snip.data.tags.map((tag) => (
-                        <Badge variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
                 </header>
+
+                {snip.data.description && <p class="text-muted-foreground text-sm leading-relaxed">{snip.data.description}</p>}
                 
-                <footer class="text-xs text-muted-foreground">
-                  {getLastModified(snip)}
+                <footer class="text-xs text-muted-foreground flex items-center gap-3 flex-wrap">
+                  <span class="inline-flex items-center gap-1">
+                    {getLastModified(snip)}
+                  </span>
+
+                  {snip.data.tags?.map((tag) => (
+                    <Badge variant="secondary">
+                      <Tag className="size-3" />
+                      {tag}
+                    </Badge>
+                  ))}
                 </footer>
               </a>
             </article>

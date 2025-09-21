@@ -3,9 +3,7 @@ category: Enlace
 title: "[Enlace] Enlace Get Started"
 tags:
   - code
-identifier: enlace-get-started
-updateDates:
-  - 2020-07-05
+description: "Enlace Get Started"
 ---
 
 description here .....

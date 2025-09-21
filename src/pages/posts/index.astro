@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import ContentFilterButton from "@/components/content-filter-button";
 import { getLastModified } from "@/utils/lastModified";
 import { isLooseEqual } from "@/utils/string";
+import { Tag } from "lucide-react"; 
+import IndicatorText from "@/components/indicator-text";
 
 export const prerender = false;
 
@@ -32,15 +34,9 @@ const pageTitle = "Posts";
 
 // Build filter options from all posts (unfiltered)
 const allPosts = await getCollection("posts");
-const allCategories = Array.from(
-  new Set(allPosts.map((p) => p.data.category).filter(Boolean) as string[])
-);
+const allCategories = Array.from(new Set(allPosts.map((p) => p.data.category).filter(Boolean) as string[]));
 const allTags = Array.from(
-  new Set(
-    allPosts
-      .flatMap((p) => (p.data.tags ? (p.data.tags as string[]) : []))
-      .filter(Boolean) as string[]
-  )
+  new Set(allPosts.flatMap((p) => (p.data.tags ? (p.data.tags as string[]) : [])).filter(Boolean) as string[]),
 );
 ---
 
@@ -48,8 +44,6 @@ const allTags = Array.from(
   <div class="min-h-screen bg-background">
     <div class="container mx-auto max-w-4xl p-6 md:p-12 space-y-8 pt-16 md:pt-12">
       <header class="space-y-2">
-        <h1 class="text-4xl font-light tracking-wide text-foreground">文章</h1>
-        <p class="text-muted-foreground">分享技术思考与实践经验</p>
         <div class="pt-2">
           <ContentFilterButton
             client:idle
@@ -67,7 +61,7 @@ const allTags = Array.from(
             <article class="group">
               <a
                 href={`/posts/${post.slug}/`}
-                class="block space-y-3 p-6 rounded-lg hover:bg-muted/50 transition-colors"
+                class="block space-y-3 p-6 -mx-6 rounded-lg hover:bg-muted/50 transition-colors"
               >
                 <header class="space-y-2">
                   <div class="flex items-center gap-2">
@@ -78,13 +72,22 @@ const allTags = Array.from(
                     )}
                   </div>
                   <h2 class="text-xl font-medium text-foreground group-hover:text-primary transition-colors">
-                    {post.data.title}
+                    <IndicatorText active interactiveIndicator>{post.data.title}</IndicatorText>
                   </h2>
                 </header>
 
                 {post.data.abbr && <p class="text-muted-foreground text-sm leading-relaxed">{post.data.abbr}</p>}
 
-                <footer class="text-xs text-muted-foreground">{getLastModified(post)}</footer>
+                <footer class="text-xs text-muted-foreground flex items-center gap-3 flex-wrap">
+                  <span class="inline-flex items-center gap-1">{getLastModified(post)}</span>
+
+                  {post.data.tags?.map((tag) => (
+                    <Badge variant="secondary">
+                      <Tag className="size-3" />
+                      {tag}
+                    </Badge>
+                  ))}
+                </footer>
               </a>
             </article>
           ))
