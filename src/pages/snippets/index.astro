@@ -4,9 +4,40 @@ import { getCollection, type CollectionEntry, type InferEntrySchema, type Render
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getLastModified } from "@/utils/lastModified";
+import { z } from "astro:schema";
+import { isLooseEqual } from "@/utils/string";
+import ContentFilterButton from "@/components/content-filter-button";
 
-const snippets = await getCollection("snippets");
+export const prerender = false;
+const paramsSchema = z.object({
+  category: z.string().optional(),
+  tags: z.string().transform((val) => val.split(",")).pipe(z.array(z.string())).optional(),
+});
+const params = paramsSchema.parse(Object.fromEntries(Astro.url.searchParams));
+
+const snippets = await getCollection("snippets", ({ data }) => {
+  const categoryOk = params.category ? isLooseEqual(data.category, params.category) : true;
+  const tagsOk = params.tags
+    ? params.tags.every((tag) => {
+        return data.tags?.some((t) => isLooseEqual(t, tag));
+      })
+    : true;
+  return categoryOk && tagsOk;
+});
 const pageTitle = "Snippets";
+
+// Build filter options from all snippets
+const allSnippets = await getCollection("snippets");
+const allCategories = Array.from(
+  new Set(allSnippets.map((s) => s.data.category).filter(Boolean) as string[])
+);
+const allTags = Array.from(
+  new Set(
+    allSnippets
+      .flatMap((s) => (s.data.tags ? (s.data.tags as string[]) : []))
+      .filter(Boolean) as string[]
+  )
+);
 ---
 
 <MainLayout header={{ title: pageTitle }}>
@@ -15,6 +46,15 @@ const pageTitle = "Snippets";
       <header class="space-y-2">
         <h1 class="text-4xl font-light tracking-wide text-foreground">片段</h1>
         <p class="text-muted-foreground">代码片段与小工具</p>
+        <div class="pt-2">
+          <ContentFilterButton
+            client:load
+            categories={allCategories}
+            tags={allTags}
+            selectedCategory={params.category}
+            selectedTags={params.tags}
+          />
+        </div>
       </header>
       
       <div class="space-y-6">

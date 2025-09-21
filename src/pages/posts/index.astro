@@ -1,11 +1,47 @@
 ---
 import MainLayout from "@/layouts/main.astro";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import { z } from "astro:schema";
 import { Badge } from "@/components/ui/badge";
+import ContentFilterButton from "@/components/content-filter-button";
 import { getLastModified } from "@/utils/lastModified";
+import { isLooseEqual } from "@/utils/string";
 
-const posts = await getCollection("posts");
+export const prerender = false;
+
+const paramsSchema = z.object({
+  category: z.string().optional(),
+  tags: z
+    .string()
+    .transform((val) => val.split(","))
+    .pipe(z.array(z.string()))
+    .optional(),
+});
+const params = paramsSchema.parse(Object.fromEntries(Astro.url.searchParams));
+
+const posts = await getCollection("posts", ({ data }) => {
+  const categoryOk = params.category ? isLooseEqual(data.category, params.category) : true;
+  const tagsOk = params.tags
+    ? params.tags.every((tag) => {
+        return data.tags?.some((t) => isLooseEqual(t, tag));
+      })
+    : true;
+  return categoryOk && tagsOk;
+});
 const pageTitle = "Posts";
+
+// Build filter options from all posts (unfiltered)
+const allPosts = await getCollection("posts");
+const allCategories = Array.from(
+  new Set(allPosts.map((p) => p.data.category).filter(Boolean) as string[])
+);
+const allTags = Array.from(
+  new Set(
+    allPosts
+      .flatMap((p) => (p.data.tags ? (p.data.tags as string[]) : []))
+      .filter(Boolean) as string[]
+  )
+);
 ---
 
 <MainLayout header={{ title: pageTitle }}>
@@ -14,13 +50,25 @@ const pageTitle = "Posts";
       <header class="space-y-2">
         <h1 class="text-4xl font-light tracking-wide text-foreground">文章</h1>
         <p class="text-muted-foreground">分享技术思考与实践经验</p>
+        <div class="pt-2">
+          <ContentFilterButton
+            client:idle
+            categories={allCategories}
+            tags={allTags}
+            selectedCategory={params.category}
+            selectedTags={params.tags}
+          />
+        </div>
       </header>
-      
+
       <div class="space-y-6">
         {
           posts.map((post) => (
             <article class="group">
-              <a href={`/posts/${post.slug}/`} class="block space-y-3 p-6 rounded-lg hover:bg-muted/50 transition-colors">
+              <a
+                href={`/posts/${post.slug}/`}
+                class="block space-y-3 p-6 rounded-lg hover:bg-muted/50 transition-colors"
+              >
                 <header class="space-y-2">
                   <div class="flex items-center gap-2">
                     {post.data.category && (
@@ -33,16 +81,10 @@ const pageTitle = "Posts";
                     {post.data.title}
                   </h2>
                 </header>
-                
-                {post.data.abbr && (
-                  <p class="text-muted-foreground text-sm leading-relaxed">
-                    {post.data.abbr}
-                  </p>
-                )}
-                
-                <footer class="text-xs text-muted-foreground">
-                  {getLastModified(post)}
-                </footer>
+
+                {post.data.abbr && <p class="text-muted-foreground text-sm leading-relaxed">{post.data.abbr}</p>}
+
+                <footer class="text-xs text-muted-foreground">{getLastModified(post)}</footer>
               </a>
             </article>
           ))
