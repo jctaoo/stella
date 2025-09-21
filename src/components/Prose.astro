@@ -25,7 +25,7 @@
 <style is:global>
   @reference "../styles/global.css";
 
-  *:not(pre) > code {
+  .prose *:not(pre) > code {
     padding: 2px 8px;
     margin: 0 2px;
     line-height: 1.2em;
@@ -41,7 +41,7 @@
     }
   }
 
-  ul li:before {
+  .prose ul li:before {
     content: "\1F95E";
     display: inline-flex;
     color: transparent;
@@ -55,7 +55,7 @@
     @apply border-[1px] border-foreground/50;
   }
 
-  li.task-list-item {
+  .prose li.task-list-item {
     &:before {
       display: none;
       margin-left: 0;
