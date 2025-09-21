@@ -115,13 +115,13 @@
   --popover: rgb(38, 38, 38);
   --popover-foreground: rgb(229, 229, 229);
   --primary: rgb(79, 57, 246);
-  --primary-foreground: rgb(238, 242, 255);
+  --primary-foreground: rgb(0, 0, 0);
   --secondary: rgb(38, 38, 38);
   --secondary-foreground: rgb(229, 229, 229);
   --muted: rgb(38, 38, 38);
   --muted-foreground: rgb(163, 163, 163);
-  --accent: rgb(163, 179, 255);
-  --accent-foreground: rgb(30, 26, 77);
+  --accent: rgb(30, 26, 77);
+  --accent-foreground: rgb(198, 210, 255);
   --destructive: rgb(239, 68, 68);
   --destructive-foreground: rgb(255, 255, 255);
   --border: rgb(64, 64, 64);
