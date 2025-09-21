@@ -4,6 +4,8 @@ import { Mail } from "lucide-react";
 import { SiGithub, SiX, SiRss } from "@icons-pack/react-simple-icons";
 import IndicatorText from "@/components/indicator-text";
 import { cn } from "@/lib/utils";
+import { useEffect, useRef } from "react";
+import confetti from "canvas-confetti";
 
 interface SidebarNavProps {
   isHome?: boolean;
@@ -12,12 +14,33 @@ interface SidebarNavProps {
 }
 
 export default function SidebarNav({ isHome = false, className = "", currentRoute = "" }: SidebarNavProps) {
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const socialLinks = [
     { icon: SiGithub, href: "https://github.com", label: "GitHub" },
     { icon: Mail, href: "mailto:example@email.com", label: "Email" },
     { icon: SiX, href: "https://twitter.com", label: "Twitter" },
     { icon: SiRss, href: "/rss.xml", label: "RSS" },
   ];
+
+  useEffect(() => {
+    const hasShownConfetti = localStorage.getItem('hasShownConfetti');
+    
+    if (!hasShownConfetti && titleRef.current) {
+      const titleRect = titleRef.current.getBoundingClientRect();
+      const x = titleRect.left + titleRect.width / 2;
+      const y = titleRect.top + titleRect.height / 2;
+      const origin = { x: x / window.innerWidth, y: y / window.innerHeight };
+
+      confetti({
+        particleCount: 50,
+        angle: 90,
+        spread: 100,
+        origin: origin,
+      });
+      
+      localStorage.setItem('hasShownConfetti', 'true');
+    }
+  }, []);
 
   return (
     <div
@@ -39,6 +62,7 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
               className={`font-semibold tracking-wide transition-all duration-150 ${
                 isHome ? "text-5xl" : "text-3xl"
               } text-foreground hover:text-primary`}
+              ref={titleRef}
             >
               Jctaoo.
             </h1>
