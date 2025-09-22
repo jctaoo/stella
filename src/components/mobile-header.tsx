@@ -6,6 +6,7 @@ import IndicatorText from "@/components/indicator-text";
 import { useState } from "react";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import ThemeSwitcher from "@/components/theme-switcher";
+import { siteConfig } from "@/siteConfig";
 
 interface MobileHeaderProps {
   isHome?: boolean;
@@ -31,12 +32,14 @@ export default function MobileHeader({ isHome = false, currentRoute = "" }: Mobi
 
   if (isHome) return null;
 
+  const { siteName } = siteConfig;
+
   return (
     <>
       <div className="md:hidden fixed top-0 inset-x-0 z-40 h-12 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="h-full px-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2">
-            <span className="text-base font-semibold text-foreground">Jctaoo.</span>
+            <span className="text-base font-semibold text-foreground">{siteName}</span>
             {routeTitle ? <span className="text-sm text-muted-foreground">/ {routeTitle}</span> : null}
           </a>
           <Button variant="ghost" size="icon" aria-label="打开菜单" onClick={() => setIsMenuOpen(true)}>
@@ -50,7 +53,7 @@ export default function MobileHeader({ isHome = false, currentRoute = "" }: Mobi
           <DrawerHeader className="h-12 px-4 border-b flex flex-row items-center justify-between">
             <DrawerTitle asChild>
               <a href="/" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-foreground">
-                Jctaoo.
+                {siteName}
               </a>
             </DrawerTitle>
             <DrawerClose asChild>

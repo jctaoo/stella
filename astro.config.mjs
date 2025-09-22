@@ -18,6 +18,8 @@ import Sonda from 'sonda/astro';
 
 // https://astro.build/config
 export default defineConfig({
+  
+
   vite: {
     plugins: [tailwindcss()],
     build: {

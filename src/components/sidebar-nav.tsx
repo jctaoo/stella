@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import ThemeSwitcher from "@/components/theme-switcher";
+import { siteConfig } from "@/siteConfig";
 
 interface SidebarNavProps {
   isHome?: boolean;
@@ -47,6 +48,8 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
 
   const showBanner = !!bannerText;
 
+  const { siteName } = siteConfig;
+
   return (
     <div
       className={cn([
@@ -72,7 +75,7 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
               } text-foreground hover:text-primary`}
               ref={titleRef}
             >
-              Jctaoo.
+              {siteName}
             </h1>
           </a>
           {isHome && <h2 className="text-sm text-muted-foreground">A minimal blog built with Astro</h2>}

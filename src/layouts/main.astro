@@ -4,6 +4,7 @@ import SidebarNav from "@/components/sidebar-nav";
 import MobileHeader from "@/components/mobile-header";
 import "@/styles/global.css";
 import TopLoaderVT from "@/components/TopLoaderVT.astro";
+import { siteConfig } from "@/siteConfig";
 
 type Props = {
   header: CommonHeaderProps;
@@ -15,6 +16,8 @@ const isHomePage = Astro.url.pathname === "/";
 
 // get current route
 const currentRoute = Astro.url.pathname;
+
+const { bannerText } = siteConfig;
 ---
 
 <html lang="en">
@@ -35,7 +38,7 @@ const currentRoute = Astro.url.pathname;
       <SidebarNav
         isHome={isHomePage}
         currentRoute={currentRoute}
-        bannerText={"Banner Text"}
+        bannerText={bannerText}
         client:load
         transition:name="slide"
         transition:persist
