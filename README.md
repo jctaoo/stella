@@ -52,9 +52,7 @@ This project uses [Astro's Content Collections](https://docs.astro.build/en/guid
     tags: ["javascript", "react"]
     ---
 
-    ```js
     // Your code snippet here
-    ```
     ```
 
 ## 📄 Custom Pages
