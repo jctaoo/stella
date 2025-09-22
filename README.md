@@ -69,7 +69,7 @@ You can easily add new static pages (like an "About" or "Contact" page).
 -   **Example**: To create an "About" page, you can create a `src/pages/about.mdx` file with the following content:
     ```mdx
     ---
-    layout: "@/layouts/pages.astro" # Use a pre-defined layout
+    layout: "@/layouts/Pages.astro" # Use a pre-defined layout
     title: "About Me"
     ---
 
