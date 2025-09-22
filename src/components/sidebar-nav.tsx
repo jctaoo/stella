@@ -70,7 +70,7 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
         "transition-all duration-150",
         "md:relative h-screen",
         !isHome && "border-r border-border",
-        "flex flex-col",
+        "hidden md:flex flex-col",
       ])}
     >
       {/* spacer */}

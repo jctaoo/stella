@@ -1,6 +1,7 @@
 ---
 import CommonHeader, { type Props as CommonHeaderProps } from "@/components/CommonHeader.astro";
 import SidebarNav from "@/components/sidebar-nav";
+import MobileHeader from "@/components/mobile-header";
 import Footer from "@/components/footer";
 import "@/styles/global.css";
 import TopLoaderVT from "@/components/TopLoaderVT.astro";
@@ -25,6 +26,14 @@ const currentRoute = Astro.url.pathname;
   </head>
   <body class="overflow-hidden">
     <div class="flex h-screen">
+      <MobileHeader
+        isHome={isHomePage}
+        currentRoute={currentRoute}
+        client:load
+        transition:name="mobile-header"
+        transition:animate="none"
+        transition:persist
+      />
       <SidebarNav
         isHome={isHomePage}
         currentRoute={currentRoute}
@@ -33,7 +42,11 @@ const currentRoute = Astro.url.pathname;
         transition:persist
         transition:animate="none"
       />
-      <main class="flex-1 overflow-y-auto scrollbar md:ml-0" transition:name="main" transition:animate="none">
+      <main
+        class="flex-1 overflow-y-auto scrollbar md:ml-0 pt-12 md:pt-0"
+        transition:name="main"
+        transition:animate="none"
+      >
         <div class="h-full">
           <slot />
         </div>
