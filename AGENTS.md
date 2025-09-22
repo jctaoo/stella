@@ -1,10 +1,30 @@
----
-alwaysApply: true
-description: 
-globs: **/*
----
+Please also reference the following documents as needed. In this case, `@` stands for the project root directory.
 
-# 项目结构与开发约定（Stella / Astro）
+<Documents>
+  <Document>
+    <Path>@.codex\memories\astro-development.md</Path>
+    <FilePatterns>**/*</FilePatterns>
+  </Document>
+  <Document>
+    <Path>@.codex\memories\content-authoring.md</Path>
+    <Description>Content authoring rules aligned with src/content.config.ts schemas</Description>
+    <FilePatterns>src/content/**/*.md, src/content/**/*.mdx</FilePatterns>
+  </Document>
+  <Document>
+    <Path>@.codex\memories\shadcn-components.md</Path>
+    <Description>Shadcn UI 组件规范与 MCP 使用指引（优先使用 shadcn MCP 获取信息与命令）</Description>
+    <FilePatterns>**/*</FilePatterns>
+  </Document>
+  <Document>
+    <Path>@.codex\memories\site-config.md</Path>
+    <Description>站点配置中心化（src/siteConfig.ts）与避免硬编码的约定</Description>
+    <FilePatterns>**/*</FilePatterns>
+  </Document>
+</Documents>
+
+# Additional Conventions Beyond the Built-in Functions
+
+As this project's AI coding tool, you must follow the additional conventions below, in addition to the built-in functions.# 项目结构与开发约定（Stella / Astro）
 
 - 包管理器：必须使用 pnpm（见 [package.json](mdc:package.json) 中 `packageManager` 字段）。
   - 安装依赖：`pnpm install`

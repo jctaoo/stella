@@ -1,9 +1,3 @@
----
-alwaysApply: true
-description: Shadcn UI 组件规范与 MCP 使用指引（优先使用 shadcn MCP 获取信息与命令）
-globs: **/*
----
-
 # Shadcn UI 组件使用与来源规则（MCP 增强）
 
 本项目对 shadcn UI 的使用有强约束，且要求在涉及 shadcn 组件的任何任务时，**在必要的时候总是优先尝试使用 shadcn MCP 工具** 进行检索、命令生成与校验，再执行命令或实现代码。

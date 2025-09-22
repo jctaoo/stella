@@ -1,9 +1,14 @@
 ---
-alwaysApply: true
-description: 
-globs: **/*
+targets:
+  - '*'
+root: true
+globs:
+  - '**/*'
+cursor:
+  alwaysApply: true
+  globs:
+    - '**/*'
 ---
-
 # 项目结构与开发约定（Stella / Astro）
 
 - 包管理器：必须使用 pnpm（见 [package.json](mdc:package.json) 中 `packageManager` 字段）。

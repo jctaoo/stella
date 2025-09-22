@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "fix:prettier": "prettier --write ."
+    "fix:prettier": "prettier --write .",
+    "syncrules": "rulesync generate"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",
@@ -55,6 +56,7 @@
     "@types/nprogress": "^0.2.3",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
+    "rulesync": "^1.2.3",
     "shadcn": "^3.3.1",
     "sonda": "^0.9.0",
     "tw-animate-css": "^1.3.8",

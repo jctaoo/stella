@@ -1,0 +1,20 @@
+{
+  "targets": [
+    "cursor",
+    "codexcli"
+  ],
+  "features": [
+    "rules",
+    "ignore",
+    "mcp",
+    "commands",
+    "subagents"
+  ],
+  "baseDirs": [
+    "."
+  ],
+  "delete": true,
+  "verbose": false,
+  "experimentalSimulateCommands": false,
+  "experimentalSimulateSubagents": false
+}

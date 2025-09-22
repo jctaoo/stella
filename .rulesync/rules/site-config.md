@@ -1,9 +1,16 @@
 ---
-alwaysApply: true
+targets:
+  - '*'
+root: false
 description: 站点配置中心化（src/siteConfig.ts）与避免硬编码的约定
-globs: **/*
+globs:
+  - '**/*'
+cursor:
+  alwaysApply: true
+  description: 站点配置中心化（src/siteConfig.ts）与避免硬编码的约定
+  globs:
+    - '**/*'
 ---
-
 ## 目的
 
 统一在 [src/siteConfig.ts](mdc:src/siteConfig.ts) 中集中定义站点层级的所有可配置项（展示文案、开关、元信息、链接等），通过类型与校验保障一致性，避免在页面/布局/组件中出现硬编码，提升全站可配置性与可维护性。

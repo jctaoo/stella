@@ -1,9 +1,3 @@
----
-alwaysApply: true
-description: 
-globs: **/*
----
-
 # Astro 开发与调研规则
 
 - 当用户提出新增或修改 Astro 相关功能时，优先通过已配置的 Astro MCP 能力进行检索与方案生成；若不可用或结果不足，请在线搜索并参考最新的 Astro 官方文档、发布说明与社区最佳实践后再实施。

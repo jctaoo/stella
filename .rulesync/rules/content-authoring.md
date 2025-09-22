@@ -1,8 +1,17 @@
 ---
+targets:
+  - '*'
+root: false
 description: Content authoring rules aligned with src/content.config.ts schemas
-globs: src/content/**/*.md,src/content/**/*.mdx
+globs:
+  - src/content/**/*.md
+  - src/content/**/*.mdx
+cursor:
+  description: Content authoring rules aligned with src/content.config.ts schemas
+  globs:
+    - src/content/**/*.md
+    - src/content/**/*.mdx
 ---
-
 # Content 编写规范（对齐 content.config.ts）
 
 - 新增或修改 `src/content` 下内容时，必须对照 [src/content.config.ts](mdc:src/content.config.ts) 中集合与字段定义进行 Frontmatter 编写与校验。
