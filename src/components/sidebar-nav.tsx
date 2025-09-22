@@ -66,17 +66,18 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
     <div
       className={cn([
         className,
-        isHome ? "md:w-1/2" : "md:w-80",
+        isHome ? "w-full md:w-1/2" : "md:w-80",
         "transition-all duration-150",
         "md:relative h-screen",
         !isHome && "border-r border-border",
-        "hidden md:flex flex-col",
+        !isHome && "hidden md:flex flex-col",
+        isHome && "flex flex-col",
       ])}
     >
       {/* spacer */}
       <div className="flex-1"></div>
 
-      <div className="flex flex-col space-y-5 mt-16 md:mt-0 justify-center mx-auto">
+      <div className="flex flex-col space-y-5 justify-center mx-auto pr-20 md:pr-0">
         {/* Blog Title */}
         <div className="flex flex-col items-start space-y-1">
           <a href="/">
