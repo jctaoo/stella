@@ -1,0 +1,59 @@
+---
+globs: src/content/**/*.md,src/content/**/*.mdx
+description: Content authoring rules aligned with src/content.config.ts schemas
+---
+
+# Content 编写规范（对齐 content.config.ts）
+
+- 新增或修改 `src/content` 下内容时，必须对照 [src/content.config.ts](mdc:src/content.config.ts) 中集合与字段定义进行 Frontmatter 编写与校验。
+- 严禁添加 schema 未定义的字段；字段类型必须吻合（如 `tags` 为字符串数组）。
+- 运行时校验：在提交前确保 `pnpm dev` 或 `pnpm build` 无内容校验报错。
+
+## Frontmatter 基本要求
+- 使用 YAML Frontmatter；推荐按 schema 顺序书写键。
+- 文件命名使用 kebab-case；与页面 slug 对应。
+- 图片路径：优先与内容共置（相对路径），或使用 `public/` 下绝对路径。
+- 自动元数据：阅读时长与最后修改时间由 Remark 插件注入（见 `plugin/remark-reading-time.ts` 与 `plugin/remark-modified-time.ts`），不要手动写入。
+
+## posts 集合模板（必填：title）
+```yaml
+---
+title: Post Title
+category: Optional Category
+tags: [tag1, tag2]
+identifier: optional-stable-id
+abbr: OPT-ABBR
+topImage: ./HelloWorld.jpg
+topImageAlt: A short accessible description
+---
+```
+
+字段说明：
+- `title` 必填；`category`、`tags`、`identifier`、`abbr`、`topImage`、`topImageAlt` 可选。
+- `tags` 为字符串数组。
+- 存在 `topImage` 时应提供 `topImageAlt`。
+
+## snippets 集合模板（必填：title）
+```yaml
+---
+title: Snippet Title
+description: Optional short description
+category: Optional Category
+tags: [tag1, tag2]
+---
+```
+
+字段说明：
+- `title` 必填；`description`、`category`、`tags` 可选。
+- `tags` 为字符串数组。
+
+## 校验流程
+- 本地预览：`pnpm dev` 确认无 schema 报错与页面渲染异常。
+- 构建验证：`pnpm build` 通过后再提交。
+- 格式化：`pnpm run fix:prettier` 统一风格。
+
+## 禁止项
+- 未对齐 [src/content.config.ts](mdc:src/content.config.ts) 的字段名/类型。
+- 在 Frontmatter 中写入自动元数据（阅读时长、修改时间）。
+- 将体积过大的图片直接置于 Frontmatter（仅放路径）。
+
