@@ -64,6 +64,8 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
     }
   }, []);
 
+  const showBanner = !!bannerText;
+
   return (
     <div
       className={cn([
@@ -71,7 +73,7 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
         isHome ? "w-full md:w-1/2" : "md:w-80",
         "transition-all duration-150",
         "md:relative h-screen",
-        !isHome && "border-r border-border",
+        (!isHome || showBanner) && "border-r border-border",
         !isHome && "hidden md:flex flex-col",
         isHome && "flex flex-col",
       ])}
