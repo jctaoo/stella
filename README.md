@@ -4,7 +4,12 @@ Welcome to Stella, a modern blog project built with Astro. This README provides 
 
 ## 🚀 Get Started
 
-Follow these steps to set up and run the project locally. This project uses `pnpm` as the package manager.
+To get started with this project, you can either create a new repository from this template or clone it directly.
+
+-   **Use this template**: Click the `Use this template` button on the GitHub page to create a new repository with the same structure and files.
+-   **Clone the repository**: If you prefer to work with a local copy, you can clone the repository to your machine.
+
+After setting up the repository, follow these steps to run the project locally. This project uses `pnpm` as the package manager.
 
 1.  **Install dependencies**:
     ```bash
@@ -91,3 +96,7 @@ This project is configured for seamless deployment on **Vercel**.
 This project uses [RuleSync](https://github.com/dyoshikawa/rulesync) to keep development conventions and guidelines synchronized for both human developers and AI coding assistants. This ensures consistency and adherence to best practices throughout the project's lifecycle.
 
 The rules are defined in the `.rulesync/` directory and can be customized to fit the project's needs.
+
+---
+
+本项目前身为一个 Gatsby 博客，现已迁移至 Astro。你可以在 [这里](https://github.com/jctaoo-archive/stella) 查看原始项目。
