@@ -1,13 +1,95 @@
-# Astro with Tailwind
+# Stella
 
-```sh
-pnpm create astro@latest -- --template with-tailwindcss
-```
+Welcome to Stella, a modern blog project built with Astro. This README provides a guide to help you get started quickly.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/with-tailwindcss)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/with-tailwindcss)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/with-tailwindcss/devcontainer.json)
+## 🚀 Get Started
 
-Astro comes with [Tailwind](https://tailwindcss.com) support out of the box. This example showcases how to style your Astro project with Tailwind.
+Follow these steps to set up and run the project locally. This project uses `pnpm` as the package manager.
 
-For complete setup instructions, please see our [Tailwind Integration Guide](https://docs.astro.build/en/guides/integrations-guide/tailwind).
+1.  **Install dependencies**:
+    ```bash
+    pnpm install
+    ```
+
+2.  **Start the development server**:
+    ```bash
+    pnpm dev
+    ```
+
+3.  **Open in browser**:
+    Once the server is running, you can view the site at `http://localhost:4321`.
+
+## ✍️ Add Content
+
+This project uses [Astro's Content Collections](https://docs.astro.build/en/guides/content-collections/) to manage and validate your content. All content is stored in the `src/content/` directory.
+
+### Posts
+
+-   **Location**: Add new blog posts to `src/content/posts/`.
+-   **Format**: Use Markdown (`.md`) or MDX (`.mdx`).
+-   **Frontmatter**:
+    ```yaml
+    ---
+    title: "My New Blog Post" # Required
+    category: "Technology"
+    tags: ["astro", "example", "blog"]
+    topImage: "/images/post-banner.jpg"
+    topImageAlt: "A descriptive alt text for the image"
+    ---
+
+    Your content starts here...
+    ```
+
+### Snippets
+
+-   **Location**: Add short code snippets or notes to `src/content/snippets/`.
+-   **Format**: Also uses Markdown or MDX.
+-   **Frontmatter**:
+    ```yaml
+    ---
+    title: "My Awesome Snippet" # Required
+    description: "A short description of what this snippet does."
+    tags: ["javascript", "react"]
+    ---
+
+    ```js
+    // Your code snippet here
+    ```
+    ```
+
+## 📄 Custom Pages
+
+You can easily add new static pages (like an "About" or "Contact" page).
+
+-   **Location**: Create a new file in the `src/pages/` directory. The filename will become the page's URL. For example, `src/pages/about.mdx` will be available at `/about`.
+-   **Format**: You can use `.astro`, `.md`, or `.mdx` files.
+-   **Example**: To create an "About" page, you can create a `src/pages/about.mdx` file with the following content:
+    ```mdx
+    ---
+    layout: "@/layouts/pages.astro" # Use a pre-defined layout
+    title: "About Me"
+    ---
+
+    This is my about page. Here I can write about myself.
+    ```
+
+## ⚙️ Configuration
+
+All global site configurations are centralized in a single file for easy management.
+
+-   **Location**: `src/siteConfig.ts`
+-   **What to change**: You can modify the site's name, banner text, and other site-wide settings in this file. The configuration is type-safe to prevent errors.
+
+## 🌐 Deployment
+
+This project is configured for seamless deployment on **Vercel**.
+
+1.  **Push to GitHub**: Make sure your project is on a GitHub repository.
+2.  **Import Project on Vercel**: Log in to your Vercel account and import the GitHub repository.
+3.  **Deploy**: Vercel will automatically detect that this is an Astro project and configure the build settings. No extra configuration is needed. Your site will be deployed.
+
+## 🤖 About RuleSync
+
+This project uses [RuleSync](https://github.com/dyoshikawa/rulesync) to keep development conventions and guidelines synchronized for both human developers and AI coding assistants. This ensures consistency and adherence to best practices throughout the project's lifecycle.
+
+The rules are defined in the `.rulesync/` directory and can be customized to fit the project's needs.
