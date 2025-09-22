@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Mail, Moon, Sun } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { Mail } from "lucide-react";
 import { SiGithub, SiX, SiRss } from "@icons-pack/react-simple-icons";
 import IndicatorText from "@/components/indicator-text";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
-import { getNormalizedTheme } from "@/utils/theme";
+import ThemeSwitcher from "@/components/theme-switcher";
 
 interface SidebarNavProps {
   isHome?: boolean;
@@ -19,7 +18,6 @@ interface SidebarNavProps {
 
 export default function SidebarNav({ isHome = false, className = "", currentRoute = "", bannerText }: SidebarNavProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const [isDark, setIsDark] = useState<boolean>(false);
   const socialLinks = [
     { icon: SiGithub, href: "https://github.com", label: "GitHub" },
     { icon: Mail, href: "mailto:example@email.com", label: "Email" },
@@ -44,23 +42,6 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
       });
 
       localStorage.setItem("hasShownConfetti", "true");
-    }
-  }, []);
-
-  useEffect(() => {
-    const isDarkNow = getNormalizedTheme() === "dark";
-    setIsDark(isDarkNow);
-  }, []);
-
-  const setTheme = useCallback((nextIsDark: boolean) => {
-    const root = document.documentElement;
-    setIsDark(nextIsDark);
-    if (nextIsDark) {
-      localStorage.setItem("theme", "dark");
-      root.classList.add("dark");
-    } else {
-      localStorage.setItem("theme", "light");
-      root.classList.remove("dark");
     }
   }, []);
 
@@ -141,18 +122,13 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
       {/* spacer */}
       <div className="flex-1"></div>
 
-      {/* Banner and Theme Toggle at Bottom */}
+      {/* Banner and Theme Toggle at Bottom */
+      }
       <div className="px-4 py-4 space-y-3">
         {bannerText ? (
           <div className="text-xs border rounded-md px-3 py-2 bg-accent text-accent-foreground">{bannerText}</div>
         ) : null}
-        <div className="flex items-center space-x-5">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-            <span>{isDark ? "暗黑模式" : "亮色模式"}</span>
-          </div>
-          <Switch checked={isDark} onCheckedChange={setTheme} aria-label="切换暗黑模式" />
-        </div>
+        <ThemeSwitcher className="space-x-5" />
       </div>
     </div>
   );

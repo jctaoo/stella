@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Mail, Moon, Sun, Menu, X } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { Mail, Menu, X } from "lucide-react";
 import { SiGithub, SiX, SiRss } from "@icons-pack/react-simple-icons";
 import IndicatorText from "@/components/indicator-text";
-import { useCallback, useEffect, useState } from "react";
-import { getNormalizedTheme } from "@/utils/theme";
+import { useState } from "react";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import ThemeSwitcher from "@/components/theme-switcher";
 
 interface MobileHeaderProps {
   isHome?: boolean;
@@ -15,24 +14,6 @@ interface MobileHeaderProps {
 
 export default function MobileHeader({ isHome = false, currentRoute = "" }: MobileHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isDark, setIsDark] = useState<boolean>(false);
-
-  useEffect(() => {
-    const isDarkNow = getNormalizedTheme() === "dark";
-    setIsDark(isDarkNow);
-  }, []);
-
-  const setTheme = useCallback((nextIsDark: boolean) => {
-    const root = document.documentElement;
-    setIsDark(nextIsDark);
-    if (nextIsDark) {
-      localStorage.setItem("theme", "dark");
-      root.classList.add("dark");
-    } else {
-      localStorage.setItem("theme", "light");
-      root.classList.remove("dark");
-    }
-  }, []);
 
   const routeTitle = (() => {
     if (currentRoute.startsWith("/posts")) return "文章";
@@ -119,13 +100,7 @@ export default function MobileHeader({ isHome = false, currentRoute = "" }: Mobi
           </div>
 
           <DrawerFooter className="px-4 py-4 border-t">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-                <span>{isDark ? "暗黑模式" : "亮色模式"}</span>
-              </div>
-              <Switch checked={isDark} onCheckedChange={setTheme} aria-label="切换暗黑模式" />
-            </div>
+            <ThemeSwitcher className="flex w-full items-center justify-between" />
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
