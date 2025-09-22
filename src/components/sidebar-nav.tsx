@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Mail, Moon, Sun } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -13,9 +14,10 @@ interface SidebarNavProps {
   isHome?: boolean;
   className?: string;
   currentRoute?: string;
+  bannerText?: string;
 }
 
-export default function SidebarNav({ isHome = false, className = "", currentRoute = "" }: SidebarNavProps) {
+export default function SidebarNav({ isHome = false, className = "", currentRoute = "", bannerText }: SidebarNavProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [isDark, setIsDark] = useState<boolean>(false);
   const socialLinks = [
@@ -137,8 +139,11 @@ export default function SidebarNav({ isHome = false, className = "", currentRout
       {/* spacer */}
       <div className="flex-1"></div>
 
-      {/* Theme Toggle at Bottom */}
-      <div className="px-4 py-4">
+      {/* Banner and Theme Toggle at Bottom */}
+      <div className="px-4 py-4 space-y-3">
+        {bannerText ? (
+          <div className="text-xs border rounded-md px-3 py-2 bg-accent text-accent-foreground">{bannerText}</div>
+        ) : null}
         <div className="flex items-center space-x-5">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}

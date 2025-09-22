@@ -2,10 +2,8 @@
 import CommonHeader, { type Props as CommonHeaderProps } from "@/components/CommonHeader.astro";
 import SidebarNav from "@/components/sidebar-nav";
 import MobileHeader from "@/components/mobile-header";
-import Footer from "@/components/footer";
 import "@/styles/global.css";
 import TopLoaderVT from "@/components/TopLoaderVT.astro";
-import { ClientRouter } from "astro:transitions";
 
 type Props = {
   header: CommonHeaderProps;
@@ -37,6 +35,7 @@ const currentRoute = Astro.url.pathname;
       <SidebarNav
         isHome={isHomePage}
         currentRoute={currentRoute}
+        bannerText={"Banner Text"}
         client:load
         transition:name="slide"
         transition:persist
