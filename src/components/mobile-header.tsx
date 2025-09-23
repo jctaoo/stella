@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Mail, Menu, X } from "lucide-react";
-import { SiGithub, SiX, SiRss } from "@icons-pack/react-simple-icons";
+import { SiGithub, SiX, SiRss } from "react-icons/si";
 import IndicatorText from "@/components/indicator-text";
 import { useState } from "react";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";

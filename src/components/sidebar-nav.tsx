@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Mail } from "lucide-react";
-import { SiGithub, SiX, SiRss } from "@icons-pack/react-simple-icons";
+import { SiGithub, SiX, SiRss } from "react-icons/si";
 import IndicatorText from "@/components/indicator-text";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
