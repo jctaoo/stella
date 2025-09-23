@@ -30,9 +30,9 @@ export default function MobileHeader({ isHome = false, currentRoute = "" }: Mobi
     { icon: SiRss, href: "/rss.xml", label: "RSS" },
   ];
 
-  if (isHome) return null;
-
   const { siteName } = siteConfig;
+
+  if (isHome) return <></>;
 
   return (
     <>
