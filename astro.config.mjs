@@ -12,7 +12,7 @@ import mdx from "@astrojs/mdx";
 import { remarkModifiedTime } from "./plugin/remark-modified-time";
 import { remarkReadingTime } from "./plugin/remark-reading-time";
 
-import vercel from "@astrojs/vercel";
+import vercel from "@astrojs/vercel/serverless";
 
 import Sonda from 'sonda/astro'; 
 
