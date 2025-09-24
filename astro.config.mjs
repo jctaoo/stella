@@ -39,5 +39,9 @@ export default defineConfig({
   },
 
   integrations: [react(), mdx(), Sonda({ server: true })],
-  adapter: vercel({}),
+
+  adapter: vercel({
+    imageService: true,
+    devImageService: "sharp",
+  }),
 });
