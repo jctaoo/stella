@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import Analytics from '@vercel/analytics/astro';
 
 export type Props = {
   title: string;
@@ -50,3 +51,5 @@ const { title, description } = Astro.props;
   });
   applyCurrentTheme();
 </script>
+
+<Analytics />
