@@ -36,7 +36,7 @@
     "cmdk": "^1.1.1",
     "dayjs": "^1.11.18",
     "katex": "^0.16.22",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "lucide-react": "^0.469.0",
     "mdast-util-to-string": "^4.0.0",
     "nprogress": "^0.2.0",
